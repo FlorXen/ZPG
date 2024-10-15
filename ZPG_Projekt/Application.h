@@ -9,6 +9,7 @@
 #include "ShaderProgram.h"
 #include "DrawableObject.h"
 #include "DrawableObjectGroup.h"
+#include "Controller.h"
 
 #include "sphere.h"
 #include "tree.h"
@@ -31,6 +32,9 @@ private:
     static float randomFloat(float min, float max);
 
 public:
+
+    Controller controller = nullptr;
+
     Application(int w = 800, int h = 600);
     ~Application();
 
@@ -46,4 +50,8 @@ public:
     static void WindowFocusCallback(GLFWwindow* window, int focused);
     static void WindowIconifyCallback(GLFWwindow* window, int iconified);
     static void CursorCallback(GLFWwindow* window, double x, double y);
+
+    void changeScene(char sign);
+    void moveCamera(char direction, float distance);
+    void rotateCamera(double xpos, double ypos);
 };

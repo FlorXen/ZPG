@@ -33,3 +33,43 @@ glm::mat4 Camera::getViewMatrix() const {
 glm::mat4 Camera::getProjectionMatrix() const {
     return projectionMatrix;
 }
+
+void Camera::moveLeft(float distance) {
+    glm::vec3 right = glm::normalize(glm::cross(target, up));
+    eye -= right * distance;
+    viewMatrix = glm::lookAt(eye, eye + target, up);
+    notifyObservers(viewMatrix, projectionMatrix);
+}
+
+void Camera::moveRight(float distance) {
+    glm::vec3 right = glm::normalize(glm::cross(target, up));
+    eye += right * distance;
+    viewMatrix = glm::lookAt(eye, eye + target, up);
+    notifyObservers(viewMatrix, projectionMatrix);
+}
+
+void Camera::moveForward(float distance) {
+    glm::vec3 forward = glm::normalize(target);
+    eye += forward * distance;
+    viewMatrix = glm::lookAt(eye, eye + target, up);
+    notifyObservers(viewMatrix, projectionMatrix);
+}
+
+void Camera::moveBackward(float distance) {
+    glm::vec3 forward = glm::normalize(target);
+    eye -= forward * distance;
+    viewMatrix = glm::lookAt(eye, eye + target, up);
+    notifyObservers(viewMatrix, projectionMatrix);
+}
+
+void Camera::moveUp(float distance) {
+    eye += up * distance;
+    viewMatrix = glm::lookAt(eye, eye + target, up);
+    notifyObservers(viewMatrix, projectionMatrix);
+}
+
+void Camera::moveDown(float distance) {
+    eye -= up * distance;
+    viewMatrix = glm::lookAt(eye, eye + target, up);
+    notifyObservers(viewMatrix, projectionMatrix);
+}

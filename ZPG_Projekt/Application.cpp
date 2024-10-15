@@ -68,6 +68,8 @@ void Application::Initialize() {
     glfwGetFramebufferSize(window, &width, &height);
     float ratio = width / (float)height;
     glViewport(0, 0, width, height);
+
+    controller = Controller(this);
 }
 
 
@@ -96,7 +98,7 @@ void Application::CreateShaders() {
     ));
 
     shaders[0].compile();
-
+    /*
     this->shaders.push_back(ShaderProgram());
 
     shaders[1].addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
@@ -219,7 +221,7 @@ void Application::CreateShaders() {
     ));
 
     shaders[4].compile();
-
+    */
 }
 
 void Application::CreateModels() {
@@ -254,6 +256,7 @@ void Application::CreateModels() {
     // 1
 
     scenes[0].AddObject(std::make_shared<DrawableObject>(models[0], shaders[0]));
+    /*
     scenes[0].AddObject(std::make_shared<DrawableObject>(models[1], shaders[1]));
     scenes[0].AddObject(std::make_shared<DrawableObject>(models[2], shaders[2]));
 
@@ -309,14 +312,14 @@ void Application::CreateModels() {
     scenes[2].AddObject(group1);
 
     // TRANSFORMATIONS
-    /*
-    setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
-    setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    setScale(glm::vec3(1.0f, 2.0f, 1.0f));
-    */
+    
+    //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
+    //setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
+    
 
     scenes[0].objects[2]->relativeScale(glm::vec3(0.3f, 0.3f, 0.3f));
-
+    */
 }
 
 void Application::Run() {
@@ -331,7 +334,7 @@ void Application::Run() {
 
         scenes[currentSceneNumber].Render();
 
-        scenes[2].objects[0]->relativeRotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        //scenes[2].objects[0]->relativeRotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
         // update other events like input handling
         glfwPollEvents();
@@ -347,25 +350,14 @@ void Application::ErrorCallback(int error, const char* description) {
 void Application::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
-    //printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
+    printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
+
+    
 
     Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
 
     if (app) {
-        if (key == 262 && action == 0) {
-            if (app->currentSceneNumber + 1 > app->scenes.size() - 1)
-                app->currentSceneNumber = 0;
-            else
-                app->currentSceneNumber++;
-            printf("SELECTED SCENE: %d\n", app->currentSceneNumber);
-        }
-        else if (key == 263 && action == 0) {
-            if (app->currentSceneNumber - 1 < 0)
-                app->currentSceneNumber = (int)app->scenes.size() - 1;
-            else
-                app->currentSceneNumber--;
-            printf("SELECTED SCENE: %d\n", app->currentSceneNumber);
-        }
+        app->controller.handleKeyInput(key, scancode, action, mods);
     }
 }
 
@@ -399,6 +391,50 @@ float Application::randomFloat(float min, float max) {
     std::uniform_real_distribution<float> dis(min, max);
 
     return dis(gen);
+}
+
+void Application::changeScene(char sign) {
+    switch (sign) {
+        case'+': {
+            if (currentSceneNumber + 1 > scenes.size() - 1)
+                currentSceneNumber = 0;
+            else
+                currentSceneNumber++;
+        }break;
+        case'-': {
+            if (currentSceneNumber - 1 < 0)
+                currentSceneNumber = (int)scenes.size() - 1;
+            else
+                currentSceneNumber--;
+        }break;
+    }
+}
+
+void Application::moveCamera(char direction, float distance) {
+    switch (direction) {
+        case'f': {
+            scenes[currentSceneNumber].camera->moveForward(distance);
+        }break;
+        case'b': {
+            scenes[currentSceneNumber].camera->moveBackward(distance);
+        }break;
+        case'r': {
+            scenes[currentSceneNumber].camera->moveRight(distance);
+        }break;
+        case'l': {
+            scenes[currentSceneNumber].camera->moveLeft(distance);
+        }break;
+        case'u': {
+            scenes[currentSceneNumber].camera->moveUp(distance);
+        }break;
+        case'd': {
+            scenes[currentSceneNumber].camera->moveDown(distance);
+        }break;
+    }
+}
+
+void Application::rotateCamera(double xpos, double ypos) {
+
 }
 
 

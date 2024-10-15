@@ -13,12 +13,12 @@ class ShaderProgram : public Observer
 {
 private:
     GLuint shaderProgram;
+    
+    
+public:
 
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
-public:
-
-    
 
     ShaderProgram();
 

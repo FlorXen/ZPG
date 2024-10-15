@@ -16,12 +16,9 @@ class Scene {
 public:
 
     std::vector<std::shared_ptr<Drawable>> objects;
+    Camera* camera;
 
     Scene();
     void AddObject(std::shared_ptr<Drawable> obj);
     void Render();
-    
-private:
-    
-    Camera* camera;
 };

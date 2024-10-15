@@ -15,6 +15,12 @@ public:
 
     void setPosition(const glm::vec3& position);
     void setOrientation(float alpha, float fi);
+    void moveLeft(float distance);
+    void moveRight(float distance);
+    void moveForward(float distance);
+    void moveBackward(float distance);
+    void moveUp(float distance);
+    void moveDown(float distance);
 
 private:
     Scene* scene;
