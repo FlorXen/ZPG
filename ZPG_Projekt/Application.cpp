@@ -52,6 +52,7 @@ void Application::Initialize() {
     glfwSetWindowFocusCallback(window, WindowFocusCallback);
     glfwSetWindowIconifyCallback(window, WindowIconifyCallback);
     glfwSetWindowSizeCallback(window, ResizeCallback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
@@ -75,9 +76,9 @@ void Application::Initialize() {
 
 void Application::CreateShaders() {
 
-    this->shaders.push_back(ShaderProgram());
+    shaders.push_back(std::make_shared<ShaderProgram>());
 
-    shaders[0].addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
+    shaders[0]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
         "#version 330\n"
         "layout(location=0) in vec3 vp;"
 
@@ -89,7 +90,7 @@ void Application::CreateShaders() {
             "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
         "}"
     ));
-    shaders[0].addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
+    shaders[0]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
         "#version 330\n"
         "out vec4 frag_colour;"
         "void main () {"
@@ -97,11 +98,11 @@ void Application::CreateShaders() {
         "}"
     ));
 
-    shaders[0].compile();
-    /*
-    this->shaders.push_back(ShaderProgram());
+    shaders[0]->compile();
+    
+    shaders.push_back(std::make_shared<ShaderProgram>());
 
-    shaders[1].addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
+    shaders[1]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
         "#version 330\n"
         "layout(location=0) in vec3 vp;"
 
@@ -113,7 +114,7 @@ void Application::CreateShaders() {
             "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
         "}"
     ));
-    shaders[1].addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
+    shaders[1]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
         "#version 330\n"
         "out vec4 frag_colour;"
         "void main () {"
@@ -121,11 +122,11 @@ void Application::CreateShaders() {
         "}"
     ));
 
-    shaders[1].compile();
+    shaders[1]->compile();
 
-    this->shaders.push_back(ShaderProgram());
+    shaders.push_back(std::make_shared<ShaderProgram>());
 
-    shaders[2].addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
+    shaders[2]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
         "#version 330\n"
         "layout(location = 0) in vec3 vp;"
         "layout(location = 1) in vec3 vn;"
@@ -142,7 +143,7 @@ void Application::CreateShaders() {
             "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
         "}"
     ));
-    shaders[2].addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
+    shaders[2]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
         "#version 330\n"
         "in vec3 fragNormal;"
         "in vec3 fragPos;"
@@ -154,11 +155,11 @@ void Application::CreateShaders() {
         "}"
     ));
 
-    shaders[2].compile();
+    shaders[2]->compile();
 
-    this->shaders.push_back(ShaderProgram());
+    shaders.push_back(std::make_shared<ShaderProgram>());
 
-    shaders[3].addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
+    shaders[3]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
         "#version 330\n"
         "layout(location = 0) in vec3 vp;"
         "layout(location = 1) in vec3 vn;"
@@ -175,7 +176,7 @@ void Application::CreateShaders() {
             "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
         "}"
     ));
-    shaders[3].addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
+    shaders[3]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
         "#version 330\n"
         "in vec3 fragNormal;"
         "in vec3 fragPos;"
@@ -187,11 +188,11 @@ void Application::CreateShaders() {
         "}"
     ));
 
-    shaders[3].compile();
+    shaders[3]->compile();
 
-    this->shaders.push_back(ShaderProgram());
+    shaders.push_back(std::make_shared<ShaderProgram>());
 
-    shaders[4].addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
+    shaders[4]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
         "#version 330\n"
         "layout(location = 0) in vec3 vp;"
         "layout(location = 1) in vec3 vn;"
@@ -208,7 +209,7 @@ void Application::CreateShaders() {
             "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
         "}"
     ));
-    shaders[4].addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
+    shaders[4]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
         "#version 330\n"
         "in vec3 fragNormal;"
         "in vec3 fragPos;"
@@ -220,8 +221,8 @@ void Application::CreateShaders() {
         "}"
     ));
 
-    shaders[4].compile();
-    */
+    shaders[4]->compile();
+
 }
 
 void Application::CreateModels() {
@@ -256,7 +257,7 @@ void Application::CreateModels() {
     // 1
 
     scenes[0].AddObject(std::make_shared<DrawableObject>(models[0], shaders[0]));
-    /*
+    
     scenes[0].AddObject(std::make_shared<DrawableObject>(models[1], shaders[1]));
     scenes[0].AddObject(std::make_shared<DrawableObject>(models[2], shaders[2]));
 
@@ -265,37 +266,37 @@ void Application::CreateModels() {
     // Trees
     int from, to;
     from = scenes[1].objects.size();
-    to = scenes[1].objects.size() + 30;
+    to = scenes[1].objects.size() + 100;
     for (int i = from; i < to; i++) {
         scaleX = randomFloat(0.05, 0.15);
         scaleY = randomFloat(0.05, 0.15);
         scaleZ = randomFloat(0.05, 0.15);
-        transX = randomFloat(-17.0, 17.0);
-        transZ = randomFloat(0.0, 7.0);
+        transX = randomFloat(-30.0, 30.0);
+        transZ = randomFloat(-30.0, 30.0);
         angle = randomFloat(-20.0, 20.0);
         rotX = randomFloat(0.0, 1.0);
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
         scenes[1].AddObject(std::make_shared<DrawableObject>(models[3], shaders[3]));
-        scenes[1].objects[i]->relativeScale(glm::vec3(scaleX, scaleY, scaleZ));
+        //scenes[1].objects[i]->relativeScale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1].objects[i]->relativeTranslate(glm::vec3(transX, 0.0f, transZ));
         scenes[1].objects[i]->relativeRotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
     // Bushes
     from = scenes[1].objects.size();
-    to = scenes[1].objects.size() + 30;
+    to = scenes[1].objects.size() + 150;
     for (int i = from; i < to; i++) {
         scaleX = randomFloat(0.4, 0.8);
         scaleY = randomFloat(0.4, 0.8);
         scaleZ = randomFloat(0.4, 0.8);
-        transX = randomFloat(-10.0, 10.0);
-        transZ = randomFloat(-1.5, 1.5);
+        transX = randomFloat(-30.0, 30.0);
+        transZ = randomFloat(-30.0, 30.0);
         angle = randomFloat(-20.0, 20.0);
         rotX = randomFloat(0.0, 1.0);
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
         scenes[1].AddObject(std::make_shared<DrawableObject>(models[4], shaders[4]));
-        scenes[1].objects[i]->relativeScale(glm::vec3(scaleX, scaleY, scaleZ));
+        //scenes[1].objects[i]->relativeScale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1].objects[i]->relativeTranslate(glm::vec3(transX, 0.0f, transZ));
         scenes[1].objects[i]->relativeRotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
@@ -319,7 +320,7 @@ void Application::CreateModels() {
     
 
     scenes[0].objects[2]->relativeScale(glm::vec3(0.3f, 0.3f, 0.3f));
-    */
+    
 }
 
 void Application::Run() {
@@ -332,9 +333,11 @@ void Application::Run() {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
 
+        controller.updateCamera();
+
         scenes[currentSceneNumber].Render();
 
-        //scenes[2].objects[0]->relativeRotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        scenes[2].objects[0]->relativeRotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
         // update other events like input handling
         glfwPollEvents();
@@ -350,9 +353,7 @@ void Application::ErrorCallback(int error, const char* description) {
 void Application::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
-    printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
-
-    
+    //printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
     Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
 
@@ -381,7 +382,10 @@ void Application::WindowIconifyCallback(GLFWwindow* window, int iconified) {
 }
 
 void Application::CursorCallback(GLFWwindow* window, double x, double y) {
-    //printf("CursorCallback \n");
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) {
+        app->controller.handleMouseInput(x, y);
+    }
 }
 
 float Application::randomFloat(float min, float max) {
@@ -433,8 +437,9 @@ void Application::moveCamera(char direction, float distance) {
     }
 }
 
-void Application::rotateCamera(double xpos, double ypos) {
-
+void Application::rotateCamera(float xOffset, float yOffset) {
+    scenes[currentSceneNumber].camera->setOrientation(scenes[currentSceneNumber].camera->getAlpha() - yOffset, scenes[currentSceneNumber].camera->getFi() + xOffset);
+    //printf("ALPHA: %f\nFI: %f\n\n", scenes[currentSceneNumber].camera->getAlpha(), scenes[currentSceneNumber].camera->getFi());
 }
 
 

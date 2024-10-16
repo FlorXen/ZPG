@@ -21,6 +21,8 @@ public:
     void moveBackward(float distance);
     void moveUp(float distance);
     void moveDown(float distance);
+    float getAlpha();
+    float getFi();
 
 private:
     Scene* scene;

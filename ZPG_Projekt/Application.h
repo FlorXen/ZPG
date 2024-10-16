@@ -25,7 +25,7 @@ class Application {
 private:
     GLFWwindow* window;
     std::vector<Scene> scenes;
-    std::vector<ShaderProgram> shaders;
+    std::vector<std::shared_ptr<ShaderProgram>> shaders;
     std::vector<std::shared_ptr<MyApp::Model>> models;
     int width, height, currentSceneNumber = 0;
 
@@ -53,5 +53,5 @@ public:
 
     void changeScene(char sign);
     void moveCamera(char direction, float distance);
-    void rotateCamera(double xpos, double ypos);
+    void rotateCamera(float alphaAngle, float fiAngle);
 };

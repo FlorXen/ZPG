@@ -9,7 +9,7 @@
 
 class DrawableObject : public Drawable{
 public:
-    DrawableObject(std::shared_ptr<MyApp::Model> model, ShaderProgram& shaderProgram);
+    DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram);
 
     void relativeRotate(float angle, const glm::vec3& axis) override;
     void relativeTranslate(const glm::vec3& translation) override;
@@ -20,6 +20,6 @@ public:
     
 private:
     std::shared_ptr<MyApp::Model> model;
-    ShaderProgram& shaderProgram;
+    std::shared_ptr<ShaderProgram> shaderProgram;
     Transformation transformation;
 };

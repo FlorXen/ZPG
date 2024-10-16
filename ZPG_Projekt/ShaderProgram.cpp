@@ -1,21 +1,13 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 
-ShaderProgram::ShaderProgram() {
+ShaderProgram::ShaderProgram() : viewMatrix(1.0f), projectionMatrix(1.0f) {
     shaderProgram = glCreateProgram();
 }
 
 void ShaderProgram::onCameraUpdate(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
     this->viewMatrix = viewMatrix;
     this->projectionMatrix = projectionMatrix;
-    for (int i = 0; i < 4; ++i) {
-        std::cout << "| ";
-        for (int j = 0; j < 4; ++j) {
-            printf("%10f ", this->viewMatrix[i][j]);
-        }
-        std::cout << "|\n";
-    }
-    std::cout << "\n";
 }
 
 void ShaderProgram::addVertexShader(std::shared_ptr<Shader> shader) {

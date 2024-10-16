@@ -1,9 +1,10 @@
 #include "Camera.h"
 
-Camera::Camera(Scene* scene) : scene(scene), eye(glm::vec3(0.0f, 0.0f, 5.0f)),
+Camera::Camera(Scene* scene) : scene(scene), eye(glm::vec3(0.0f, 1.5f, 5.0f)),
     target(glm::vec3(0.0f, 0.0f, -1.0f)), up(glm::vec3(0.0f, 1.0f, 0.0f)),
-    alpha(0.0f), fi(0.0f)
+    alpha(1.6f), fi(-1.6f)
 {
+    
     viewMatrix = glm::lookAt(eye, eye + target, up);
     projectionMatrix = glm::perspective(glm::radians(60.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 }
@@ -16,7 +17,9 @@ void Camera::setPosition(const glm::vec3& position) {
 }
 
 void Camera::setOrientation(float alphaAngle, float fiAngle) {
-    alpha = glm::clamp(alphaAngle, -glm::half_pi<float>(), glm::half_pi<float>());
+
+    // Gimbal lock prevention
+    alpha = glm::clamp(alphaAngle, glm::radians(1.0f), glm::radians(179.0f));
     fi = fiAngle;
     target.x = sin(alpha) * cos(fi);
     target.y = cos(alpha);
@@ -49,14 +52,18 @@ void Camera::moveRight(float distance) {
 }
 
 void Camera::moveForward(float distance) {
-    glm::vec3 forward = glm::normalize(target);
+    // Ignore the Y component to keep movement horizontal
+    glm::vec3 forward = glm::normalize(glm::vec3(target.x, 0.0f, target.z));
+    //glm::vec3 forward = glm::normalize(target);
     eye += forward * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
     notifyObservers(viewMatrix, projectionMatrix);
 }
 
 void Camera::moveBackward(float distance) {
-    glm::vec3 forward = glm::normalize(target);
+    // Ignore the Y component to keep movement horizontal
+    glm::vec3 forward = glm::normalize(glm::vec3(target.x, 0.0f, target.z));
+    //glm::vec3 forward = glm::normalize(target);
     eye -= forward * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
     notifyObservers(viewMatrix, projectionMatrix);
@@ -72,4 +79,12 @@ void Camera::moveDown(float distance) {
     eye -= up * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
     notifyObservers(viewMatrix, projectionMatrix);
+}
+
+float Camera::getAlpha() {
+    return alpha;
+}
+
+float Camera::getFi() {
+    return fi;
 }
