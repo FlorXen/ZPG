@@ -7,22 +7,26 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
+#include "TransformOperation.h"
+
+#include <vector>
+#include <memory>
+
 class Transformation {
 private:
     glm::mat4 modelMatrix;
-    glm::vec3 translation, rotation, scale;
+    std::vector<std::shared_ptr<TransformOperation>> transformations;
 
-    void extractTransformations();
 public:
     Transformation();
 
     void reset();
 
-    void setMatrix(glm::mat4 newMatrix);
-
-    void relativeRotate(float angle, const glm::vec3& axis);
-    void relativeTranslate(const glm::vec3& translation);
-    void relativeScale(const glm::vec3& scale);
+    void addTransformation(std::shared_ptr<TransformOperation> transformation);
+    std::shared_ptr<TransformOperation> getTransformation(int transforamtionIndex);
+    void updateTransformations();
 
     const glm::mat4& getMatrix() const;
+    void setMatrix(glm::mat4 matrix);
+    
 };

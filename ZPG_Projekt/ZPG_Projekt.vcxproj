@@ -139,11 +139,14 @@
     <ClCompile Include="DrawableObjectGroup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Rotate.cpp" />
+    <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Transformation.cpp" />
+    <ClCompile Include="Translate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -155,12 +158,16 @@
     <ClInclude Include="DrawableObjectGroup.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="Rotate.h" />
+    <ClInclude Include="Scale.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Transformation.h" />
+    <ClInclude Include="TransformOperation.h" />
+    <ClInclude Include="Translate.h" />
     <ClInclude Include="tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

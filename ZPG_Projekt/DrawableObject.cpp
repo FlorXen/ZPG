@@ -1,21 +1,25 @@
 #include "DrawableObject.h"
 #include "Observer.h"
+
 #include <iostream>
 
 DrawableObject::DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram) : model(model), shaderProgram(shaderProgram) {
-    //shaderProgram->onCameraUpdate(glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 5.0f) + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::perspective(glm::radians(60.0f), 4.0f / 3.0f, 0.1f, 100.0f));
 }
 
-void DrawableObject::relativeRotate(float angle, const glm::vec3& axis) {
-    transformation.relativeRotate(angle, axis);
+void DrawableObject::rotate(float angle, const glm::vec3& axis) {
+    transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
 }
 
-void DrawableObject::relativeTranslate(const glm::vec3& translation) {
-    transformation.relativeTranslate(translation);
+void DrawableObject::translate(const glm::vec3& translation) {
+    transformation.addTransformation(std::make_shared<Translate>(translation));
 }
 
-void DrawableObject::relativeScale(const glm::vec3& scale) {
-    transformation.relativeScale(scale);
+void DrawableObject::scale(const glm::vec3& scale) {
+    transformation.addTransformation(std::make_shared<Scale>(scale));
+}
+
+Transformation& DrawableObject::getTransformation() {
+    return transformation;
 }
 
 void DrawableObject::setAsCameraObserver(Camera *camera) {
@@ -40,4 +44,12 @@ void DrawableObject::draw() const {
 
     // Unbind VAO
     glBindVertexArray(0);
+}
+
+std::shared_ptr<ShaderProgram> DrawableObject::getShaderProgram() {
+    return shaderProgram;
+}
+
+std::shared_ptr<MyApp::Model> DrawableObject::getModel() {
+    return model;
 }

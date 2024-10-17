@@ -278,9 +278,9 @@ void Application::CreateModels() {
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
         scenes[1].AddObject(std::make_shared<DrawableObject>(models[3], shaders[3]));
-        //scenes[1].objects[i]->relativeScale(glm::vec3(scaleX, scaleY, scaleZ));
-        scenes[1].objects[i]->relativeTranslate(glm::vec3(transX, 0.0f, transZ));
-        scenes[1].objects[i]->relativeRotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
+        //scenes[1].objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
+        scenes[1].objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
+        scenes[1].objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
     // Bushes
     from = scenes[1].objects.size();
@@ -296,9 +296,9 @@ void Application::CreateModels() {
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
         scenes[1].AddObject(std::make_shared<DrawableObject>(models[4], shaders[4]));
-        //scenes[1].objects[i]->relativeScale(glm::vec3(scaleX, scaleY, scaleZ));
-        scenes[1].objects[i]->relativeTranslate(glm::vec3(transX, 0.0f, transZ));
-        scenes[1].objects[i]->relativeRotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
+        //scenes[1].objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
+        scenes[1].objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
+        scenes[1].objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
 
     // 3
@@ -308,7 +308,7 @@ void Application::CreateModels() {
     group1->addDrawable(std::make_shared<DrawableObject>(models[1], shaders[1]));
     group1->addDrawable(std::make_shared<DrawableObject>(models[2], shaders[2]));
 
-    group1->drawables[2]->relativeScale(glm::vec3(0.3f, 0.3f, 0.3f));
+    group1->getDrawables().at(2)->scale(glm::vec3(0.3f, 0.3f, 0.3f));
 
     scenes[2].AddObject(group1);
 
@@ -319,11 +319,17 @@ void Application::CreateModels() {
     //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
     
 
-    scenes[0].objects[2]->relativeScale(glm::vec3(0.3f, 0.3f, 0.3f));
+    scenes[0].objects[2]->scale(glm::vec3(0.3f, 0.3f, 0.3f));
     
 }
 
 void Application::Run() {
+    bool shrinking = true;
+    float currentScale = 1.0f;
+    const float minScale = 0.5f;
+    const float maxScale = 1.5f;
+    const float scaleSpeed = 0.01f;
+
     while (!glfwWindowShouldClose(window)) {
         // clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -337,7 +343,28 @@ void Application::Run() {
 
         scenes[currentSceneNumber].Render();
 
-        scenes[2].objects[0]->relativeRotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        scenes[2].objects[0]->rotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+        if (shrinking) {
+            if (currentScale > minScale) {
+                currentScale -= scaleSpeed;
+                scenes[2].objects[0]->getDrawables().at(0)->scale(glm::vec3(1.0f - scaleSpeed, 1.0f - scaleSpeed, 1.0f - scaleSpeed));
+            }
+            else {
+                shrinking = false;
+            }
+        }
+        else {
+            if (currentScale < maxScale) {
+                currentScale += scaleSpeed;
+                scenes[2].objects[0]->getDrawables().at(0)->scale(glm::vec3(1.0f + scaleSpeed, 1.0f + scaleSpeed, 1.0f + scaleSpeed));
+            }
+            else {
+                shrinking = true;
+            }
+        }
+        
+        
 
         // update other events like input handling
         glfwPollEvents();
