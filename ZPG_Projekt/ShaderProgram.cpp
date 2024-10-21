@@ -26,7 +26,9 @@ void ShaderProgram::use() const {
     glUseProgram(shaderProgram);
 }
 
-void ShaderProgram::setModelMatrix(const glm::mat4& matrix) const {
+void ShaderProgram::setModelMatrix(std::shared_ptr<Transformation> transformation) {
+    this->modelMatrix = transformation->getMatrix();
+
     // Get uniform location in shader
     GLint idModelTransform = glGetUniformLocation(shaderProgram, "modelMatrix");
 
@@ -36,7 +38,7 @@ void ShaderProgram::setModelMatrix(const glm::mat4& matrix) const {
     }
 
     // Send matrix to shader
-    glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(matrix));
+    glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
 void ShaderProgram::setViewMatrix()  const {
@@ -63,4 +65,20 @@ void ShaderProgram::setProjectionMatrix()  const {
 
     // Send matrix to shader
     glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+}
+
+void ShaderProgram::setNormalMatrix() {
+
+    this->normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
+
+    // Get uniform location in shader
+    GLint idModelTransform = glGetUniformLocation(shaderProgram, "normalMatrix");
+
+    // Test on -1 if not found
+    if (idModelTransform == -1) {
+        return;
+    }
+
+    // Send matrix to shader
+    glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(normalMatrix));
 }

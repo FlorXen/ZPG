@@ -14,6 +14,7 @@
 #include "sphere.h"
 #include "tree.h"
 #include "bushes.h"
+#include "plain.h"
 
 #include <random>
 #include <iostream>

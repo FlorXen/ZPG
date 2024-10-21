@@ -158,6 +158,7 @@
     <ClInclude Include="DrawableObjectGroup.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="plain.h" />
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="Scale.h" />
     <ClInclude Include="Scene.h" />

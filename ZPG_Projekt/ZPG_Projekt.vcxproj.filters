@@ -122,5 +122,8 @@
     <ClInclude Include="Scale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="plain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

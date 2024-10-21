@@ -9,8 +9,11 @@ void DrawableObjectGroup::draw() const {
 
             glm::mat4 combinedMatrix = transformation.getMatrix() * obj->getTransformation().getMatrix();
 
+            Transformation combinedTransformation;
+            combinedTransformation.setMatrix(combinedMatrix);
+
             // Send transformation matrix to shader
-            obj->getShaderProgram()->setModelMatrix(combinedMatrix);
+            obj->getShaderProgram()->setModelMatrix(std::make_shared<Transformation>(combinedTransformation));
             obj->getShaderProgram()->setViewMatrix();
             obj->getShaderProgram()->setProjectionMatrix();
 

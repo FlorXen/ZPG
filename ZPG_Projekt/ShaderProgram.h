@@ -6,15 +6,20 @@
 #include <string>
 #include <memory>
 #include "Observer.h"
+#include "Transformation.h"
 
 class Shader;
+
+//Shader program má mít kameru a observer nebude pøedávat matice ale jenom upozoròovat
 
 class ShaderProgram : public Observer
 {
 private:
     GLuint shaderProgram;
+    glm::mat4 modelMatrix;
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
+    glm::mat3 normalMatrix;
     
 public:
     ShaderProgram();
@@ -29,9 +34,11 @@ public:
 
     void use() const;
 
-    void setModelMatrix(const glm::mat4& matrix) const;
+    void setModelMatrix(std::shared_ptr<Transformation> transformation);
 
     void setViewMatrix() const;
 
     void setProjectionMatrix() const;
+
+    void setNormalMatrix();
 };

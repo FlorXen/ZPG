@@ -35,9 +35,10 @@ void DrawableObject::draw() const {
     shaderProgram->use();
     
     // Send transformation matrix to shader
-    shaderProgram->setModelMatrix(transformation.getMatrix());
+    shaderProgram->setModelMatrix(std::make_shared<Transformation>(transformation));
     shaderProgram->setViewMatrix();
     shaderProgram->setProjectionMatrix();
+    shaderProgram->setNormalMatrix();
     
     glBindVertexArray(model->getVAO());
     glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());

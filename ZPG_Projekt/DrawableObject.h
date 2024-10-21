@@ -26,4 +26,5 @@ public:
 private:
     std::shared_ptr<MyApp::Model> model;
     std::shared_ptr<ShaderProgram> shaderProgram;
+    Transformation transformation;
 };
