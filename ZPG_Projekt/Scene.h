@@ -20,6 +20,7 @@ public:
 
     std::vector<std::shared_ptr<Drawable>> objects;
     std::shared_ptr<Camera> camera;
+    std::shared_ptr<LightSource> lightSource;
 
     Scene();
     void CreateObject(std::shared_ptr<Drawable> obj);

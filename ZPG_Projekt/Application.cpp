@@ -223,6 +223,7 @@ void Application::Run() {
         glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
 
         controller.updateCamera();
+        controller.updateLightSource();
 
         scenes[currentSceneNumber]->Render();
         
@@ -299,7 +300,7 @@ void Application::CursorCallback(GLFWwindow* window, double x, double y) {
     }
 }
 
-float Application::randomFloat(float min, float max) {
+float Application::randomFloat(double min, double max) {
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -350,6 +351,29 @@ void Application::moveCamera(char direction, float distance) {
 
 void Application::rotateCamera(float xOffset, float yOffset) {
     scenes[currentSceneNumber]->camera->setOrientation(scenes[currentSceneNumber]->camera->getAlpha() - yOffset, scenes[currentSceneNumber]->camera->getFi() + xOffset);
+}
+
+void Application::moveLightSource(char direction, float distance) {
+    switch (direction) {
+    case'f': {
+        scenes[currentSceneNumber]->lightSource->moveForward(distance);
+    }break;
+    case'b': {
+        scenes[currentSceneNumber]->lightSource->moveBackward(distance);
+    }break;
+    case'r': {
+        scenes[currentSceneNumber]->lightSource->moveRight(distance);
+    }break;
+    case'l': {
+        scenes[currentSceneNumber]->lightSource->moveLeft(distance);
+    }break;
+    case'u': {
+        scenes[currentSceneNumber]->lightSource->moveUp(distance);
+    }break;
+    case'd': {
+        scenes[currentSceneNumber]->lightSource->moveDown(distance);
+    }break;
+    }
 }
 
 

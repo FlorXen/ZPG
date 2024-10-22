@@ -17,6 +17,8 @@ public:
     Transformation& getTransformation() override;
 
     void setAsCameraObserver(std::shared_ptr<Camera> camera) override;
+    void setAsLightSourceObserver(std::shared_ptr<LightSource> lightSource) override;
+
     void draw() const override;
 
     std::shared_ptr<ShaderProgram> getShaderProgram();

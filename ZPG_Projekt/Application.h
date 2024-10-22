@@ -31,7 +31,7 @@ private:
 
     int width, height, currentSceneNumber = 0;
 
-    static float randomFloat(float min, float max);
+    static float randomFloat(double min, double max);
 
 public:
 
@@ -53,6 +53,9 @@ public:
     static void CursorCallback(GLFWwindow* window, double x, double y);
 
     void changeScene(char sign);
+
     void moveCamera(char direction, float distance);
     void rotateCamera(float alphaAngle, float fiAngle);
+
+    void moveLightSource(char direction, float distance);
 };

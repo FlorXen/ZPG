@@ -1,10 +1,11 @@
 #include "Scene.h"
 
-Scene::Scene() : camera(std::make_shared<Camera>()) {
+Scene::Scene() : camera(std::make_shared<Camera>()), lightSource(std::make_shared<LightSource>()) {
 }
 
 void Scene::CreateObject(std::shared_ptr<Drawable> obj) {
     obj->setAsCameraObserver(camera);
+    obj->setAsLightSourceObserver(lightSource);
     this->objects.push_back(obj);
 }
 

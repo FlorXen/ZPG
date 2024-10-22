@@ -9,7 +9,8 @@ class Subject {
 public:
     void addObserver(std::shared_ptr<Observer> observer);
     void removeObserver(std::shared_ptr<Observer> observer);
-    void notifyObservers();
+    void notifyCameraObservers();
+    void notifyLightSourceObservers();
 
 protected:
     std::vector<std::shared_ptr<Observer>> observers;

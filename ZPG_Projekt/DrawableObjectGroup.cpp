@@ -45,11 +45,16 @@ Transformation& DrawableObjectGroup::getTransformation() {
 
 void DrawableObjectGroup::addDrawable(std::shared_ptr<Drawable> drawable) {
     drawable->setAsCameraObserver(camera);
+    drawable->setAsLightSourceObserver(lightSource);
     drawables.push_back(drawable);
 }
 
 void DrawableObjectGroup::setAsCameraObserver(std::shared_ptr<Camera> camera) {
     this->camera = camera;
+}
+
+void DrawableObjectGroup::setAsLightSourceObserver(std::shared_ptr<LightSource> lightSource) {
+    this->lightSource = lightSource;
 }
 
 std::vector<std::shared_ptr<Drawable>> DrawableObjectGroup::getDrawables() {

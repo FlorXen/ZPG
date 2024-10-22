@@ -2,10 +2,11 @@
         in vec3 ex_worldNormal;
         in vec4 ex_worldPosition;
 
+	uniform vec3 lightPosition;
+
         out vec4 frag_colour;
 
         void main() {
-        vec3 lightPosition = vec3(0.0, 0.0, 0.0);
         vec3 lightVector = normalize(lightPosition - vec3(ex_worldPosition));
 
         float dot_product = max(dot(lightVector, normalize(ex_worldNormal)), 0.0);

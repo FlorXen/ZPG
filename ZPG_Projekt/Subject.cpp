@@ -8,8 +8,14 @@ void Subject::removeObserver(std::shared_ptr<Observer> observer) {
     observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
 }
 
-void Subject::notifyObservers() {
+void Subject::notifyCameraObservers() {
     for (auto& observer : observers) {
         observer->onCameraUpdate();
+    }
+}
+
+void Subject::notifyLightSourceObservers() {
+    for (auto& observer : observers) {
+        observer->onLightSourceUpdate();
     }
 }

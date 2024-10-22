@@ -2,6 +2,7 @@
 
 #include <glm/mat4x4.hpp>
 #include "Camera.h"
+#include "LightSource.h"
 #include "ShaderProgram.h"
 #include "Transformation.h"
 #include "Rotate.h"
@@ -19,6 +20,7 @@ public:
     virtual void scale(const glm::vec3& scale) = 0;
 
     virtual void setAsCameraObserver(std::shared_ptr<Camera> camera) = 0;
+    virtual void setAsLightSourceObserver(std::shared_ptr<LightSource> lightSource) = 0;
 
     virtual Transformation& getTransformation() = 0;
 
@@ -33,4 +35,5 @@ public:
 protected:
     Transformation transformation;
     std::shared_ptr<Camera> camera;
+    std::shared_ptr<LightSource> lightSource;
 };

@@ -5,5 +5,6 @@
 class Observer {
 public:
     virtual void onCameraUpdate() = 0;
+    virtual void onLightSourceUpdate() = 0;
     virtual ~Observer() = default;
 };
