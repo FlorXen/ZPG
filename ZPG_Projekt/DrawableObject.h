@@ -16,8 +16,8 @@ public:
 
     Transformation& getTransformation() override;
 
-    void setAsCameraObserver(Camera *camera) override;
-    void initializeCamera(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) override;
+    void setAsCameraObserver(std::shared_ptr<Camera> camera) override;
+    void initializeCamera() override;
     void draw() const override;
 
     std::shared_ptr<ShaderProgram> getShaderProgram();

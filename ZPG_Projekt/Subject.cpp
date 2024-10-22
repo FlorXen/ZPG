@@ -8,8 +8,8 @@ void Subject::removeObserver(std::shared_ptr<Observer> observer) {
     observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
 }
 
-void Subject::notifyObservers(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
+void Subject::notifyObservers() {
     for (auto& observer : observers) {
-        observer->onCameraUpdate(viewMatrix, projectionMatrix);
+        observer->onCameraUpdate();
     }
 }

@@ -90,6 +90,8 @@ void Controller::handleMouseInput(double xpos, double ypos) {
 	const float sensitivity = 0.005f;
 	xOffset *= sensitivity;
 	yOffset *= sensitivity;
+
+	mouseChanged = true;
 }
 
 void Controller::updateCamera() {
@@ -106,7 +108,10 @@ void Controller::updateCamera() {
 	if (moveDown)
 		app->moveCamera('d', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
 
-	app->rotateCamera(xOffset, yOffset);
-	xOffset = 0;
-	yOffset = 0;
+	if (mouseChanged) {
+		app->rotateCamera(xOffset, yOffset);
+		xOffset = 0;
+		yOffset = 0;
+		mouseChanged = false;
+	}
 }

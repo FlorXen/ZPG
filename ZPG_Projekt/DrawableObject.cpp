@@ -22,12 +22,14 @@ Transformation& DrawableObject::getTransformation() {
     return transformation;
 }
 
-void DrawableObject::setAsCameraObserver(Camera *camera) {
-    camera->addObserver(shaderProgram);
+void DrawableObject::setAsCameraObserver(std::shared_ptr<Camera> camera) {
+    this->camera = camera;
+    this->camera->addObserver(shaderProgram);
 }
 
-void DrawableObject::initializeCamera(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
-    shaderProgram->onCameraUpdate(viewMatrix, projectionMatrix);
+void DrawableObject::initializeCamera() {
+    shaderProgram->bindCamera(this->camera);
+    shaderProgram->onCameraUpdate();
 }
 
 void DrawableObject::draw() const {
@@ -36,8 +38,6 @@ void DrawableObject::draw() const {
     
     // Send transformation matrix to shader
     shaderProgram->setModelMatrix(std::make_shared<Transformation>(transformation));
-    shaderProgram->setViewMatrix();
-    shaderProgram->setProjectionMatrix();
     shaderProgram->setNormalMatrix();
     
     glBindVertexArray(model->getVAO());

@@ -18,8 +18,8 @@ public:
     virtual void translate(const glm::vec3& translation) = 0;
     virtual void scale(const glm::vec3& scale) = 0;
 
-    virtual void setAsCameraObserver(Camera *camera) = 0;
-    virtual void initializeCamera(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) = 0;
+    virtual void setAsCameraObserver(std::shared_ptr<Camera> camera) = 0;
+    virtual void initializeCamera() = 0;
 
     virtual Transformation& getTransformation() = 0;
 
@@ -31,4 +31,5 @@ public:
 
 protected:
     Transformation transformation;
+    std::shared_ptr<Camera> camera;
 };

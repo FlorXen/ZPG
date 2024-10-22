@@ -7,6 +7,8 @@
 #include <memory>
 #include "Observer.h"
 #include "Transformation.h"
+#include "Camera.h"
+#include "ShaderLoader.h"
 
 class Shader;
 
@@ -16,29 +18,21 @@ class ShaderProgram : public Observer
 {
 private:
     GLuint shaderProgram;
+    std::shared_ptr<Transformation> transformation;
+    std::shared_ptr<Camera> camera;
     glm::mat4 modelMatrix;
-    glm::mat4 viewMatrix;
-    glm::mat4 projectionMatrix;
     glm::mat3 normalMatrix;
     
 public:
-    ShaderProgram();
+    ShaderProgram(const char* vertexFile, const char* fragmentFile);
 
-    void onCameraUpdate(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) override;
-
-    void addVertexShader(std::shared_ptr<Shader> shader);
-
-    void addFragmentShader(std::shared_ptr<Shader> shader);
-
-    void compile();
+    void bindCamera(std::shared_ptr<Camera> camera);
+    void onCameraUpdate() override;
 
     void use() const;
 
     void setModelMatrix(std::shared_ptr<Transformation> transformation);
-
-    void setViewMatrix() const;
-
-    void setProjectionMatrix() const;
-
+    void setViewMatrix(glm::mat4 viewMatrix) const;
+    void setProjectionMatrix(glm::mat4 projectionMatrix) const;
     void setNormalMatrix();
 };

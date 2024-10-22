@@ -1,25 +1,25 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 
-ShaderProgram::ShaderProgram() : viewMatrix(1.0f), projectionMatrix(1.0f) {
-    shaderProgram = glCreateProgram();
+ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile){
+
+    ShaderLoader shaderLoader;
+    shaderProgram = shaderLoader.loadShader(vertexFile, fragmentFile);
+
+    if (!shaderProgram) {
+        std::cerr << "ERROR: Shader Program loading failed for files: "
+            << vertexFile << " and " << fragmentFile << std::endl;
+    }
 }
 
-void ShaderProgram::onCameraUpdate(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
-    this->viewMatrix = viewMatrix;
-    this->projectionMatrix = projectionMatrix;
+void ShaderProgram::bindCamera(std::shared_ptr<Camera> camera) {
+    this->camera = camera;
 }
 
-void ShaderProgram::addVertexShader(std::shared_ptr<Shader> shader) {
-    shader->attachShader(this->shaderProgram);
-}
-
-void ShaderProgram::addFragmentShader(std::shared_ptr<Shader> shader) {
-    shader->attachShader(this->shaderProgram);
-}
-
-void ShaderProgram::compile() {
-    glLinkProgram(shaderProgram);
+void ShaderProgram::onCameraUpdate() {
+    use();
+    setViewMatrix(this->camera->getViewMatrix());
+    setProjectionMatrix(this->camera->getProjectionMatrix());
 }
 
 void ShaderProgram::use() const {
@@ -27,7 +27,7 @@ void ShaderProgram::use() const {
 }
 
 void ShaderProgram::setModelMatrix(std::shared_ptr<Transformation> transformation) {
-    this->modelMatrix = transformation->getMatrix();
+    modelMatrix = transformation->getMatrix();
 
     // Get uniform location in shader
     GLint idModelTransform = glGetUniformLocation(shaderProgram, "modelMatrix");
@@ -41,7 +41,7 @@ void ShaderProgram::setModelMatrix(std::shared_ptr<Transformation> transformatio
     glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
-void ShaderProgram::setViewMatrix()  const {
+void ShaderProgram::setViewMatrix(glm::mat4 viewMatrix)  const {
     // Get uniform location in shader
     GLint idModelTransform = glGetUniformLocation(shaderProgram, "viewMatrix");
 
@@ -54,7 +54,7 @@ void ShaderProgram::setViewMatrix()  const {
     glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 }
 
-void ShaderProgram::setProjectionMatrix()  const {
+void ShaderProgram::setProjectionMatrix(glm::mat4 projectionMatrix)  const {
     // Get uniform location in shader
     GLint idModelTransform = glGetUniformLocation(shaderProgram, "projectionMatrix");
 
@@ -69,7 +69,7 @@ void ShaderProgram::setProjectionMatrix()  const {
 
 void ShaderProgram::setNormalMatrix() {
 
-    this->normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
+    normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
 
     // Get uniform location in shader
     GLint idModelTransform = glGetUniformLocation(shaderProgram, "normalMatrix");
@@ -80,5 +80,5 @@ void ShaderProgram::setNormalMatrix() {
     }
 
     // Send matrix to shader
-    glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+    glUniformMatrix3fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(normalMatrix));
 }

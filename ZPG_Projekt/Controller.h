@@ -13,6 +13,6 @@ private:
     Application* app;
 
     int mode;
-    bool moveForward, moveBackward, moveRight, moveLeft, moveUp, moveDown;
+    bool moveForward, moveBackward, moveRight, moveLeft, moveUp, moveDown, mouseChanged;
     float xOffset, yOffset;
 };

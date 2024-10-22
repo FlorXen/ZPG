@@ -8,7 +8,7 @@ class Scene;
 
 class Camera : public Subject {
 public:
-    Camera(Scene* scene);
+    Camera();
 
     glm::mat4 getViewMatrix() const;
     glm::mat4 getProjectionMatrix() const;
@@ -25,8 +25,6 @@ public:
     float getFi();
 
 private:
-    Scene* scene;
-
     glm::vec3 eye;
     glm::vec3 target;
     glm::vec3 up;

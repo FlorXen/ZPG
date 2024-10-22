@@ -76,194 +76,13 @@ void Application::Initialize() {
 
 void Application::CreateShaders() {
 
-    shaders.push_back(std::make_shared<ShaderProgram>());
-
-    shaders[0]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
-        "#version 330\n"
-        "layout(location=0) in vec3 vp;"
-
-        "uniform mat4 modelMatrix;"
-        "uniform mat4 viewMatrix;"
-        "uniform mat4 projectionMatrix;"
-
-        "void main () {"
-            "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-        "}"
-    ));
-    shaders[0]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
-        "#version 330\n"
-        "out vec4 frag_colour;"
-        "void main () {"
-        "     frag_colour = vec4 (0.0, 1.0, 0.0, 1.0);"
-        "}"
-    ));
-
-    shaders[0]->compile();
-    
-    shaders.push_back(std::make_shared<ShaderProgram>());
-
-    shaders[1]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
-        "#version 330\n"
-        "layout(location=0) in vec3 vp;"
-
-        "uniform mat4 modelMatrix;"
-        "uniform mat4 viewMatrix;"
-        "uniform mat4 projectionMatrix;"
-
-        "void main () {"
-            "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-        "}"
-    ));
-    shaders[1]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
-        "#version 330\n"
-        "out vec4 frag_colour;"
-        "void main () {"
-        "     frag_colour = vec4 (0.0, 0.0, 1.0, 1.0);"
-        "}"
-    ));
-
-    shaders[1]->compile();
-
-    shaders.push_back(std::make_shared<ShaderProgram>());
-
-    shaders[2]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
-        "#version 330\n"
-        "layout(location = 0) in vec3 vp;"
-        "layout(location = 1) in vec3 vn;"
-
-        "out vec3 fragPos;"
-        "out vec3 fragNormal;"
-        "uniform mat4 modelMatrix;"
-        "uniform mat4 viewMatrix;"
-        "uniform mat4 projectionMatrix;"
-
-        "void main() {"
-            "fragNormal = vn;"
-            "fragPos = vec3(modelMatrix * vec4(vp, 1.0));"
-            "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-        "}"
-    ));
-    shaders[2]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
-        "#version 330\n"
-        "in vec3 fragNormal;"
-        "in vec3 fragPos;"
-
-        "out vec4 frag_colour;"
-
-        "void main () {"
-        "frag_colour = vec4(fragPos, 1.0);"
-        "}"
-    ));
-
-    shaders[2]->compile();
-
-    shaders.push_back(std::make_shared<ShaderProgram>());
-
-    shaders[3]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
-        "#version 330\n"
-        "layout(location = 0) in vec3 vp;"
-        "layout(location = 1) in vec3 vn;"
-
-        "out vec3 fragPos;"
-        "out vec3 fragNormal;"
-        "uniform mat4 modelMatrix;"
-        "uniform mat4 viewMatrix;"
-        "uniform mat4 projectionMatrix;"
-
-        "void main() {"
-            "fragNormal = vn;"
-            "fragPos = vec3(modelMatrix * vec4(vp, 1.0));"
-            "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-        "}"
-    ));
-    shaders[3]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
-        "#version 330\n"
-        "in vec3 fragNormal;"
-        "in vec3 fragPos;"
-
-        "out vec4 frag_colour;"
-
-        "void main () {"
-        "frag_colour = vec4(fragNormal, 1.0);"
-        "}"
-    ));
-
-    shaders[3]->compile();
-
-    shaders.push_back(std::make_shared<ShaderProgram>());
-
-    shaders[4]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
-        "#version 330\n"
-        "layout(location = 0) in vec3 vp;"
-        "layout(location = 1) in vec3 vn;"
-
-        "out vec3 fragPos;"
-        "out vec3 fragNormal;"
-        "uniform mat4 modelMatrix;"
-        "uniform mat4 viewMatrix;"
-        "uniform mat4 projectionMatrix;"
-
-        "void main() {"
-            "fragNormal = vn;"
-            "fragPos = vec3(modelMatrix * vec4(vp, 1.0));"
-            "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-        "}"
-    ));
-    shaders[4]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
-        "#version 330\n"
-        "in vec3 fragNormal;"
-        "in vec3 fragPos;"
-
-        "out vec4 frag_colour;"
-
-        "void main () {"
-        "frag_colour = vec4(fragNormal, 1.0);"
-        "}"
-    ));
-
-    shaders[4]->compile();
-
-    shaders.push_back(std::make_shared<ShaderProgram>());
-
-    shaders[5]->addVertexShader(std::make_shared<Shader>(GL_VERTEX_SHADER,
-        "#version 330\n"
-        "layout(location = 0) in vec3 vp;"
-        "layout(location = 1) in vec3 vn;"
-
-        "uniform mat4 modelMatrix;"
-        "uniform mat4 viewMatrix;"
-        "uniform mat4 projectionMatrix;"
-        "uniform mat3 normalMatrix;"
-
-        "out vec3 ex_worldNormal;"
-        "out vec3 ex_worldPosition;"
-
-        "void main() {"
-        "ex_worldPosition = vec3(modelMatrix * vec4(vp, 1.0));"
-        "ex_worldNormal = normalize(normalMatrix * vn);"
-        "gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-        "}"
-    ));
-    shaders[5]->addFragmentShader(std::make_shared<Shader>(GL_FRAGMENT_SHADER,
-        "#version 330\n"
-        "in vec3 ex_worldNormal;"
-        "in vec3 ex_worldPosition;"
-
-        "out vec4 frag_colour;"
-
-        "void main() {"
-        "vec3 lightPosition = vec3(0.0, 0.0, 0.0);"
-        "vec3 lightVector = normalize(lightPosition - ex_worldPosition);"
-
-        "float dot_product = max(dot(lightVector, normalize(ex_worldNormal)), 0.0);"
-        "vec4 diffuse = dot_product * vec4(0.385, 0.647, 0.812, 1.0);"
-        "vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);"
-
-        "frag_colour = ambient + diffuse;"
-        "}"
-    ));
-
-    shaders[5]->compile();
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/tree.vert", "Shaders/tree.frag"));
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/bush.vert", "Shaders/bush.frag"));
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/light_sphere.vert", "Shaders/light_sphere.frag"));
+    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/plain.vert", "Shaders/plain.frag"));
 
 }
 
@@ -295,40 +114,27 @@ void Application::CreateModels() {
     // SCENES
 
     // 1
-    scenes.push_back(Scene());
-    scenes[0].AddObject(std::make_shared<DrawableObject>(models[0], shaders[0]));
-    
-    scenes[0].AddObject(std::make_shared<DrawableObject>(models[1], shaders[1]));
-    scenes[0].AddObject(std::make_shared<DrawableObject>(models[2], shaders[2]));
+    scenes.push_back(std::make_shared<Scene>());
 
+    scenes[0]->AddObject(std::make_shared<DrawableObject>(models[0], shaders[0]));
+    scenes[0]->AddObject(std::make_shared<DrawableObject>(models[1], shaders[1]));
+    scenes[0]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[2]));
+    
     // 2
-    scenes.push_back(Scene());
+   scenes.push_back(std::make_shared<Scene>());
+
+    scenes[1]->AddObject(std::make_shared<DrawableObject>(models[5], shaders[6]));
+
+    scenes[1]->objects[0]->scale(glm::vec3(30.0f, 0.0f, 30.0f));
+    
     float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
     // Trees
     int from, to;
-    from = scenes[1].objects.size();
-    to = scenes[1].objects.size() + 100;
-    for (int i = from; i < to; i++) {
-        scaleX = randomFloat(0.05, 0.15);
-        scaleY = randomFloat(0.05, 0.15);
-        scaleZ = randomFloat(0.05, 0.15);
-        transX = randomFloat(-30.0, 30.0);
-        transZ = randomFloat(-30.0, 30.0);
-        angle = randomFloat(-20.0, 20.0);
-        rotX = randomFloat(0.0, 1.0);
-        rotY = randomFloat(0.0, 1.0);
-        rotZ = randomFloat(0.0, 1.0);
-        scenes[1].AddObject(std::make_shared<DrawableObject>(models[3], shaders[3]));
-        //scenes[1].objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
-        scenes[1].objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
-        scenes[1].objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
-    }
-    // Bushes
-    from = scenes[1].objects.size();
-    to = scenes[1].objects.size() + 150;
+    from = scenes[1]->objects.size();
+    to = scenes[1]->objects.size() + 1;
     for (int i = from; i < to; i++) {
         scaleX = randomFloat(0.4, 0.8);
-        scaleY = randomFloat(0.4, 0.8);
+        scaleY = randomFloat(0.6, 1.3);
         scaleZ = randomFloat(0.4, 0.8);
         transX = randomFloat(-30.0, 30.0);
         transZ = randomFloat(-30.0, 30.0);
@@ -336,14 +142,34 @@ void Application::CreateModels() {
         rotX = randomFloat(0.0, 1.0);
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
-        scenes[1].AddObject(std::make_shared<DrawableObject>(models[4], shaders[4]));
-        //scenes[1].objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
-        scenes[1].objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
-        scenes[1].objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
+        scenes[1]->AddObject(std::make_shared<DrawableObject>(models[3], shaders[3]));
+        scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
+        scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
+        scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
+    }
+    // Bushes
+    from = scenes[1]->objects.size();
+    to = scenes[1]->objects.size() + 1;
+    for (int i = from; i < to; i++) {
+        scaleX = randomFloat(0.4, 0.8);
+        scaleY = randomFloat(0.6, 1.5);
+        scaleZ = randomFloat(0.4, 0.8);
+        transX = randomFloat(-30.0, 30.0);
+        transZ = randomFloat(-30.0, 30.0);
+        angle = randomFloat(-20.0, 20.0);
+        rotX = randomFloat(0.0, 1.0);
+        rotY = randomFloat(0.0, 1.0);
+        rotZ = randomFloat(0.0, 1.0);
+        scenes[1]->AddObject(std::make_shared<DrawableObject>(models[4], shaders[4]));
+        scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
+        scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
+        scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
 
+    
     // 3
-    scenes.push_back(Scene());
+   scenes.push_back(std::make_shared<Scene>());
+    
     std::shared_ptr<DrawableObjectGroup> group1 = std::make_shared<DrawableObjectGroup>();
     group1->addDrawable(std::make_shared<DrawableObject>(models[0], shaders[0]));
     group1->addDrawable(std::make_shared<DrawableObject>(models[1], shaders[1]));
@@ -351,14 +177,15 @@ void Application::CreateModels() {
 
     group1->getDrawables().at(2)->scale(glm::vec3(0.3f, 0.3f, 0.3f));
 
-    scenes[2].AddObject(group1);
-
+    scenes[2]->AddObject(group1);
+    
     //4
-    scenes.push_back(Scene());
-    scenes[3].AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
-    scenes[3].AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
-    scenes[3].AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
-    scenes[3].AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
+   scenes.push_back(std::make_shared<Scene>());
+
+    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
+    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
+    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
+    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
 
 
     // TRANSFORMATIONS
@@ -368,13 +195,16 @@ void Application::CreateModels() {
     //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
     
 
-    scenes[0].objects[2]->scale(glm::vec3(0.3f, 0.3f, 0.3f));
+    
 
     
-    scenes[3].objects[0]->translate(glm::vec3(2.0f, 0.0f, 0.0f));
-    scenes[3].objects[1]->translate(glm::vec3(-2.0f, 0.0f, 0.0f));
-    scenes[3].objects[2]->translate(glm::vec3(0.0f, 0.0f, 2.0f));
-    scenes[3].objects[3]->translate(glm::vec3(0.0f, 0.0f, -2.0f));
+    scenes[3]->objects[0]->translate(glm::vec3(2.5f, 0.0f, 0.0f));
+    scenes[3]->objects[1]->translate(glm::vec3(-2.5f, 0.0f, 0.0f));
+    scenes[3]->objects[2]->translate(glm::vec3(0.0f, 0.0f, 2.5f));
+    scenes[3]->objects[3]->translate(glm::vec3(0.0f, 0.0f, -2.5f));
+    
+
+    scenes[0]->objects[2]->scale(glm::vec3(0.3f, 0.3f, 0.3f));
 }
 
 void Application::Run() {
@@ -395,14 +225,14 @@ void Application::Run() {
 
         controller.updateCamera();
 
-        scenes[currentSceneNumber].Render();
-
-        scenes[2].objects[0]->rotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        scenes[currentSceneNumber]->Render();
+        
+        scenes[2]->objects[0]->rotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
         if (shrinking) {
             if (currentScale > minScale) {
                 currentScale -= scaleSpeed;
-                scenes[2].objects[0]->getDrawables().at(0)->scale(glm::vec3(1.0f - scaleSpeed, 1.0f - scaleSpeed, 1.0f - scaleSpeed));
+                scenes[2]->objects[0]->getDrawables().at(0)->scale(glm::vec3(1.0f - scaleSpeed, 1.0f - scaleSpeed, 1.0f - scaleSpeed));
             }
             else {
                 shrinking = false;
@@ -411,7 +241,7 @@ void Application::Run() {
         else {
             if (currentScale < maxScale) {
                 currentScale += scaleSpeed;
-                scenes[2].objects[0]->getDrawables().at(0)->scale(glm::vec3(1.0f + scaleSpeed, 1.0f + scaleSpeed, 1.0f + scaleSpeed));
+                scenes[2]->objects[0]->getDrawables().at(0)->scale(glm::vec3(1.0f + scaleSpeed, 1.0f + scaleSpeed, 1.0f + scaleSpeed));
             }
             else {
                 shrinking = true;
@@ -424,6 +254,7 @@ void Application::Run() {
         glfwPollEvents();
         // put the stuff we�ve been drawing onto the display
         glfwSwapBuffers(window);
+
     }
 }
 
@@ -498,29 +329,28 @@ void Application::changeScene(char sign) {
 void Application::moveCamera(char direction, float distance) {
     switch (direction) {
         case'f': {
-            scenes[currentSceneNumber].camera->moveForward(distance);
+            scenes[currentSceneNumber]->camera->moveForward(distance);
         }break;
         case'b': {
-            scenes[currentSceneNumber].camera->moveBackward(distance);
+            scenes[currentSceneNumber]->camera->moveBackward(distance);
         }break;
         case'r': {
-            scenes[currentSceneNumber].camera->moveRight(distance);
+            scenes[currentSceneNumber]->camera->moveRight(distance);
         }break;
         case'l': {
-            scenes[currentSceneNumber].camera->moveLeft(distance);
+            scenes[currentSceneNumber]->camera->moveLeft(distance);
         }break;
         case'u': {
-            scenes[currentSceneNumber].camera->moveUp(distance);
+            scenes[currentSceneNumber]->camera->moveUp(distance);
         }break;
         case'd': {
-            scenes[currentSceneNumber].camera->moveDown(distance);
+            scenes[currentSceneNumber]->camera->moveDown(distance);
         }break;
     }
 }
 
 void Application::rotateCamera(float xOffset, float yOffset) {
-    scenes[currentSceneNumber].camera->setOrientation(scenes[currentSceneNumber].camera->getAlpha() - yOffset, scenes[currentSceneNumber].camera->getFi() + xOffset);
-    //printf("ALPHA: %f\nFI: %f\n\n", scenes[currentSceneNumber].camera->getAlpha(), scenes[currentSceneNumber].camera->getFi());
+    scenes[currentSceneNumber]->camera->setOrientation(scenes[currentSceneNumber]->camera->getAlpha() - yOffset, scenes[currentSceneNumber]->camera->getFi() + xOffset);
 }
 
 

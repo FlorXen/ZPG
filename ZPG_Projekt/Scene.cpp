@@ -1,13 +1,12 @@
 #include "Scene.h"
 
-Scene::Scene() {
-    camera = new Camera(this);
+Scene::Scene() : camera(std::make_shared<Camera>()) {
 }
 
 void Scene::AddObject(std::shared_ptr<Drawable> obj) {
-    this->objects.push_back(obj);
     obj->setAsCameraObserver(camera);
-    obj->initializeCamera(camera->getViewMatrix(), camera->getProjectionMatrix());
+    obj->initializeCamera();
+    this->objects.push_back(obj);
 }
 
 void Scene::Render() {

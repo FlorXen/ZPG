@@ -14,8 +14,6 @@ void DrawableObjectGroup::draw() const {
 
             // Send transformation matrix to shader
             obj->getShaderProgram()->setModelMatrix(std::make_shared<Transformation>(combinedTransformation));
-            obj->getShaderProgram()->setViewMatrix();
-            obj->getShaderProgram()->setProjectionMatrix();
 
             glBindVertexArray(obj->getModel()->getVAO());
             glDrawArrays(GL_TRIANGLES, 0, obj->getModel()->getVertexCount());
@@ -51,15 +49,15 @@ void DrawableObjectGroup::addDrawable(std::shared_ptr<Drawable> drawable) {
     drawables.push_back(drawable);
 }
 
-void DrawableObjectGroup::setAsCameraObserver(Camera* camera) {
+void DrawableObjectGroup::setAsCameraObserver(std::shared_ptr<Camera> camera) {
     for (auto& drawable : drawables) {
         drawable->setAsCameraObserver(camera);
     }
 }
 
-void DrawableObjectGroup::initializeCamera(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
+void DrawableObjectGroup::initializeCamera() {
     for (auto& drawable : drawables) {
-        drawable->initializeCamera(viewMatrix, projectionMatrix);
+        drawable->initializeCamera();
     }
 }
 

@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(Scene* scene) : scene(scene), eye(glm::vec3(0.0f, 1.5f, 5.0f)),
+Camera::Camera() : eye(glm::vec3(0.0f, 1.5f, 5.0f)),
     target(glm::vec3(0.0f, 0.0f, -1.0f)), up(glm::vec3(0.0f, 1.0f, 0.0f)),
     alpha(1.6f), fi(-1.6f)
 {
@@ -13,7 +13,7 @@ void Camera::setPosition(const glm::vec3& position) {
     eye = position;
     
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 void Camera::setOrientation(float alphaAngle, float fiAngle) {
@@ -24,9 +24,9 @@ void Camera::setOrientation(float alphaAngle, float fiAngle) {
     target.x = sin(alpha) * cos(fi);
     target.y = cos(alpha);
     target.z = sin(alpha) * sin(fi);
-    
+
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 glm::mat4 Camera::getViewMatrix() const {
@@ -41,14 +41,14 @@ void Camera::moveLeft(float distance) {
     glm::vec3 right = glm::normalize(glm::cross(target, up));
     eye -= right * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 void Camera::moveRight(float distance) {
     glm::vec3 right = glm::normalize(glm::cross(target, up));
     eye += right * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 void Camera::moveForward(float distance) {
@@ -57,7 +57,7 @@ void Camera::moveForward(float distance) {
     //glm::vec3 forward = glm::normalize(target);
     eye += forward * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 void Camera::moveBackward(float distance) {
@@ -66,19 +66,19 @@ void Camera::moveBackward(float distance) {
     //glm::vec3 forward = glm::normalize(target);
     eye -= forward * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 void Camera::moveUp(float distance) {
     eye += up * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 void Camera::moveDown(float distance) {
     eye -= up * distance;
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    notifyObservers(viewMatrix, projectionMatrix);
+    notifyObservers();
 }
 
 float Camera::getAlpha() {

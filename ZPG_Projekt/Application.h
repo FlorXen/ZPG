@@ -25,7 +25,7 @@ class Shader;
 class Application {
 private:
     GLFWwindow* window;
-    std::vector<Scene> scenes;
+    std::vector<std::shared_ptr<Scene>> scenes;
     std::vector<std::shared_ptr<ShaderProgram>> shaders;
     std::vector<std::shared_ptr<MyApp::Model>> models;
     int width, height, currentSceneNumber = 0;
