@@ -15,6 +15,10 @@ void Camera::setPosition(const glm::vec3& position) {
     notifyCameraObservers();
 }
 
+glm::vec3 Camera::getPosition() {
+    return eye;
+}
+
 void Camera::setOrientation(float alphaAngle, float fiAngle) {
 
     // Gimbal lock prevention

@@ -39,4 +39,5 @@ public:
     void setProjectionMatrix(glm::mat4 projectionMatrix) const;
     void setNormalMatrix();
     void setLightPosition(glm::vec3 lightPosition);
+    void setViewPosition(glm::vec3 viewPosition);
 };

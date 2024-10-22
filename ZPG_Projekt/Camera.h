@@ -14,6 +14,8 @@ public:
     glm::mat4 getProjectionMatrix() const;
 
     void setPosition(const glm::vec3& position);
+    glm::vec3 getPosition();
+
     void setOrientation(float alpha, float fi);
     void moveLeft(float distance);
     void moveRight(float distance);

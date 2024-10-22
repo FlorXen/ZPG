@@ -20,6 +20,7 @@ void ShaderProgram::onCameraUpdate() {
     use();
     setViewMatrix(this->camera->getViewMatrix());
     setProjectionMatrix(this->camera->getProjectionMatrix());
+    setViewPosition(this->camera->getPosition());
 }
 
 void ShaderProgram::bindLightSource(std::shared_ptr<LightSource> lightSource) {
@@ -103,4 +104,17 @@ void ShaderProgram::setLightPosition(glm::vec3 lightPosition) {
 
     // Send matrix to shader
     glUniform3fv(position, 1, glm::value_ptr(lightPosition));
+}
+
+void ShaderProgram::setViewPosition(glm::vec3 viewPosition) {
+    // Get uniform location in shader
+    GLint position = glGetUniformLocation(shaderProgram, "viewPosition");
+
+    // Test on -1 if not found
+    if (position == -1) {
+        return;
+    }
+
+    // Send matrix to shader
+    glUniform3fv(position, 1, glm::value_ptr(viewPosition));
 }

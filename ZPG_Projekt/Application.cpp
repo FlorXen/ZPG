@@ -111,15 +111,14 @@ void Application::CreateScenes() {
     // 2
     scenes.push_back(std::make_shared<Scene>());
 
-    scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/tree.vert", "Shaders/tree.frag"));
-    scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/bush.vert", "Shaders/bush.frag"));
+    scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_tree.vert", "Shaders/light_tree.frag"));
     scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/plain.vert", "Shaders/plain.frag"));
 
     scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
     scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
     scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain));
 
-    scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[2]));
+    scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
 
     scenes[1]->objects[0]->scale(glm::vec3(30.0f, 0.0f, 30.0f));
     
@@ -156,7 +155,7 @@ void Application::CreateScenes() {
         rotX = randomFloat(0.0, 1.0);
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
-        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[1], scenes[1]->shaders[1]));
+        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[1], scenes[1]->shaders[0]));
         scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
         scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
@@ -198,6 +197,41 @@ void Application::CreateScenes() {
     scenes[3]->objects[1]->translate(glm::vec3(-2.5f, 0.0f, 0.0f));
     scenes[3]->objects[2]->translate(glm::vec3(0.0f, 0.0f, 2.5f));
     scenes[3]->objects[3]->translate(glm::vec3(0.0f, 0.0f, -2.5f));
+    scenes[3]->lightSource->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+
+    //5
+    scenes.push_back(std::make_shared<Scene>());
+
+    scenes[4]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_sphere.vert", "Shaders/light_sphere.frag"));
+
+    scenes[4]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+
+    scenes[4]->CreateObject(std::make_shared<DrawableObject>(scenes[4]->models[0], scenes[4]->shaders[0]));
+
+    scenes[4]->objects[0]->translate(glm::vec3(0.0f, 0.0f, 0.0f));
+    scenes[4]->lightSource->setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
+    scenes[4]->camera->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+
+    //6
+    scenes.push_back(std::make_shared<Scene>());
+
+    scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_constant.vert", "Shaders/light_constant.frag"));
+    scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Lambert.vert", "Shaders/light_Lambert.frag"));
+    scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Phong.vert", "Shaders/light_Phong.frag"));
+    scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Blinn.vert", "Shaders/light_Blinn.frag"));
+
+    scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[0]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[1]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[2]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[3]));
+
+    scenes[5]->objects[0]->translate(glm::vec3(-4.5f, 0.0f, 0.0f));
+    scenes[5]->objects[1]->translate(glm::vec3(-1.5f, 0.0f, 0.0f));
+    scenes[5]->objects[2]->translate(glm::vec3(1.5f, 0.0f, 0.0f));
+    scenes[5]->objects[3]->translate(glm::vec3(4.5f, 0.0f, 0.0f));
+    scenes[5]->lightSource->setPosition(glm::vec3(0.0f, 5.0f, 0.0f));
 
     // TRANSFORMATIONS
     //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
