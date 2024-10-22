@@ -45,6 +45,6 @@ int Model::getVertexCount() {
 }
 
 Model::~Model() {
-    glDeleteVertexArrays(1, &VAO);
+    //glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }

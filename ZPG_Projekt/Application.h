@@ -11,6 +11,8 @@
 #include "DrawableObjectGroup.h"
 #include "Controller.h"
 
+#include "triangle.h"
+#include "square.h"
 #include "sphere.h"
 #include "tree.h"
 #include "bushes.h"
@@ -26,8 +28,7 @@ class Application {
 private:
     GLFWwindow* window;
     std::vector<std::shared_ptr<Scene>> scenes;
-    std::vector<std::shared_ptr<ShaderProgram>> shaders;
-    std::vector<std::shared_ptr<MyApp::Model>> models;
+
     int width, height, currentSceneNumber = 0;
 
     static float randomFloat(float min, float max);
@@ -40,8 +41,7 @@ public:
     ~Application();
 
     void Initialize();
-    void CreateShaders();
-    void CreateModels();
+    void CreateScenes();
     void Run();
 
     static void ErrorCallback(int error, const char* description);

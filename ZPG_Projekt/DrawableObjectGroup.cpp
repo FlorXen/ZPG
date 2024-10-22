@@ -24,8 +24,6 @@ void DrawableObjectGroup::draw() const {
         else if (dynamic_cast<DrawableObjectGroup*>(drawable.get())) {
             drawable->draw();
         }
-
-        
     }
 }
 
@@ -46,19 +44,12 @@ Transformation& DrawableObjectGroup::getTransformation() {
 }
 
 void DrawableObjectGroup::addDrawable(std::shared_ptr<Drawable> drawable) {
+    drawable->setAsCameraObserver(camera);
     drawables.push_back(drawable);
 }
 
 void DrawableObjectGroup::setAsCameraObserver(std::shared_ptr<Camera> camera) {
-    for (auto& drawable : drawables) {
-        drawable->setAsCameraObserver(camera);
-    }
-}
-
-void DrawableObjectGroup::initializeCamera() {
-    for (auto& drawable : drawables) {
-        drawable->initializeCamera();
-    }
+    this->camera = camera;
 }
 
 std::vector<std::shared_ptr<Drawable>> DrawableObjectGroup::getDrawables() {

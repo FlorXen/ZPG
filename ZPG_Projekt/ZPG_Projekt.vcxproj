@@ -157,6 +157,8 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />
+    <ClInclude Include="square.h" />
+    <ClInclude Include="triangle.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />

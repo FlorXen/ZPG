@@ -12,6 +12,9 @@ Application::~Application() {
     exit(EXIT_SUCCESS);
 }
 
+void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+    std::cerr << "OpenGL Debug Message: " << message << std::endl;
+}
 
 void Application::Initialize() {
 
@@ -35,6 +38,7 @@ void Application::Initialize() {
 
     glfwMakeContextCurrent(window);
 
+
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (err != GLEW_OK) {
@@ -44,6 +48,8 @@ void Application::Initialize() {
         std::cout << "GLEW initialized successfully!" << std::endl;
     }
 
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(openglDebugCallback, nullptr);
 
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, KeyCallback);
@@ -73,57 +79,47 @@ void Application::Initialize() {
     controller = Controller(this);
 }
 
+void Application::CreateScenes() {
 
-void Application::CreateShaders() {
+    MyApp::Model model_triangle = MyApp::Model(triangle, 3, false);
+    MyApp::Model model_square = MyApp::Model(square, 6, false);
+    MyApp::Model model_sphere = MyApp::Model(sphere, 2880, true);
+    MyApp::Model model_tree = MyApp::Model(tree, 92814, true);
+    MyApp::Model model_bush = MyApp::Model(bushes, 8730, true);
+    MyApp::Model model_plain = MyApp::Model(plain, 6, true);
 
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/tree.vert", "Shaders/tree.frag"));
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/bush.vert", "Shaders/bush.frag"));
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/light_sphere.vert", "Shaders/light_sphere.frag"));
-    shaders.push_back(std::make_shared<ShaderProgram>("Shaders/plain.vert", "Shaders/plain.frag"));
-
-}
-
-void Application::CreateModels() {
-
-    float points1[] = {
-    0.0f, 0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f,
-   -0.5f, -0.5f, 0.0f
-    };
-
-    float points2[] = {
-        0.0f, 0.6f, -0.2f,
-        0.6f, 0.6f, -0.2f,
-        0.6f, 0.0f, -0.2f,
-        0.0f, 0.6f, -0.2f,
-        0.6f, 0.0f, -0.2f,
-        0.0f, 0.0f, -0.2f
-    };
-
-    models.push_back(std::make_shared<MyApp::Model>(points1, 3, false));
-    models.push_back(std::make_shared<MyApp::Model>(points2, 6, false));
-    models.push_back(std::make_shared<MyApp::Model>(sphere, 2880, true));
-
-    models.push_back(std::make_shared<MyApp::Model>(tree, 92814, true));
-    models.push_back(std::make_shared<MyApp::Model>(bushes, 8730, true));
-    models.push_back(std::make_shared<MyApp::Model>(plain, 6, true));
 
     // SCENES
 
     // 1
     scenes.push_back(std::make_shared<Scene>());
 
-    scenes[0]->AddObject(std::make_shared<DrawableObject>(models[0], shaders[0]));
-    scenes[0]->AddObject(std::make_shared<DrawableObject>(models[1], shaders[1]));
-    scenes[0]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[2]));
+    scenes[0]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
+    scenes[0]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
+    scenes[0]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
+
+    scenes[0]->AddModel(std::make_shared<MyApp::Model>(model_triangle));
+    scenes[0]->AddModel(std::make_shared<MyApp::Model>(model_square));
+    scenes[0]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+
+    scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[0], scenes[0]->shaders[0]));
+    scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[1], scenes[0]->shaders[1]));
+    scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[2], scenes[0]->shaders[2]));
+
+    scenes[0]->objects[2]->scale(glm::vec3(0.3f, 0.3f, 0.3f));
     
     // 2
-   scenes.push_back(std::make_shared<Scene>());
+    scenes.push_back(std::make_shared<Scene>());
 
-    scenes[1]->AddObject(std::make_shared<DrawableObject>(models[5], shaders[6]));
+    scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/tree.vert", "Shaders/tree.frag"));
+    scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/bush.vert", "Shaders/bush.frag"));
+    scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/plain.vert", "Shaders/plain.frag"));
+
+    scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
+    scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
+    scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain));
+
+    scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[2]));
 
     scenes[1]->objects[0]->scale(glm::vec3(30.0f, 0.0f, 30.0f));
     
@@ -131,7 +127,7 @@ void Application::CreateModels() {
     // Trees
     int from, to;
     from = scenes[1]->objects.size();
-    to = scenes[1]->objects.size() + 1;
+    to = scenes[1]->objects.size() + 100;
     for (int i = from; i < to; i++) {
         scaleX = randomFloat(0.4, 0.8);
         scaleY = randomFloat(0.6, 1.3);
@@ -142,14 +138,14 @@ void Application::CreateModels() {
         rotX = randomFloat(0.0, 1.0);
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
-        scenes[1]->AddObject(std::make_shared<DrawableObject>(models[3], shaders[3]));
+        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[0], scenes[1]->shaders[0]));
         scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
         scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
     // Bushes
     from = scenes[1]->objects.size();
-    to = scenes[1]->objects.size() + 1;
+    to = scenes[1]->objects.size() + 100;
     for (int i = from; i < to; i++) {
         scaleX = randomFloat(0.4, 0.8);
         scaleY = randomFloat(0.6, 1.5);
@@ -160,7 +156,7 @@ void Application::CreateModels() {
         rotX = randomFloat(0.0, 1.0);
         rotY = randomFloat(0.0, 1.0);
         rotZ = randomFloat(0.0, 1.0);
-        scenes[1]->AddObject(std::make_shared<DrawableObject>(models[4], shaders[4]));
+        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[1], scenes[1]->shaders[1]));
         scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
         scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
@@ -168,43 +164,46 @@ void Application::CreateModels() {
 
     
     // 3
-   scenes.push_back(std::make_shared<Scene>());
-    
-    std::shared_ptr<DrawableObjectGroup> group1 = std::make_shared<DrawableObjectGroup>();
-    group1->addDrawable(std::make_shared<DrawableObject>(models[0], shaders[0]));
-    group1->addDrawable(std::make_shared<DrawableObject>(models[1], shaders[1]));
-    group1->addDrawable(std::make_shared<DrawableObject>(models[2], shaders[2]));
+    scenes.push_back(std::make_shared<Scene>());
 
-    group1->getDrawables().at(2)->scale(glm::vec3(0.3f, 0.3f, 0.3f));
+    scenes[2]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
+    scenes[2]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
+    scenes[2]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
 
-    scenes[2]->AddObject(group1);
+    scenes[2]->AddModel(std::make_shared<MyApp::Model>(model_triangle));
+    scenes[2]->AddModel(std::make_shared<MyApp::Model>(model_square));
+    scenes[2]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+
+    scenes[2]->CreateObject(std::make_shared<DrawableObjectGroup>());
+
+    scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[0], scenes[2]->shaders[0]));
+    scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[1], scenes[2]->shaders[1]));
+    scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[2], scenes[2]->shaders[2]));
+
+    scenes[2]->objects[0]->getDrawables().at(2)->scale(glm::vec3(0.3f, 0.3f, 0.3f));
     
     //4
-   scenes.push_back(std::make_shared<Scene>());
+    scenes.push_back(std::make_shared<Scene>());
 
-    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
-    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
-    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
-    scenes[3]->AddObject(std::make_shared<DrawableObject>(models[2], shaders[5]));
+    scenes[3]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_sphere.vert", "Shaders/light_sphere.frag"));
 
+    scenes[3]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
-    // TRANSFORMATIONS
-    
-    //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
-    //setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
-    
+    scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
+    scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
+    scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
+    scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
 
-    
-
-    
     scenes[3]->objects[0]->translate(glm::vec3(2.5f, 0.0f, 0.0f));
     scenes[3]->objects[1]->translate(glm::vec3(-2.5f, 0.0f, 0.0f));
     scenes[3]->objects[2]->translate(glm::vec3(0.0f, 0.0f, 2.5f));
     scenes[3]->objects[3]->translate(glm::vec3(0.0f, 0.0f, -2.5f));
-    
 
-    scenes[0]->objects[2]->scale(glm::vec3(0.3f, 0.3f, 0.3f));
+    // TRANSFORMATIONS
+    //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
+    //setRotation(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
+
 }
 
 void Application::Run() {

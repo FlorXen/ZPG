@@ -6,8 +6,8 @@ int main(void)
 
     app->Initialize();
 
-    app->CreateShaders();
-    app->CreateModels();
+    app->CreateScenes();
+
     app->Run();
 
 }

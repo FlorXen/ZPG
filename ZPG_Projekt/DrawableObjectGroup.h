@@ -14,9 +14,8 @@ public:
 
     Transformation& getTransformation() override;
 
-    void addDrawable(std::shared_ptr<Drawable> drawable);
+    void addDrawable(std::shared_ptr<Drawable> drawable) override;
     void setAsCameraObserver(std::shared_ptr<Camera> camera) override;
-    void initializeCamera() override;
 
     std::vector<std::shared_ptr<Drawable>> getDrawables() override;
 

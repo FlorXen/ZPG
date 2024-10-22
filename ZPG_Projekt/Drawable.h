@@ -19,7 +19,6 @@ public:
     virtual void scale(const glm::vec3& scale) = 0;
 
     virtual void setAsCameraObserver(std::shared_ptr<Camera> camera) = 0;
-    virtual void initializeCamera() = 0;
 
     virtual Transformation& getTransformation() = 0;
 
@@ -28,6 +27,8 @@ public:
     virtual std::vector<std::shared_ptr<Drawable>> getDrawables() {
         return {};
     }
+
+    virtual void addDrawable(std::shared_ptr<Drawable> drawable) {}
 
 protected:
     Transformation transformation;

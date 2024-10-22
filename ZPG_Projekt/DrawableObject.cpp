@@ -25,11 +25,8 @@ Transformation& DrawableObject::getTransformation() {
 void DrawableObject::setAsCameraObserver(std::shared_ptr<Camera> camera) {
     this->camera = camera;
     this->camera->addObserver(shaderProgram);
-}
-
-void DrawableObject::initializeCamera() {
-    shaderProgram->bindCamera(this->camera);
-    shaderProgram->onCameraUpdate();
+    this->shaderProgram->bindCamera(this->camera);
+    this->shaderProgram->onCameraUpdate();
 }
 
 void DrawableObject::draw() const {

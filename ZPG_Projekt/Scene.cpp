@@ -3,10 +3,17 @@
 Scene::Scene() : camera(std::make_shared<Camera>()) {
 }
 
-void Scene::AddObject(std::shared_ptr<Drawable> obj) {
+void Scene::CreateObject(std::shared_ptr<Drawable> obj) {
     obj->setAsCameraObserver(camera);
-    obj->initializeCamera();
     this->objects.push_back(obj);
+}
+
+void Scene::AddShaderProgram(std::shared_ptr<ShaderProgram> shaderProgram) {
+    this->shaders.push_back(shaderProgram);
+}
+
+void Scene::AddModel(std::shared_ptr<MyApp::Model> model) {
+    this->models.push_back(model);
 }
 
 void Scene::Render() {
