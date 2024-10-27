@@ -184,7 +184,7 @@ void Application::CreateScenes() {
     //4
     scenes.push_back(std::make_shared<Scene>());
 
-    scenes[3]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_sphere.vert", "Shaders/light_sphere.frag"));
+    scenes[3]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Phong.vert", "Shaders/light_Phong.frag"));
 
     scenes[3]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
@@ -221,16 +221,26 @@ void Application::CreateScenes() {
     scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Blinn.vert", "Shaders/light_Blinn.frag"));
 
     scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+    scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_tree));
 
     scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[0]));
     scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[1]));
     scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[2]));
     scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[3]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[0]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[1]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[2]));
+    scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[3]));
 
     scenes[5]->objects[0]->translate(glm::vec3(-4.5f, 0.0f, 0.0f));
     scenes[5]->objects[1]->translate(glm::vec3(-1.5f, 0.0f, 0.0f));
     scenes[5]->objects[2]->translate(glm::vec3(1.5f, 0.0f, 0.0f));
     scenes[5]->objects[3]->translate(glm::vec3(4.5f, 0.0f, 0.0f));
+    scenes[5]->objects[4]->translate(glm::vec3(-4.5f, 0.0f, 0.0f));
+    scenes[5]->objects[5]->translate(glm::vec3(-1.5f, 0.0f, 0.0f));
+    scenes[5]->objects[6]->translate(glm::vec3(1.5f, 0.0f, 0.0f));
+    scenes[5]->objects[7]->translate(glm::vec3(4.5f, 0.0f, 0.0f));
+
     scenes[5]->lightSource->setPosition(glm::vec3(0.0f, 5.0f, 0.0f));
 
     // TRANSFORMATIONS
@@ -378,7 +388,7 @@ void Application::moveCamera(char direction, float distance) {
             scenes[currentSceneNumber]->camera->moveUp(distance);
         }break;
         case'd': {
-            scenes[currentSceneNumber]->camera->moveDown(distance);
+            //scenes[currentSceneNumber]->camera->moveDown(distance);
         }break;
     }
 }
