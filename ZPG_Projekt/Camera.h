@@ -17,6 +17,9 @@ public:
     glm::vec3 getPosition();
 
     void setOrientation(float alpha, float fi);
+
+    void setWindowSize(int width, int height);
+
     void moveLeft(float distance);
     void moveRight(float distance);
     void moveForward(float distance);

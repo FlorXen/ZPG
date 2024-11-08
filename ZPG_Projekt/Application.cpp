@@ -58,7 +58,8 @@ void Application::Initialize() {
     glfwSetWindowFocusCallback(window, WindowFocusCallback);
     glfwSetWindowIconifyCallback(window, WindowIconifyCallback);
     glfwSetWindowSizeCallback(window, ResizeCallback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Lock cursor on app window
 
 
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
@@ -106,6 +107,8 @@ void Application::CreateScenes() {
     scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[1], scenes[0]->shaders[1]));
     scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[2], scenes[0]->shaders[2]));
 
+    scenes[0]->AddLightSource(std::make_shared<LightSource>());
+
     scenes[0]->objects[2]->scale(glm::vec3(0.3f, 0.3f, 0.3f));
     
     // 2
@@ -118,9 +121,19 @@ void Application::CreateScenes() {
     scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
     scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain));
 
+    scenes[1]->AddLightSource(std::make_shared<LightSource>());
+    scenes[1]->lightSources[0]->translate(glm::vec3(0.0f, 5.0f, 0.0f));
+    scenes[1]->AddLightSource(std::make_shared<LightSource>());
+    scenes[1]->lightSources[1]->translate(glm::vec3(0.0f, 2.0f, 10.0f));
+    scenes[1]->AddLightSource(std::make_shared<LightSource>());
+    scenes[1]->lightSources[2]->translate(glm::vec3(10.0f, 4.0f, 0.0f));
+    scenes[1]->AddLightSource(std::make_shared<LightSource>());
+    scenes[1]->lightSources[3]->translate(glm::vec3(10.0f, 8.0f, 10.0f));
+
     scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
 
     scenes[1]->objects[0]->scale(glm::vec3(30.0f, 0.0f, 30.0f));
+
     
     float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
     // Trees
@@ -142,6 +155,7 @@ void Application::CreateScenes() {
         scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
         scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
+    
     // Bushes
     from = scenes[1]->objects.size();
     to = scenes[1]->objects.size() + 100;
@@ -161,6 +175,7 @@ void Application::CreateScenes() {
         scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
     }
 
+
     
     // 3
     scenes.push_back(std::make_shared<Scene>());
@@ -178,6 +193,8 @@ void Application::CreateScenes() {
     scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[0], scenes[2]->shaders[0]));
     scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[1], scenes[2]->shaders[1]));
     scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[2], scenes[2]->shaders[2]));
+
+    scenes[2]->AddLightSource(std::make_shared<LightSource>());
 
     scenes[2]->objects[0]->getDrawables().at(2)->scale(glm::vec3(0.3f, 0.3f, 0.3f));
     
@@ -197,7 +214,8 @@ void Application::CreateScenes() {
     scenes[3]->objects[1]->translate(glm::vec3(-2.5f, 0.0f, 0.0f));
     scenes[3]->objects[2]->translate(glm::vec3(0.0f, 0.0f, 2.5f));
     scenes[3]->objects[3]->translate(glm::vec3(0.0f, 0.0f, -2.5f));
-    scenes[3]->lightSource->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+
+    scenes[3]->AddLightSource(std::make_shared<LightSource>());
 
     //5
     scenes.push_back(std::make_shared<Scene>());
@@ -209,7 +227,10 @@ void Application::CreateScenes() {
     scenes[4]->CreateObject(std::make_shared<DrawableObject>(scenes[4]->models[0], scenes[4]->shaders[0]));
 
     scenes[4]->objects[0]->translate(glm::vec3(0.0f, 0.0f, 0.0f));
-    scenes[4]->lightSource->setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
+
+    scenes[4]->AddLightSource(std::make_shared<LightSource>());
+    scenes[4]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, -3.0f));
+
     scenes[4]->camera->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 
     //6
@@ -241,7 +262,8 @@ void Application::CreateScenes() {
     scenes[5]->objects[6]->translate(glm::vec3(1.5f, 0.0f, 0.0f));
     scenes[5]->objects[7]->translate(glm::vec3(4.5f, 0.0f, 0.0f));
 
-    scenes[5]->lightSource->setPosition(glm::vec3(0.0f, 5.0f, 0.0f));
+    scenes[5]->AddLightSource(std::make_shared<LightSource>());
+    scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 4.0f));
 
     // TRANSFORMATIONS
     //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
@@ -257,6 +279,8 @@ void Application::Run() {
     const float maxScale = 1.5f;
     const float scaleSpeed = 0.01f;
 
+    glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
+
     while (!glfwWindowShouldClose(window)) {
         // clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -264,10 +288,8 @@ void Application::Run() {
         //Enable alfa canal and color blending
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
 
         controller.updateCamera();
-        controller.updateLightSource();
 
         scenes[currentSceneNumber]->Render();
         
@@ -319,8 +341,13 @@ void Application::KeyCallback(GLFWwindow* window, int key, int scancode, int act
 }
 
 void Application::ResizeCallback(GLFWwindow* window, int width, int height) {
-    printf("resize %d, %d \n", width, height);
+    //printf("resize %d, %d \n", width, height);
     glViewport(0, 0, width, height);
+
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) {
+        app->controller.handleWindowResize(width, height);
+    }
 }
 
 void Application::ButtonCallback(GLFWwindow* window, int button, int action, int mode) {
@@ -388,36 +415,19 @@ void Application::moveCamera(char direction, float distance) {
             scenes[currentSceneNumber]->camera->moveUp(distance);
         }break;
         case'd': {
-            //scenes[currentSceneNumber]->camera->moveDown(distance);
+            scenes[currentSceneNumber]->camera->moveDown(distance);
         }break;
+    }
+}
+
+void Application::updateWindowSizeInScenes(int width, int height) {
+    for (std::shared_ptr<Scene> sc : scenes) {
+        sc->camera->setWindowSize(width, height);
     }
 }
 
 void Application::rotateCamera(float xOffset, float yOffset) {
     scenes[currentSceneNumber]->camera->setOrientation(scenes[currentSceneNumber]->camera->getAlpha() - yOffset, scenes[currentSceneNumber]->camera->getFi() + xOffset);
-}
-
-void Application::moveLightSource(char direction, float distance) {
-    switch (direction) {
-    case'f': {
-        scenes[currentSceneNumber]->lightSource->moveForward(distance);
-    }break;
-    case'b': {
-        scenes[currentSceneNumber]->lightSource->moveBackward(distance);
-    }break;
-    case'r': {
-        scenes[currentSceneNumber]->lightSource->moveRight(distance);
-    }break;
-    case'l': {
-        scenes[currentSceneNumber]->lightSource->moveLeft(distance);
-    }break;
-    case'u': {
-        scenes[currentSceneNumber]->lightSource->moveUp(distance);
-    }break;
-    case'd': {
-        scenes[currentSceneNumber]->lightSource->moveDown(distance);
-    }break;
-    }
 }
 
 

@@ -30,10 +30,13 @@ void DrawableObject::setAsCameraObserver(std::shared_ptr<Camera> camera) {
 }
 
 void DrawableObject::setAsLightSourceObserver(std::shared_ptr<LightSource> lightSource) {
-    this->lightSource = lightSource;
-    this->lightSource->addObserver(shaderProgram);
-    this->shaderProgram->bindLightSource(this->lightSource);
+    
+    this->lightSources.push_back(lightSource);
+    lightSources[lightSources.size()-1]->addObserver(shaderProgram);
+    this->shaderProgram->bindLightSource(lightSources[lightSources.size()-1]);
     this->shaderProgram->onLightSourceUpdate();
+
+    
 }
 
 void DrawableObject::draw() const {

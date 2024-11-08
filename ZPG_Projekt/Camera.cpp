@@ -19,6 +19,11 @@ glm::vec3 Camera::getPosition() {
     return eye;
 }
 
+void Camera::setWindowSize(int width, int height) {
+    projectionMatrix = glm::perspective(glm::radians(60.0f), float(width) / float(height), 0.1f, 100.0f);
+    notifyCameraObservers();
+}
+
 void Camera::setOrientation(float alphaAngle, float fiAngle) {
 
     // Gimbal lock prevention

@@ -11,12 +11,7 @@ Controller::Controller(Application* app) : app(app) {
 	moveCameraUp = false;
 	moveCameraDown = false;
 
-	moveLightSourceForward = false;
-	moveLightSourceBackward = false;
-	moveLightSourceRight = false;
-	moveLightSourceLeft = false;
-	moveLightSourceUp = false;
-	moveLightSourceDown = false;
+    windowSizeChanged = false;
 }
 
 void Controller::handleKeyInput(int key, int scancode, int action, int mods) {
@@ -76,53 +71,17 @@ void Controller::handleKeyInput(int key, int scancode, int action, int mods) {
             app->changeScene('-');
         break;
 
-    case GLFW_KEY_KP_8:
-        if (action == GLFW_PRESS)
-            moveLightSourceForward = true;
-        else if (action == GLFW_RELEASE)
-            moveLightSourceForward = false;
-        break;
-
-    case GLFW_KEY_KP_2:
-        if (action == GLFW_PRESS)
-            moveLightSourceBackward = true;
-        else if (action == GLFW_RELEASE)
-            moveLightSourceBackward = false;
-        break;
-
-    case GLFW_KEY_KP_6:
-        if (action == GLFW_PRESS)
-            moveLightSourceRight = true;
-        else if (action == GLFW_RELEASE)
-            moveLightSourceRight = false;
-        break;
-
-    case GLFW_KEY_KP_4:
-        if (action == GLFW_PRESS)
-            moveLightSourceLeft = true;
-        else if (action == GLFW_RELEASE)
-            moveLightSourceLeft = false;
-        break;
-
-    case GLFW_KEY_KP_ADD:
-        if (action == GLFW_PRESS)
-            moveLightSourceUp = true;
-        else if (action == GLFW_RELEASE)
-            moveLightSourceUp = false;
-        break;
-
-    case GLFW_KEY_KP_SUBTRACT:
-        if (action == GLFW_PRESS)
-            moveLightSourceDown = true;
-        else if (action == GLFW_RELEASE)
-            moveLightSourceDown = false;
-        break;
-
     default:
         break;
     }
 
 
+}
+
+void Controller::handleWindowResize(int width, int height) {
+    windowWidth = width;
+    windowHeight = height;
+    windowSizeChanged = true;
 }
 
 void Controller::handleMouseInput(double xpos, double ypos) {
@@ -171,19 +130,10 @@ void Controller::updateCamera() {
 		yOffset = 0;
 		mouseChanged = false;
 	}
-}
 
-void Controller::updateLightSource() {
-	if (moveLightSourceForward)
-		app->moveLightSource('f', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
-	if (moveLightSourceBackward)
-		app->moveLightSource('b', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
-	if (moveLightSourceRight)
-		app->moveLightSource('r', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
-	if (moveLightSourceLeft)
-		app->moveLightSource('l', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
-	if (moveLightSourceUp)
-		app->moveLightSource('u', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
-	if (moveLightSourceDown)
-		app->moveLightSource('d', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+    if (windowSizeChanged) {
+        app->updateWindowSizeInScenes(windowWidth, windowHeight);
+        windowSizeChanged = false;
+    }
+
 }

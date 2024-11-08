@@ -1,5 +1,6 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
+#include <algorithm>
 
 ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile){
 
@@ -18,18 +19,17 @@ void ShaderProgram::bindCamera(std::shared_ptr<Camera> camera) {
 
 void ShaderProgram::onCameraUpdate() {
     use();
-    setViewMatrix(this->camera->getViewMatrix());
-    setProjectionMatrix(this->camera->getProjectionMatrix());
-    setViewPosition(this->camera->getPosition());
+    setCamera();
 }
 
 void ShaderProgram::bindLightSource(std::shared_ptr<LightSource> lightSource) {
-    this->lightSource = lightSource;
+    if (!(std::find(lightSources.begin(), lightSources.end(), lightSource) != lightSources.end()))
+        this->lightSources.push_back(lightSource);
 }
 
 void ShaderProgram::onLightSourceUpdate() {
     use();
-    setLightPosition(this->lightSource->getPosition());
+    setLights();
 }
 
 void ShaderProgram::use() const {
@@ -51,32 +51,6 @@ void ShaderProgram::setModelMatrix(std::shared_ptr<Transformation> transformatio
     glUniformMatrix4fv(idModelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
-void ShaderProgram::setViewMatrix(glm::mat4 viewMatrix)  const {
-    // Get uniform location in shader
-    GLint idViewMatrix = glGetUniformLocation(shaderProgram, "viewMatrix");
-
-    // Test on -1 if not found
-    if (idViewMatrix == -1) {
-        return;
-    }
-
-    // Send matrix to shader
-    glUniformMatrix4fv(idViewMatrix, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-}
-
-void ShaderProgram::setProjectionMatrix(glm::mat4 projectionMatrix)  const {
-    // Get uniform location in shader
-    GLint idProjectionMatrix = glGetUniformLocation(shaderProgram, "projectionMatrix");
-
-    // Test on -1 if not found
-    if (idProjectionMatrix == -1) {
-        return;
-    }
-
-    // Send matrix to shader
-    glUniformMatrix4fv(idProjectionMatrix, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-}
-
 void ShaderProgram::setNormalMatrix() {
 
     normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
@@ -93,28 +67,74 @@ void ShaderProgram::setNormalMatrix() {
     glUniformMatrix3fv(idNormalMatrix, 1, GL_FALSE, glm::value_ptr(normalMatrix));
 }
 
-void ShaderProgram::setLightPosition(glm::vec3 lightPosition) {
-    // Get uniform location in shader
-    GLint position = glGetUniformLocation(shaderProgram, "lightPosition");
+void ShaderProgram::setCamera() {
+    std::string uniformName;
+    GLint position;
 
-    // Test on -1 if not found
-    if (position == -1) {
-        return;
+    // Projection Matrix
+    glm::mat4 projectionMatrix = this->camera->getProjectionMatrix();
+    uniformName = "projectionMatrix";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniformMatrix4fv(position, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
     }
 
-    // Send matrix to shader
-    glUniform3fv(position, 1, glm::value_ptr(lightPosition));
+    // View Matrix
+    glm::mat4 viewMatrix = this->camera->getViewMatrix();
+    uniformName = "viewMatrix";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniformMatrix4fv(position, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+    }
+
+    // Camera Position
+    glm::vec3 cameraPosition = this->camera->getPosition();
+    uniformName = "cameraPosition";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform3fv(position, 1, glm::value_ptr(cameraPosition));
+    }
+
 }
 
-void ShaderProgram::setViewPosition(glm::vec3 viewPosition) {
-    // Get uniform location in shader
-    GLint position = glGetUniformLocation(shaderProgram, "viewPosition");
+void ShaderProgram::setLights() {
+    std::string uniformName;
+    GLint position;
+    for (int i = 0; i < lightSources.size(); i++) {
 
-    // Test on -1 if not found
-    if (position == -1) {
-        return;
+        // Position
+        uniformName = "lights[" + std::to_string(i) + "].position";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getPosition()));
+        }
+            
+
+        // Diffuse colour
+        uniformName = "lights[" + std::to_string(i) + "].diffuse_colour";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getDiffuseColor()));
+        }
+
+        // Specular strength
+        uniformName = "lights[" + std::to_string(i) + "].specular";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getSpecularStrength()));
+        }
+
+        // Attenuation strength
+        uniformName = "lights[" + std::to_string(i) + "].attenuation_strength";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform1f(position, lightSources[i]->getAttenuation());
+        }
     }
 
-    // Send matrix to shader
-    glUniform3fv(position, 1, glm::value_ptr(viewPosition));
+    uniformName = "numberOfLights";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform1i(position, lightSources.size());
+    }
 }

@@ -56,6 +56,7 @@ public:
 
     void moveCamera(char direction, float distance);
     void rotateCamera(float alphaAngle, float fiAngle);
+    void updateWindowSizeInScenes(int width, int height);
 
     void moveLightSource(char direction, float distance);
 };

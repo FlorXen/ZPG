@@ -1,24 +1,37 @@
 #pragma once
 
 #include "Subject.h"
+#include "Transformation.h"
+#include "Rotate.h"
+#include "Translate.h"
+#include "Scale.h"
 
 class LightSource : public Subject {
 
 public:
 	LightSource();
 
-    void setPosition(const glm::vec3& position);
-    glm::vec3 getPosition();
-    void moveLeft(float distance);
-    void moveRight(float distance);
-    void moveForward(float distance);
-    void moveBackward(float distance);
-    void moveUp(float distance);
-    void moveDown(float distance);
+    void rotate(float angle, const glm::vec3& axis);
+    void translate(const glm::vec3& translation);
+
+    void setDiffuseColor(glm::vec4 diffuseColor);
+    glm::vec4 getDiffuseColor();
+
+    void setSpecularStrength(glm::vec4 specularStrength);
+    glm::vec4 getSpecularStrength();
+
+    void setAttenuation(float attenuation);
+    float getAttenuation();
+
+    glm::vec4 getPosition();
+    Transformation& getTransformation();
+
 
 private:
-    glm::vec3 eye;
-    glm::vec3 target;
-    glm::vec3 up;
+
+    Transformation transformation;
+    glm::vec4 diffuseColor;
+    glm::vec4 specularStrength;
+    float attenuation;
 };
 

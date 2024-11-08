@@ -20,9 +20,11 @@ public:
 
     std::vector<std::shared_ptr<Drawable>> objects;
     std::shared_ptr<Camera> camera;
-    std::shared_ptr<LightSource> lightSource;
+    std::vector<std::shared_ptr<LightSource>> lightSources;
+    
 
     Scene();
+    void AddLightSource(std::shared_ptr<LightSource> lightSource);
     void CreateObject(std::shared_ptr<Drawable> obj);
     void AddShaderProgram(std::shared_ptr<ShaderProgram> shaderProgram);
     void AddModel(std::shared_ptr<MyApp::Model> model);

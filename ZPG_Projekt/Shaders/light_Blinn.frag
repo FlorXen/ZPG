@@ -1,29 +1,51 @@
 #version 330
-in vec3 ex_worldNormal;
-in vec4 ex_worldPosition;
 
-uniform vec3 lightPosition;
-uniform vec3 viewPosition;
+#define MAX_LIGHTS 5
+struct light
+{
+    vec4 position;
+    vec4 diffuse_colour;
+    vec4 specular;
+    float attenuation_strength;
+};
+
+in vec3 worldNormal;
+in vec4 worldPosition;
+
+uniform light lights[MAX_LIGHTS];
+uniform int numberOfLights;
+uniform vec3 cameraPosition;
 
 out vec4 frag_colour;
 
 void main() {
+    
     float shininess = 32.0;
-    vec3 lightColor = vec3(0.385, 0.647, 0.812);
-    vec3 normal = normalize(ex_worldNormal);
-    vec3 lightDir = normalize(lightPosition - vec3(ex_worldPosition));
-    vec3 viewDir = normalize(viewPosition - vec3(ex_worldPosition));
+    vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);
+    frag_colour = ambient;
 
-    vec3 halfVector = normalize(lightDir + viewDir);
+    for (int index = 0; index < numberOfLights; index++) // for all light sources
+    {
+        vec3 lightDirection = vec3(lights[index].position) - vec3(worldPosition);
+        float distance = length(lightDirection);
+        vec3 lightVector = normalize(lightDirection);
 
-    float diff = max(dot(normal, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
+        float attenuation = 1.0 / (lights[index].attenuation_strength * distance * distance);
 
-    float spec = pow(max(dot(normal, halfVector), 0.0), shininess);
-    vec3 specular = spec * lightColor;
+        float dot_product = max(dot(lightVector, worldNormal), 0.0);
+        vec4 diffuse = dot_product * lights[index].diffuse_colour * attenuation;
 
-    vec3 ambient = 0.1 * lightColor;
+        vec4 specularReflection = vec4(0.0);
+        if (dot(lightVector, worldNormal) > 0.0) {
+            vec3 viewDirection = normalize(cameraPosition - vec3(worldPosition));
+            vec3 halfVector = normalize(lightVector + viewDirection);
 
-    vec3 result = ambient + diffuse + specular;
-    frag_colour = vec4(result, 1.0) * vec4(0.385, 0.647, 0.812, 1.0);
+            float specularFactor = pow(max(dot(halfVector, worldNormal), 0.0), shininess);
+            specularReflection = specularFactor * lights[index].specular * attenuation;
+        }
+
+        frag_colour += diffuse + specularReflection;
+    }
+
+    frag_colour *= vec4(0.385, 0.647, 0.812, 1.0);
 }

@@ -19,7 +19,7 @@ private:
     GLuint shaderProgram;
     std::shared_ptr<Transformation> transformation;
     std::shared_ptr<Camera> camera;
-    std::shared_ptr<LightSource> lightSource;
+    std::vector<std::shared_ptr<LightSource>> lightSources;
     glm::mat4 modelMatrix;
     glm::mat3 normalMatrix;
     
@@ -35,9 +35,7 @@ public:
     void use() const;
 
     void setModelMatrix(std::shared_ptr<Transformation> transformation);
-    void setViewMatrix(glm::mat4 viewMatrix) const;
-    void setProjectionMatrix(glm::mat4 projectionMatrix) const;
     void setNormalMatrix();
-    void setLightPosition(glm::vec3 lightPosition);
-    void setViewPosition(glm::vec3 viewPosition);
+    void setLights();
+    void setCamera();
 };

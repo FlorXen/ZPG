@@ -1,52 +1,51 @@
 #include "LightSource.h"
 
-LightSource::LightSource() : eye(glm::vec3(0.0f, 10.0f, 0.0f)),
-target(glm::vec3(0.0f, 0.0f, -1.0f)), up(glm::vec3(0.0f, 1.0f, 0.0f)) {
-
+LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)) {
+    this->attenuation = 0.1f;
 }
 
-void LightSource::setPosition(const glm::vec3& position) {
-    eye = position;
-
+void LightSource::rotate(float angle, const glm::vec3& axis) {
+    transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
     notifyLightSourceObservers();
 }
 
-glm::vec3 LightSource::getPosition() {
-    return eye;
-}
-
-void LightSource::moveLeft(float distance) {
-    glm::vec3 right = glm::normalize(glm::cross(target, up));
-    eye -= right * distance;
+void LightSource::translate(const glm::vec3& translation) {
+    transformation.addTransformation(std::make_shared<Translate>(translation));
     notifyLightSourceObservers();
 }
 
-void LightSource::moveRight(float distance) {
-    glm::vec3 right = glm::normalize(glm::cross(target, up));
-    eye += right * distance;
+glm::vec4 LightSource::getPosition() {
+    glm::mat4 posVec = transformation.getMatrix();
+    return posVec[3];
+}
+
+Transformation& LightSource::getTransformation() {
+    return transformation;
+}
+
+void LightSource::setDiffuseColor(glm::vec4 diffuseColor) {
+    this->diffuseColor = diffuseColor;
     notifyLightSourceObservers();
 }
 
-void LightSource::moveForward(float distance) {
-    // Ignore the Y component to keep movement horizontal
-    glm::vec3 forward = glm::normalize(glm::vec3(target.x, 0.0f, target.z));
-    eye += forward * distance;
+glm::vec4 LightSource::getDiffuseColor() {
+    return diffuseColor;
+}
+
+void LightSource::setSpecularStrength(glm::vec4 specularStrength) {
+    this->specularStrength = specularStrength;
     notifyLightSourceObservers();
 }
 
-void LightSource::moveBackward(float distance) {
-    // Ignore the Y component to keep movement horizontal
-    glm::vec3 forward = glm::normalize(glm::vec3(target.x, 0.0f, target.z));
-    eye -= forward * distance;
-    notifyLightSourceObservers();
+glm::vec4 LightSource::getSpecularStrength() {
+    return specularStrength;
 }
 
-void LightSource::moveUp(float distance) {
-    eye += up * distance;
-    notifyLightSourceObservers();
+
+void LightSource::setAttenuation(float attenuation) {
+    this->attenuation = attenuation;
 }
 
-void LightSource::moveDown(float distance) {
-    eye -= up * distance;
-    notifyLightSourceObservers();
+float LightSource::getAttenuation() {
+    return attenuation;
 }

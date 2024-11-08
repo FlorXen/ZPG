@@ -6,16 +6,16 @@ class Controller {
 public:
     Controller(Application* app);
     void handleKeyInput(int key, int scancode, int action, int mods);
+    void handleWindowResize(int width, int height);
     void handleMouseInput(double xpos, double ypos);
 
     void updateCamera();
-    void updateLightSource();
 
 private:
     Application* app;
 
-    int mode;
+    int mode, windowHeight, windowWidth;
     bool moveCameraForward, moveCameraBackward, moveCameraRight, moveCameraLeft, moveCameraUp, moveCameraDown, mouseChanged,
-        moveLightSourceForward, moveLightSourceBackward, moveLightSourceRight, moveLightSourceLeft, moveLightSourceUp, moveLightSourceDown;
+        windowSizeChanged;
     float xOffset, yOffset;
 };

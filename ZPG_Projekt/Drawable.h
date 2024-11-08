@@ -35,5 +35,5 @@ public:
 protected:
     Transformation transformation;
     std::shared_ptr<Camera> camera;
-    std::shared_ptr<LightSource> lightSource;
+    std::vector<std::shared_ptr<LightSource>> lightSources;
 };
