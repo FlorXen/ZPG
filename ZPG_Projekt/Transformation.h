@@ -15,14 +15,16 @@
 class Transformation {
 private:
     glm::mat4 modelMatrix;
-    std::vector<std::shared_ptr<TransformOperation>> transformations;
 
 public:
     Transformation();
 
+    std::vector<std::shared_ptr<TransformOperation>> transformations;
+
     void reset();
 
     void addTransformation(std::shared_ptr<TransformOperation> transformation);
+    void setTransformations(std::vector<std::shared_ptr<TransformOperation>> transformations);
     std::shared_ptr<TransformOperation> getTransformation(int transforamtionIndex);
     void updateTransformations();
 

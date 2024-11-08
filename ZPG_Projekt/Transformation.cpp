@@ -12,6 +12,10 @@ void Transformation::addTransformation(std::shared_ptr<TransformOperation> trans
     transformation->apply(modelMatrix);
 }
 
+void Transformation::setTransformations(std::vector<std::shared_ptr<TransformOperation>> transformations) {
+    this->transformations = transformations;
+}
+
 std::shared_ptr<TransformOperation> Transformation::getTransformation(int transforamtionIndex) {
     if (transforamtionIndex >= 0 && transforamtionIndex < transformations.size()) {
         return transformations[transforamtionIndex];

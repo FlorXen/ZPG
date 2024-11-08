@@ -153,7 +153,7 @@ void Application::CreateScenes() {
         scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[0], scenes[1]->shaders[0]));
         scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
-        scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
+        scenes[1]->objects[i]->dynamicRotate(angle, glm::vec3(rotX, rotY, rotZ));
     }
     
     // Bushes
@@ -172,7 +172,7 @@ void Application::CreateScenes() {
         scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[1], scenes[1]->shaders[0]));
         scenes[1]->objects[i]->scale(glm::vec3(scaleX, scaleY, scaleZ));
         scenes[1]->objects[i]->translate(glm::vec3(transX, 0.0f, transZ));
-        scenes[1]->objects[i]->rotate(glm::radians(angle), glm::vec3(rotX, rotY, rotZ));
+        scenes[1]->objects[i]->rotate(angle, glm::vec3(rotX, rotY, rotZ));
     }
 
 
@@ -293,7 +293,7 @@ void Application::Run() {
 
         scenes[currentSceneNumber]->Render();
         
-        scenes[2]->objects[0]->rotate(glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        scenes[2]->objects[0]->rotate(1.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
         if (shrinking) {
             if (currentScale > minScale) {

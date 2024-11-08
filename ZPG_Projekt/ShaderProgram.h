@@ -34,8 +34,7 @@ public:
 
     void use() const;
 
-    void setModelMatrix(std::shared_ptr<Transformation> transformation);
-    void setNormalMatrix();
+    void setTransformation(std::shared_ptr<Transformation> transformation);
     void setLights();
     void setCamera();
 };

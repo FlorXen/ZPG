@@ -8,12 +8,15 @@ void DrawableObjectGroup::draw() const {
             obj->getShaderProgram()->use();
 
             glm::mat4 combinedMatrix = transformation.getMatrix() * obj->getTransformation().getMatrix();
+            std::vector<std::shared_ptr<TransformOperation>> combinedVectors = transformation.transformations;
+            combinedVectors.insert(combinedVectors.end(), obj->getTransformation().transformations.begin(), obj->getTransformation().transformations.end());
 
             Transformation combinedTransformation;
             combinedTransformation.setMatrix(combinedMatrix);
+            combinedTransformation.setTransformations(combinedVectors);
 
             // Send transformation matrix to shader
-            obj->getShaderProgram()->setModelMatrix(std::make_shared<Transformation>(combinedTransformation));
+            obj->getShaderProgram()->setTransformation(std::make_shared<Transformation>(combinedTransformation));
 
             glBindVertexArray(obj->getModel()->getVAO());
             glDrawArrays(GL_TRIANGLES, 0, obj->getModel()->getVertexCount());
@@ -29,6 +32,10 @@ void DrawableObjectGroup::draw() const {
 
 void DrawableObjectGroup::rotate(float angle, const glm::vec3& axis) {
     transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
+}
+
+void DrawableObjectGroup::dynamicRotate(float angle, const glm::vec3& axis) {
+    transformation.addTransformation(std::make_shared<DynamicRotate>(angle, axis));
 }
 
 void DrawableObjectGroup::translate(const glm::vec3& translation) {

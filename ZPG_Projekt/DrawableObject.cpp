@@ -10,6 +10,10 @@ void DrawableObject::rotate(float angle, const glm::vec3& axis) {
     transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
 }
 
+void DrawableObject::dynamicRotate(float angle, const glm::vec3& axis) {
+    transformation.addTransformation(std::make_shared<DynamicRotate>(angle, axis));
+}
+
 void DrawableObject::translate(const glm::vec3& translation) {
     transformation.addTransformation(std::make_shared<Translate>(translation));
 }
@@ -44,8 +48,7 @@ void DrawableObject::draw() const {
     shaderProgram->use();
     
     // Send transformation matrix to shader
-    shaderProgram->setModelMatrix(std::make_shared<Transformation>(transformation));
-    shaderProgram->setNormalMatrix();
+    shaderProgram->setTransformation(std::make_shared<Transformation>(transformation));
     
     glBindVertexArray(model->getVAO());
     glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());

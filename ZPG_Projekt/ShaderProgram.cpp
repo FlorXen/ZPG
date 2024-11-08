@@ -36,33 +36,27 @@ void ShaderProgram::use() const {
     glUseProgram(shaderProgram);
 }
 
-void ShaderProgram::setModelMatrix(std::shared_ptr<Transformation> transformation) {
-    modelMatrix = transformation->getMatrix();
+void ShaderProgram::setTransformation(std::shared_ptr<Transformation> transformation) {
 
+    transformation->updateTransformations();
+    
+    modelMatrix = transformation->getMatrix();
     // Get uniform location in shader
     GLint idModelMatrix = glGetUniformLocation(shaderProgram, "modelMatrix");
-
     // Test on -1 if not found
     if (idModelMatrix == -1) {
         return;
     }
-
     // Send matrix to shader
     glUniformMatrix4fv(idModelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-}
-
-void ShaderProgram::setNormalMatrix() {
 
     normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMatrix)));
-
     // Get uniform location in shader
     GLint idNormalMatrix = glGetUniformLocation(shaderProgram, "normalMatrix");
-
     // Test on -1 if not found
     if (idNormalMatrix == -1) {
         return;
     }
-
     // Send matrix to shader
     glUniformMatrix3fv(idNormalMatrix, 1, GL_FALSE, glm::value_ptr(normalMatrix));
 }
