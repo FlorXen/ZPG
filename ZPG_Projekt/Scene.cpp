@@ -28,7 +28,13 @@ void Scene::AddModel(std::shared_ptr<MyApp::Model> model) {
 }
 
 void Scene::Render() {
+    
+    for (std::shared_ptr<LightSource> light : lightSources) {
+        light->getTransformation().updateTransformations();
+    }
+
     for (auto& obj : this->objects) {
+        obj->getTransformation().updateTransformations();
         obj->draw();
     }
 }

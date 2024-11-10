@@ -9,7 +9,7 @@ public:
     Rotate(float angle, const glm::vec3& axis) : angle(angle), axis(axis) {}
 
     void apply(glm::mat4& modelMatrix) const override {
-        modelMatrix = glm::rotate(modelMatrix, angle, axis);
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(angle), axis);
     }
 };
 

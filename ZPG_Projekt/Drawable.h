@@ -5,21 +5,12 @@
 #include "LightSource.h"
 #include "ShaderProgram.h"
 #include "Transformation.h"
-#include "Rotate.h"
-#include "DynamicRotate.h"
-#include "Translate.h"
-#include "Scale.h"
 
 // Interface
 
 class Drawable {
 public:
     virtual void draw() const = 0;
-
-    virtual void rotate(float angle, const glm::vec3& axis) = 0;
-    virtual void dynamicRotate(float angle, const glm::vec3& axis) = 0;
-    virtual void translate(const glm::vec3& translation) = 0;
-    virtual void scale(const glm::vec3& scale) = 0;
 
     virtual void setAsCameraObserver(std::shared_ptr<Camera> camera) = 0;
     virtual void setAsLightSourceObserver(std::shared_ptr<LightSource> lightSource) = 0;

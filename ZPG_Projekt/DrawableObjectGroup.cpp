@@ -30,22 +30,6 @@ void DrawableObjectGroup::draw() const {
     }
 }
 
-void DrawableObjectGroup::rotate(float angle, const glm::vec3& axis) {
-    transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
-}
-
-void DrawableObjectGroup::dynamicRotate(float angle, const glm::vec3& axis) {
-    transformation.addTransformation(std::make_shared<DynamicRotate>(angle, axis));
-}
-
-void DrawableObjectGroup::translate(const glm::vec3& translation) {
-    transformation.addTransformation(std::make_shared<Translate>(translation));
-}
-
-void DrawableObjectGroup::scale(const glm::vec3& scale) {
-    transformation.addTransformation(std::make_shared<Scale>(scale));
-}
-
 Transformation& DrawableObjectGroup::getTransformation() {
     return transformation;
 }

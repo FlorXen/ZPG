@@ -6,22 +6,6 @@
 DrawableObject::DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram) : model(model), shaderProgram(shaderProgram) {
 }
 
-void DrawableObject::rotate(float angle, const glm::vec3& axis) {
-    transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
-}
-
-void DrawableObject::dynamicRotate(float angle, const glm::vec3& axis) {
-    transformation.addTransformation(std::make_shared<DynamicRotate>(angle, axis));
-}
-
-void DrawableObject::translate(const glm::vec3& translation) {
-    transformation.addTransformation(std::make_shared<Translate>(translation));
-}
-
-void DrawableObject::scale(const glm::vec3& scale) {
-    transformation.addTransformation(std::make_shared<Scale>(scale));
-}
-
 Transformation& DrawableObject::getTransformation() {
     return transformation;
 }
@@ -39,7 +23,6 @@ void DrawableObject::setAsLightSourceObserver(std::shared_ptr<LightSource> light
     lightSources[lightSources.size()-1]->addObserver(shaderProgram);
     this->shaderProgram->bindLightSource(lightSources[lightSources.size()-1]);
     this->shaderProgram->onLightSourceUpdate();
-
     
 }
 
@@ -49,6 +32,7 @@ void DrawableObject::draw() const {
     
     // Send transformation matrix to shader
     shaderProgram->setTransformation(std::make_shared<Transformation>(transformation));
+    shaderProgram->setLights();
     
     glBindVertexArray(model->getVAO());
     glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());

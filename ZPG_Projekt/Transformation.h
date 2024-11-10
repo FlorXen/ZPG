@@ -8,6 +8,11 @@
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
 #include "TransformOperation.h"
+#include "Rotate.h"
+#include "DynamicRotate.h"
+#include "Translate.h"
+#include "RandomDynamicTranslate.h"
+#include "Scale.h"
 
 #include <vector>
 #include <memory>

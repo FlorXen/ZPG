@@ -8,11 +8,6 @@ class DrawableObjectGroup : public Drawable {
 public:
     void draw() const override;
 
-    void rotate(float angle, const glm::vec3& axis) override;
-    void dynamicRotate(float angle, const glm::vec3& axis) override;
-    void translate(const glm::vec3& translation) override;
-    void scale(const glm::vec3& scale) override;
-
     Transformation& getTransformation() override;
 
     void addDrawable(std::shared_ptr<Drawable> drawable) override;

@@ -37,8 +37,6 @@ void ShaderProgram::use() const {
 }
 
 void ShaderProgram::setTransformation(std::shared_ptr<Transformation> transformation) {
-
-    transformation->updateTransformations();
     
     modelMatrix = transformation->getMatrix();
     // Get uniform location in shader

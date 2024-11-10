@@ -1,7 +1,8 @@
 #include "LightSource.h"
 
 LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)) {
-    this->attenuation = 0.1f;
+    this->attenuation = 0.05f;
+    this->transformation = Transformation();
 }
 
 void LightSource::rotate(float angle, const glm::vec3& axis) {
@@ -12,6 +13,11 @@ void LightSource::rotate(float angle, const glm::vec3& axis) {
 void LightSource::translate(const glm::vec3& translation) {
     transformation.addTransformation(std::make_shared<Translate>(translation));
     notifyLightSourceObservers();
+}
+
+void LightSource::randomDynamicTranslate(glm::vec3 startPosition, float speed, float interval, float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
+    transformation.addTransformation(std::make_shared<RandomDynamicTranslate>(startPosition, speed, interval, minX, maxX, minY, maxY, minZ, maxZ));
+    //notifyLightSourceObservers();
 }
 
 glm::vec4 LightSource::getPosition() {

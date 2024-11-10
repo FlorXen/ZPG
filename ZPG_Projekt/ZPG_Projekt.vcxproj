@@ -141,6 +141,7 @@
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="RandomDynamicTranslate.cpp" />
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="DrawableObjectGroup.h" />
     <ClInclude Include="DynamicRotate.h" />
     <ClInclude Include="LightSource.h" />
+    <ClInclude Include="RandomDynamicTranslate.h" />
     <ClInclude Include="square.h" />
     <ClInclude Include="triangle.h" />
     <ClInclude Include="Model.h" />
