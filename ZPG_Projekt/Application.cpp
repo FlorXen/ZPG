@@ -126,16 +126,17 @@ void Application::CreateScenes() {
 
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
-        scenes[1]->lightSources[0]->randomDynamicTranslate(scenes[1]->lightSources[0]->getPosition(), 0.5f, 10.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[1]->translate(glm::vec3(10.0f, 3.0f, 10.0f));
-        scenes[1]->lightSources[1]->randomDynamicTranslate(scenes[1]->lightSources[1]->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[2]->translate(glm::vec3(-10.0f, 3.0f, -10.0f));
-        scenes[1]->lightSources[2]->randomDynamicTranslate(scenes[1]->lightSources[2]->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[3]->translate(glm::vec3(10.0f, 3.0f, -10.0f));
-        scenes[1]->lightSources[3]->randomDynamicTranslate(scenes[1]->lightSources[3]->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+
+        for (std::shared_ptr<LightSource> light : scenes[1]->lightSources) {
+            light->randomDynamicTranslate(light->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+            //light->setAttenuation(glm::vec3(1.0, 0.5, 0.5));
+        }
 
 
         // Plain
