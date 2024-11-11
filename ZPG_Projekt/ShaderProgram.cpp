@@ -117,10 +117,10 @@ void ShaderProgram::setLights() {
         }
 
         // Attenuation strength
-        uniformName = "lights[" + std::to_string(i) + "].attenuation_strength";
+        uniformName = "lights[" + std::to_string(i) + "].attenuation";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
         if (position != -1) {
-            glUniform1f(position, lightSources[i]->getAttenuation());
+            glUniform3fv(position, 1, glm::value_ptr(lightSources[i]->getAttenuation()));
         }
     }
 

@@ -86,7 +86,7 @@ void Application::CreateScenes() {
     MyApp::Model model_sphere = MyApp::Model(sphere, 2880, true);
     MyApp::Model model_tree = MyApp::Model(tree, 92814, true);
     MyApp::Model model_bush = MyApp::Model(bushes, 8730, true);
-    MyApp::Model model_plain = MyApp::Model(plain, 21600, true);
+    MyApp::Model model_plain = MyApp::Model(plain, 6, true);
 
 
     // SCENES
@@ -125,25 +125,28 @@ void Application::CreateScenes() {
 
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
-        scenes[1]->lightSources[0]->randomDynamicTranslate(scenes[1]->lightSources[0]->getPosition(), 0.05f, 10.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+        scenes[1]->lightSources[0]->randomDynamicTranslate(scenes[1]->lightSources[0]->getPosition(), 0.5f, 10.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[1]->translate(glm::vec3(10.0f, 3.0f, 10.0f));
-        scenes[1]->lightSources[1]->randomDynamicTranslate(scenes[1]->lightSources[1]->getPosition(), 0.05f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+        scenes[1]->lightSources[1]->randomDynamicTranslate(scenes[1]->lightSources[1]->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[2]->translate(glm::vec3(-10.0f, 3.0f, -10.0f));
-        scenes[1]->lightSources[2]->randomDynamicTranslate(scenes[1]->lightSources[2]->getPosition(), 0.05f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+        scenes[1]->lightSources[2]->randomDynamicTranslate(scenes[1]->lightSources[2]->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[3]->translate(glm::vec3(10.0f, 3.0f, -10.0f));
-        scenes[1]->lightSources[3]->randomDynamicTranslate(scenes[1]->lightSources[3]->getPosition(), 0.05f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+        scenes[1]->lightSources[3]->randomDynamicTranslate(scenes[1]->lightSources[3]->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
+
 
         // Plain
+
         scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
+        scenes[1]->objects[0]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(30.0)));
 
         // Trees
         float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
         int from, to;
         from = scenes[1]->objects.size();
-        to = scenes[1]->objects.size() + 200;
+        to = scenes[1]->objects.size() + 150;
         for (int i = from; i < to; i++) {
             scaleX = randomFloat(0.4, 0.8);
             scaleY = randomFloat(0.6, 1.3);
@@ -265,14 +268,14 @@ void Application::CreateScenes() {
         scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[2]));
         scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[3]));
 
-        scenes[5]->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-4.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[1]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-1.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[2]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(1.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(4.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[4]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-4.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[5]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-1.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[6]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(1.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[7]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(4.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-6.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[1]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[2]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[4]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-6.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[5]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[6]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
+        scenes[5]->objects[7]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
 
         scenes[5]->AddLightSource(std::make_shared<LightSource>());
         scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 4.0f));

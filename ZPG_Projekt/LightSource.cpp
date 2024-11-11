@@ -1,7 +1,6 @@
 #include "LightSource.h"
 
-LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)) {
-    this->attenuation = 0.05f;
+LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)), attenuation(glm::vec3(1.0, 0.3, 0.3)) {
     this->transformation = Transformation();
 }
 
@@ -47,11 +46,11 @@ glm::vec4 LightSource::getSpecularStrength() {
     return specularStrength;
 }
 
-
-void LightSource::setAttenuation(float attenuation) {
+void LightSource::setAttenuation(glm::vec3 attenuation) {
     this->attenuation = attenuation;
 }
 
-float LightSource::getAttenuation() {
+glm::vec3 LightSource::getAttenuation() {
     return attenuation;
 }
+

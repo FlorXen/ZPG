@@ -6,7 +6,7 @@ struct light
     vec4 position;
     vec4 diffuse_colour;
     vec4 specular;
-    float attenuation_strength;
+    vec3 attenuation;
 };
 
 in vec3 worldNormal;
@@ -30,7 +30,7 @@ void main() {
 	float distance = length(lightDirection);
 	vec3 lightVector = normalize(lightDirection);
 
-	float attenuation = 1.0 / (lights[index].attenuation_strength * distance * distance);
+	float attenuation = 1.0 / (lights[index].attenuation.x + lights[index].attenuation.y * distance + lights[index].attenuation.z * distance * distance);
 
         float dot_product = max(dot(lightVector, worldNormal), 0.0);
         vec4 diffuse = dot_product * lights[index].diffuse_colour * attenuation;

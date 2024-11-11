@@ -18,8 +18,8 @@ public:
     void setSpecularStrength(glm::vec4 specularStrength);
     glm::vec4 getSpecularStrength();
 
-    void setAttenuation(float attenuation);
-    float getAttenuation();
+    void setAttenuation(glm::vec3 attenuation);
+    glm::vec3 getAttenuation();
 
     glm::vec4 getPosition();
     Transformation& getTransformation();
@@ -30,6 +30,6 @@ private:
     Transformation transformation;
     glm::vec4 diffuseColor;
     glm::vec4 specularStrength;
-    float attenuation;
+    glm::vec3 attenuation;
 };
 
