@@ -20,6 +20,8 @@ std::shared_ptr<TransformOperation> Transformation::getTransformation(int transf
     if (transforamtionIndex >= 0 && transforamtionIndex < transformations.size()) {
         return transformations[transforamtionIndex];
     }
+    else
+        return nullptr;
 }
 
 void Transformation::updateTransformations() {

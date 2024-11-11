@@ -11,6 +11,12 @@ Controller::Controller(Application* app) : app(app) {
 	moveCameraUp = false;
 	moveCameraDown = false;
 
+    mouseChanged = false;
+    xOffset = 0;
+    yOffset = 0;
+
+    windowWidth = 0;
+    windowHeight = 0;
     windowSizeChanged = false;
 }
 
@@ -86,21 +92,21 @@ void Controller::handleWindowResize(int width, int height) {
 
 void Controller::handleMouseInput(double xpos, double ypos) {
 	static bool firstMouse = true;
-	static double lastX = xpos;
-	static double lastY = ypos;
+	static float lastX = (float)xpos;
+	static float lastY = (float)ypos;
 
 	if (firstMouse) {
-		lastX = xpos;
-		lastY = ypos;
+		lastX = (float)xpos;
+		lastY = (float)ypos;
 		firstMouse = false;
 	}
 
 	// Count position difference
-	xOffset = xpos - lastX;
-	yOffset = lastY - ypos;
+	xOffset = (float)xpos - lastX;
+	yOffset = lastY - (float)ypos;
 
-	lastX = xpos;
-	lastY = ypos;
+	lastX = (float)xpos;
+	lastY = (float)ypos;
 
 	// Mouse sensitivity
 	const float sensitivity = 0.005f;
@@ -112,17 +118,17 @@ void Controller::handleMouseInput(double xpos, double ypos) {
 
 void Controller::updateCamera() {
 	if (moveCameraForward)
-		app->moveCamera('f', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+		app->moveCamera('f', (mode == GLFW_MOD_CONTROL) ? 0.15f : 0.05f);
 	if (moveCameraBackward)
-		app->moveCamera('b', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+		app->moveCamera('b', (mode == GLFW_MOD_CONTROL) ? 0.15f : 0.05f);
 	if (moveCameraRight)
-		app->moveCamera('r', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+		app->moveCamera('r', (mode == GLFW_MOD_CONTROL) ? 0.15f : 0.05f);
 	if (moveCameraLeft)
-		app->moveCamera('l', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+		app->moveCamera('l', (mode == GLFW_MOD_CONTROL) ? 0.15f : 0.05f);
 	if (moveCameraUp)
-		app->moveCamera('u', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+		app->moveCamera('u', (mode == GLFW_MOD_CONTROL) ? 0.15f : 0.05f);
 	if (moveCameraDown)
-		app->moveCamera('d', (mode == GLFW_MOD_CONTROL) ? 0.15 : 0.05);
+		app->moveCamera('d', (mode == GLFW_MOD_CONTROL) ? 0.15f : 0.05f);
 
 	if (mouseChanged) {
 		app->rotateCamera(xOffset, yOffset);

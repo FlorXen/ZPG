@@ -50,14 +50,14 @@ public:
                 Z = minZ;
         }
 
-        generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
+        generator.seed((unsigned int)std::chrono::system_clock::now().time_since_epoch().count());
 
         currentDirection = glm::normalize(glm::vec3(distribution(generator), distribution(generator), distribution(generator)));
 
     }
 
     void apply(glm::mat4& modelMatrix) const override {
-        float currentTime = glfwGetTime();
+        float currentTime = (float)glfwGetTime();
         float deltaTime = currentTime - lastChangeTime;
 
         if (deltaTime > changeInterval) {

@@ -6,6 +6,8 @@ ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile){
 
     ShaderLoader shaderLoader;
     shaderProgram = shaderLoader.loadShader(vertexFile, fragmentFile);
+    modelMatrix = glm::mat4(1.0f);
+    normalMatrix = glm::mat4(1.0f);
 
     if (!shaderProgram) {
         std::cerr << "ERROR: Shader Program loading failed for files: "
@@ -127,6 +129,6 @@ void ShaderProgram::setLights() {
     uniformName = "numberOfLights";
     position = glGetUniformLocation(shaderProgram, uniformName.c_str());
     if (position != -1) {
-        glUniform1i(position, lightSources.size());
+        glUniform1i(position, (GLint)lightSources.size());
     }
 }

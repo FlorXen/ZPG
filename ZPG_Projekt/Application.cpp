@@ -1,6 +1,7 @@
 ﻿#include "Application.h"
 
 Application::Application(int w, int h) : width(w), height(h) {
+    window = nullptr;
 }
 
 Application::~Application() {
@@ -145,8 +146,8 @@ void Application::CreateScenes() {
         // Trees
         float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
         int from, to;
-        from = scenes[1]->objects.size();
-        to = scenes[1]->objects.size() + 150;
+        from = (int)scenes[1]->objects.size();
+        to = (int)scenes[1]->objects.size() + 150;
         for (int i = from; i < to; i++) {
             scaleX = randomFloat(0.4, 0.8);
             scaleY = randomFloat(0.6, 1.3);
@@ -166,8 +167,8 @@ void Application::CreateScenes() {
         }
 
         // Bushes
-        from = scenes[1]->objects.size();
-        to = scenes[1]->objects.size() + 100;
+        from = (int)scenes[1]->objects.size();
+        to = (int)scenes[1]->objects.size() + 100;
         for (int i = from; i < to; i++) {
             scaleX = randomFloat(0.4, 0.8);
             scaleY = randomFloat(0.6, 1.5);
