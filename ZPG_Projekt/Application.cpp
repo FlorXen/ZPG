@@ -59,8 +59,6 @@ void Application::Initialize() {
     glfwSetWindowIconifyCallback(window, WindowIconifyCallback);
     glfwSetWindowSizeCallback(window, ResizeCallback);
 
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Lock cursor on app window
-
 
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
     printf("Using GLEW %s\n", glewGetString(GLEW_VERSION));
@@ -136,6 +134,7 @@ void Application::CreateScenes() {
         for (std::shared_ptr<LightSource> light : scenes[1]->lightSources) {
             light->randomDynamicTranslate(light->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
             //light->setAttenuation(glm::vec3(1.0, 0.5, 0.5));
+            light->setLightType(LIGHT_POINT);
         }
 
 
@@ -206,6 +205,7 @@ void Application::CreateScenes() {
         scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[2], scenes[2]->shaders[2]));
 
         scenes[2]->AddLightSource(std::make_shared<LightSource>());
+        scenes[2]->lightSources[0]->setLightType(LIGHT_POINT);
 
         scenes[2]->objects[0]->getDrawables().at(2)->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.3f, 0.3f, 0.3f)));
     }
@@ -229,6 +229,9 @@ void Application::CreateScenes() {
         scenes[3]->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, -2.5f)));
 
         scenes[3]->AddLightSource(std::make_shared<LightSource>());
+        scenes[3]->lightSources[0]->setLightType(LIGHT_DIRECTION);
+        scenes[3]->lightSources[0]->translate(glm::vec3(0.0, 0.0, 5.0));
+        scenes[3]->lightSources[0]->setSpotEffect(16.0);
     }
 
     // Scene 4
@@ -244,6 +247,7 @@ void Application::CreateScenes() {
         scenes[4]->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, 0.0f)));
 
         scenes[4]->AddLightSource(std::make_shared<LightSource>());
+        scenes[4]->lightSources[0]->setLightType(LIGHT_POINT);
         scenes[4]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, -3.0f));
 
         scenes[4]->camera->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -280,6 +284,7 @@ void Application::CreateScenes() {
         scenes[5]->objects[7]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
 
         scenes[5]->AddLightSource(std::make_shared<LightSource>());
+        scenes[5]->lightSources[0]->setLightType(LIGHT_POINT);
         scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 4.0f));
     }
 
@@ -287,6 +292,10 @@ void Application::CreateScenes() {
     //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
     //setRotation(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
     //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
+
+    for (std::shared_ptr<Scene> sc : scenes) {
+        sc->camera->setWindowSize(width, height);
+    }
 
 }
 
@@ -369,9 +378,11 @@ void Application::ResizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 void Application::ButtonCallback(GLFWwindow* window, int button, int action, int mode) {
-    if (action == GLFW_PRESS) {
-        printf("button_callback [%d,%d,%d]\n", button, action, mode);
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) {
+        app->controller.handleMouseClickInput(button, action, mode);
     }
+    printf("button_callback [%d,%d,%d]\n", button, action, mode);
 }
 
 void Application::WindowFocusCallback(GLFWwindow* window, int focused) {
@@ -446,6 +457,15 @@ void Application::updateWindowSizeInScenes(int width, int height) {
 
 void Application::rotateCamera(float xOffset, float yOffset) {
     scenes[currentSceneNumber]->camera->setOrientation(scenes[currentSceneNumber]->camera->getAlpha() - yOffset, scenes[currentSceneNumber]->camera->getFi() + xOffset);
+}
+
+void Application::lockCursor(bool lock) {
+    if (lock) {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Lock cursor on app window
+    }
+    else {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Unlock cursor
+    }
 }
 
 

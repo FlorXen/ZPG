@@ -102,27 +102,41 @@ void ShaderProgram::setLights() {
         if (position != -1) {
             glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getPosition()));
         }
-            
-
         // Diffuse colour
         uniformName = "lights[" + std::to_string(i) + "].diffuse_colour";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
         if (position != -1) {
             glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getDiffuseColor()));
         }
-
         // Specular strength
         uniformName = "lights[" + std::to_string(i) + "].specular";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
         if (position != -1) {
             glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getSpecularStrength()));
         }
-
         // Attenuation strength
         uniformName = "lights[" + std::to_string(i) + "].attenuation";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
         if (position != -1) {
             glUniform3fv(position, 1, glm::value_ptr(lightSources[i]->getAttenuation()));
+        }
+        // Light direction
+        uniformName = "lights[" + std::to_string(i) + "].direction";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform3fv(position, 1, glm::value_ptr(lightSources[i]->getDirection()));
+        }
+        // Spot effect
+        uniformName = "lights[" + std::to_string(i) + "].spotEffect";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform1f(position, lightSources[i]->getSpotEffect());
+        }
+        // Light type
+        uniformName = "lights[" + std::to_string(i) + "].lightType";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform1i(position, lightSources[i]->getLightType());
         }
     }
 

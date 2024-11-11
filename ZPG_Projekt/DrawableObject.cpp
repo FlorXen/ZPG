@@ -36,9 +36,11 @@ void DrawableObject::draw() const {
     
     glBindVertexArray(model->getVAO());
     glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
-
+    
     // Unbind VAO
     glBindVertexArray(0);
+
+    glUseProgram(0);
 }
 
 std::shared_ptr<ShaderProgram> DrawableObject::getShaderProgram() {

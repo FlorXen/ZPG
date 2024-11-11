@@ -11,6 +11,8 @@ Controller::Controller(Application* app) : app(app) {
 	moveCameraUp = false;
 	moveCameraDown = false;
 
+    cursorLocked = false;
+
     mouseChanged = false;
     xOffset = 0;
     yOffset = 0;
@@ -91,29 +93,40 @@ void Controller::handleWindowResize(int width, int height) {
 }
 
 void Controller::handleMouseInput(double xpos, double ypos) {
-	static bool firstMouse = true;
-	static float lastX = (float)xpos;
-	static float lastY = (float)ypos;
+    static bool firstMouse = false;
+    static float lastX = (float)xpos;
+    static float lastY = (float)ypos;
 
-	if (firstMouse) {
-		lastX = (float)xpos;
-		lastY = (float)ypos;
-		firstMouse = false;
-	}
+        if (firstMouse) {
+            lastX = (float)xpos;
+            lastY = (float)ypos;
+            firstMouse = false;
+        }
 
-	// Count position difference
-	xOffset = (float)xpos - lastX;
-	yOffset = lastY - (float)ypos;
+        // Count position difference
+        xOffset = (float)xpos - lastX;
+        yOffset = lastY - (float)ypos;
 
-	lastX = (float)xpos;
-	lastY = (float)ypos;
+        lastX = (float)xpos;
+        lastY = (float)ypos;
 
-	// Mouse sensitivity
-	const float sensitivity = 0.005f;
-	xOffset *= sensitivity;
-	yOffset *= sensitivity;
+        // Mouse sensitivity
+        const float sensitivity = 0.005f;
+        xOffset *= sensitivity;
+        yOffset *= sensitivity;
 
-	mouseChanged = true;
+        mouseChanged = true;
+}
+
+void Controller::handleMouseClickInput(int button, int action, int mode) {
+    if (button == 2 && action == 1) {
+        app->lockCursor(true);
+        cursorLocked = true;
+    }
+    else if (button == 2 && action == 0) {
+        app->lockCursor(false);
+        cursorLocked = false;
+    }
 }
 
 void Controller::updateCamera() {

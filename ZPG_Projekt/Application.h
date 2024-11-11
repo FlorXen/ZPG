@@ -36,7 +36,7 @@ public:
 
     Controller controller = nullptr;
 
-    Application(int w = 800, int h = 600);
+    Application(int w = 1600, int h = 800);
     ~Application();
 
     void Initialize();
@@ -55,6 +55,8 @@ public:
 
     void moveCamera(char direction, float distance);
     void rotateCamera(float alphaAngle, float fiAngle);
+    void lockCursor(bool lock);
+
     void updateWindowSizeInScenes(int width, int height);
 
     void moveLightSource(char direction, float distance);
