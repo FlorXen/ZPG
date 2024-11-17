@@ -22,6 +22,7 @@ void ShaderProgram::bindCamera(std::shared_ptr<Camera> camera) {
 void ShaderProgram::onCameraUpdate() {
     use();
     setCamera();
+    glUseProgram(0);
 }
 
 void ShaderProgram::bindLightSource(std::shared_ptr<LightSource> lightSource) {
@@ -32,6 +33,7 @@ void ShaderProgram::bindLightSource(std::shared_ptr<LightSource> lightSource) {
 void ShaderProgram::onLightSourceUpdate() {
     use();
     setLights();
+    glUseProgram(0);
 }
 
 void ShaderProgram::use() const {

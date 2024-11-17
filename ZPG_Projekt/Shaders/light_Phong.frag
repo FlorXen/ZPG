@@ -33,7 +33,7 @@ void main() {
         vec3 camVector = normalize(cameraPosition - vec3(worldPosition));
         float distance = length(lightDirection);
         vec3 lightVector = normalize(lightDirection);
-        vec3 reflectVector = reflect(-camVector, normalize(worldNormal));
+        vec3 reflectVector = reflect(-camVector, worldNormal);
         float specularFactor = pow(max(dot(reflectVector, lightVector), 0.0), shininess);
 
         float attenuation;
@@ -60,21 +60,23 @@ void main() {
 
             case 2: {
                 // Directional light
-                lightVector = normalize(lights[index].direction);
+
+                lightVector = -normalize(lights[index].direction);
+                dot_product = max(dot(worldNormal, lightVector), 0.0);
                 diffuse = dot_product * lights[index].diffuse_colour;
 
                 if (dot(lightVector, worldNormal) > 0.0) {
-                    reflectVector = reflect(-lightVector, normalize(worldNormal));
-                    specularFactor = pow(max(dot(reflectVector, camVector), 0.0), shininess);
+                    reflectVector = reflect(-camVector, worldNormal);
+                    specularFactor = pow(max(dot(reflectVector, lightVector), 0.0), shininess);
                     specularReflection = specularFactor * lights[index].specular;
                 }
-                
+
                 frag_colour += diffuse + specularReflection;
             } break;
 
             case 3: {
                 // Spot light
-          
+
                 float spot = max(dot(-lightVector, normalize(lights[index].direction)), 0.0);
                 attenuation = 1.0 / (lights[index].attenuation.x + lights[index].attenuation.y * distance + lights[index].attenuation.z * distance * distance);
                 attenuation *= pow(spot, lights[index].spotEffect);
@@ -89,7 +91,14 @@ void main() {
                         specularReflection = specularFactor * lights[index].specular * attenuation;
                     }
                 }
-                spot = (spot-lights[index].spotEffect)/(1-lights[index].spotEffect);
+                
+                if (lights[index].spotEffect >= 1.0) {
+                    spot = 1.0;
+                } else if (lights[index].spotEffect <= 0.0) {
+                    spot = 0.0;
+                } else {
+                    spot = (spot - lights[index].spotEffect) / (1 - lights[index].spotEffect);
+                }
 
                 frag_colour += (diffuse + specularReflection) * spot;
 

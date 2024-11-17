@@ -27,6 +27,7 @@ public:
     glm::vec3 getAttenuation();
 
     glm::vec4 getPosition();
+
     Transformation& getTransformation();
 
     void setLightType(int type);

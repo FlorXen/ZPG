@@ -9,6 +9,7 @@
 #include "DrawableObject.h"
 #include "DrawableObjectGroup.h"
 #include "Controller.h"
+#include "Flashlight.h"
 
 #include "triangle.h"
 #include "square.h"

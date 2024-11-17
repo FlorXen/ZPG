@@ -28,6 +28,7 @@ public:
     void moveDown(float distance);
     float getAlpha();
     float getFi();
+    glm::vec3 getTarget();
 
 private:
     glm::vec3 eye;

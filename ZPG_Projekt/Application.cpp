@@ -121,7 +121,7 @@ void Application::CreateScenes() {
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain));
-
+       
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
@@ -133,10 +133,14 @@ void Application::CreateScenes() {
 
         for (std::shared_ptr<LightSource> light : scenes[1]->lightSources) {
             light->randomDynamicTranslate(light->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
-            //light->setAttenuation(glm::vec3(1.0, 0.5, 0.5));
+            light->setAttenuation(glm::vec3(1.0, 0.1, 0.1));
             light->setLightType(LIGHT_POINT);
         }
-
+        
+        auto flashlight = std::make_shared<Flashlight>(scenes[1]->camera);
+        flashlight->initializeObserver();
+        scenes[1]->AddLightSource(flashlight);
+        
 
         // Plain
 
@@ -229,9 +233,11 @@ void Application::CreateScenes() {
         scenes[3]->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, -2.5f)));
 
         scenes[3]->AddLightSource(std::make_shared<LightSource>());
-        scenes[3]->lightSources[0]->setLightType(LIGHT_DIRECTION);
-        scenes[3]->lightSources[0]->translate(glm::vec3(0.0, 0.0, 5.0));
-        scenes[3]->lightSources[0]->setSpotEffect(16.0);
+        scenes[3]->lightSources[0]->setLightType(LIGHT_POINT);
+
+        auto flashlight = std::make_shared<Flashlight>(scenes[3]->camera);
+        flashlight->initializeObserver();
+        scenes[3]->AddLightSource(flashlight);
     }
 
     // Scene 4
@@ -340,7 +346,6 @@ void Application::Run() {
                 shrinking = true;
             }
         }
-        
         
 
         // update other events like input handling

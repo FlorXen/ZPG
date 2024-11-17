@@ -138,6 +138,7 @@
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
     <ClCompile Include="DynamicRotate.cpp" />
+    <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />
     <ClInclude Include="DynamicRotate.h" />
+    <ClInclude Include="Flashlight.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="RandomDynamicTranslate.h" />
     <ClInclude Include="square.h" />

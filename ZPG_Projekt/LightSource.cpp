@@ -1,7 +1,7 @@
 #include "LightSource.h"
 
-LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)), attenuation(glm::vec3(1.0, 0.1, 0.1)),
-    direction(glm::vec3(0.0, 0.0, -1.0)), spotEffect(cos(glm::radians(8.0))) {
+LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)), attenuation(glm::vec3(1.0, 0.01, 0.01)),
+    direction(glm::vec3(0.0, 0.0, -1.0)), spotEffect(cos(glm::radians(16.0))) {
     this->transformation = Transformation();
 }
 
@@ -17,7 +17,6 @@ void LightSource::translate(const glm::vec3& translation) {
 
 void LightSource::randomDynamicTranslate(glm::vec3 startPosition, float speed, float interval, float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
     transformation.addTransformation(std::make_shared<RandomDynamicTranslate>(startPosition, speed, interval, minX, maxX, minY, maxY, minZ, maxZ));
-    //notifyLightSourceObservers();
 }
 
 glm::vec4 LightSource::getPosition() {
@@ -49,6 +48,7 @@ glm::vec4 LightSource::getSpecularStrength() {
 
 void LightSource::setAttenuation(glm::vec3 attenuation) {
     this->attenuation = attenuation;
+    notifyLightSourceObservers();
 }
 
 glm::vec3 LightSource::getAttenuation() {
@@ -57,6 +57,7 @@ glm::vec3 LightSource::getAttenuation() {
 
 void LightSource::setLightType(int lightType) {
     this->lightType = lightType;
+    notifyLightSourceObservers();
 }
 
 int LightSource::getLightType() {
@@ -65,6 +66,7 @@ int LightSource::getLightType() {
 
 void LightSource::setDirection(glm::vec3 direction) {
     this->direction = direction;
+    //notifyLightSourceObservers();
 }
 
 glm::vec3 LightSource::getDirection() {
@@ -73,6 +75,7 @@ glm::vec3 LightSource::getDirection() {
 
 void LightSource::setSpotEffect(float angleInDegrees) {
     this->spotEffect = cos(glm::radians(angleInDegrees));
+    notifyLightSourceObservers();
 }
 
 float LightSource::getSpotEffect() {

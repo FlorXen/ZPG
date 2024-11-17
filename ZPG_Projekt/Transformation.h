@@ -20,7 +20,7 @@
 class Transformation {
 private:
     glm::mat4 modelMatrix;
-
+    glm::vec3 position;
 public:
     Transformation();
 
@@ -30,10 +30,11 @@ public:
 
     void addTransformation(std::shared_ptr<TransformOperation> transformation);
     void setTransformations(std::vector<std::shared_ptr<TransformOperation>> transformations);
+    void setPosition(glm::vec3 position);
     std::shared_ptr<TransformOperation> getTransformation(int transforamtionIndex);
     void updateTransformations();
 
     const glm::mat4& getMatrix() const;
     void setMatrix(glm::mat4 matrix);
-    
+ 
 };

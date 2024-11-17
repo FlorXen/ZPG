@@ -96,3 +96,7 @@ float Camera::getAlpha() {
 float Camera::getFi() {
     return fi;
 }
+
+glm::vec3 Camera::getTarget() {
+    return this->target;
+}
