@@ -37,4 +37,8 @@ void Scene::Render() {
         obj->getTransformation().updateTransformations();
         obj->draw();
     }
+
+    for (std::shared_ptr<LightSource> light : lightSources) {
+        light->getTransformation().wasChanged = false;
+    }
 }

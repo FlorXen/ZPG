@@ -1,6 +1,9 @@
 #pragma once
 
 #include <GL/glew.h>
+//Include SOIL 
+#include <SOIL.h>
+
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
@@ -16,12 +19,13 @@ class Shader;
 class ShaderProgram : public Observer
 {
 private:
+    
     GLuint shaderProgram;
-    std::shared_ptr<Transformation> transformation;
     std::shared_ptr<Camera> camera;
-    std::vector<std::shared_ptr<LightSource>> lightSources;
     glm::mat4 modelMatrix;
     glm::mat3 normalMatrix;
+    std::shared_ptr<Transformation> transformation;
+    
     
 public:
     ShaderProgram(const char* vertexFile, const char* fragmentFile);
@@ -37,4 +41,7 @@ public:
     void setTransformation(std::shared_ptr<Transformation> transformation);
     void setLights();
     void setCamera();
+    void setTextures();
+
+    std::vector<std::shared_ptr<LightSource>> lightSources;
 };

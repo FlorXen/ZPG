@@ -1,6 +1,6 @@
 #include "Transformation.h"
 
-Transformation::Transformation() : modelMatrix(1.0f), position(glm::vec3(0.0, 0.0, 0.0)) {
+Transformation::Transformation() : modelMatrix(1.0f), position(glm::vec3(0.0, 0.0, 0.0)), wasChanged(false) {
 }
 
 void Transformation::reset() {
@@ -29,6 +29,8 @@ std::shared_ptr<TransformOperation> Transformation::getTransformation(int transf
 }
 
 void Transformation::updateTransformations() {
+    glm::mat4 oldMatrix = modelMatrix;
+
     modelMatrix = glm::mat4(1.0f);
     modelMatrix[3].x = position.x;
     modelMatrix[3].y = position.y;
@@ -37,6 +39,10 @@ void Transformation::updateTransformations() {
     for (const auto& transformation : transformations) {
         transformation->apply(modelMatrix);
     }
+
+    if (oldMatrix != modelMatrix)
+        wasChanged = true;
+
 }
 
 const glm::mat4& Transformation::getMatrix() const {

@@ -39,8 +39,6 @@ public:
     void setSpotEffect(float spotEffect);
     float getSpotEffect();
 
-
-
 private:
     int lightType;
 

@@ -11,6 +11,7 @@ void Flashlight::initializeObserver() {
 void Flashlight::onCameraUpdate() {
 	this->getTransformation().setPosition(this->camera->getPosition());
 	this->setDirection(this->camera->getTarget());
+	this->getTransformation().wasChanged = true;
 }
 
 void Flashlight::onLightSourceUpdate() {}

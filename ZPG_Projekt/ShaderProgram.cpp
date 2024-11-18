@@ -13,6 +13,8 @@ ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile){
         std::cerr << "ERROR: Shader Program loading failed for files: "
             << vertexFile << " and " << fragmentFile << std::endl;
     }
+
+    
 }
 
 void ShaderProgram::bindCamera(std::shared_ptr<Camera> camera) {
@@ -98,6 +100,10 @@ void ShaderProgram::setLights() {
     GLint position;
     for (int i = 0; i < lightSources.size(); i++) {
 
+        if (!lightSources[i]->getTransformation().wasChanged) {
+            continue;
+        }
+
         // Position
         uniformName = "lights[" + std::to_string(i) + "].position";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
@@ -147,4 +153,12 @@ void ShaderProgram::setLights() {
     if (position != -1) {
         glUniform1i(position, (GLint)lightSources.size());
     }
+}
+
+void ShaderProgram::setTextures() {
+    //Set texture unit to fragment shader
+    GLint uniformID = glGetUniformLocation(shaderProgram, "textureUnitID");
+
+    if(uniformID != -1)
+        glUniform1i(uniformID, 0);
 }

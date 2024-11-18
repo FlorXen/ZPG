@@ -34,6 +34,7 @@ void Camera::setOrientation(float alphaAngle, float fiAngle) {
     target.z = sin(alpha) * sin(fi);
 
     viewMatrix = glm::lookAt(eye, eye + target, up);
+
     notifyCameraObservers();
 }
 

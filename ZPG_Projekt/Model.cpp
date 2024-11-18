@@ -3,7 +3,7 @@
 
 using namespace MyApp;
 
-Model::Model(const float* vertices, int vertexCount, bool hasNormals)
+Model::Model(const float* vertices, int vertexCount, bool hasNormals, bool hasUV)
     : vertexCount(vertexCount)
 {
 
@@ -16,18 +16,51 @@ Model::Model(const float* vertices, int vertexCount, bool hasNormals)
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     // Initialize buffer data
-    glBufferData(GL_ARRAY_BUFFER, (hasNormals ? vertexCount * 6 * sizeof(float) : vertexCount * 3 * sizeof(float)), vertices, GL_STATIC_DRAW);
+    if(hasUV && hasNormals)
+    {
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * 8 * sizeof(float), vertices, GL_STATIC_DRAW);
 
+        // Set position attribute
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)0);
+        // Set normal attribute
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+        // Set texture attribute
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(6 * sizeof(float)));
+    }
+    else if(hasNormals)
+    {
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * 6 * sizeof(float), vertices, GL_STATIC_DRAW);
 
-    // Set position attribute
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (hasNormals ? 6 * sizeof(float) : 3 * sizeof(float)), (GLvoid*)0);
-
-    // Set normal attribute if available
-    if (hasNormals) {
+        // Set position attribute
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
+        // Set normal attribute
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
     }
+    else if(hasUV)
+    {
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * 5 * sizeof(float), vertices, GL_STATIC_DRAW);
+
+        // Set position attribute
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)0);
+        // Set texture attribute
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+    }
+    else
+    {
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 * sizeof(float), vertices, GL_STATIC_DRAW);
+
+        // Set position attribute
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid*)0);
+    }
+
 
     // Unbind VAO and VBO
     glBindVertexArray(0);
@@ -45,6 +78,5 @@ int Model::getVertexCount() {
 }
 
 Model::~Model() {
-    //glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }

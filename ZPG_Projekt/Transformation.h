@@ -37,4 +37,5 @@ public:
     const glm::mat4& getMatrix() const;
     void setMatrix(glm::mat4 matrix);
  
+    bool wasChanged;
 };

@@ -23,11 +23,6 @@ void Application::Initialize() {
         exit(EXIT_FAILURE);
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
     window = glfwCreateWindow(width, height, "ZPG", NULL, NULL);
     if (!window) {
         glfwTerminate();
@@ -37,7 +32,7 @@ void Application::Initialize() {
     glfwSetWindowUserPointer(window, this);
 
     glfwMakeContextCurrent(window);
-
+    glfwSwapInterval(1);
 
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
@@ -51,7 +46,7 @@ void Application::Initialize() {
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(openglDebugCallback, nullptr);
 
-    glfwSwapInterval(1);
+    
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetCursorPosCallback(window, CursorCallback);
     glfwSetMouseButtonCallback(window, ButtonCallback);
@@ -80,12 +75,13 @@ void Application::Initialize() {
 
 void Application::CreateScenes() {
 
-    MyApp::Model model_triangle = MyApp::Model(triangle, 3, false);
-    MyApp::Model model_square = MyApp::Model(square, 6, false);
-    MyApp::Model model_sphere = MyApp::Model(sphere, 2880, true);
-    MyApp::Model model_tree = MyApp::Model(tree, 92814, true);
-    MyApp::Model model_bush = MyApp::Model(bushes, 8730, true);
-    MyApp::Model model_plain = MyApp::Model(plain, 6, true);
+    MyApp::Model model_triangle = MyApp::Model(triangle, 3, false, false);
+    MyApp::Model model_square = MyApp::Model(square, 6, false, false);
+    MyApp::Model model_sphere = MyApp::Model(sphere, 2880, true, false);
+    MyApp::Model model_tree = MyApp::Model(tree, 92814, true, false);
+    MyApp::Model model_bush = MyApp::Model(bushes, 8730, true, false);
+    MyApp::Model model_plain = MyApp::Model(plain, 6, true, false);
+    MyApp::Model model_plain2 = MyApp::Model(plain2, 6, true, true);
 
 
     // SCENES
@@ -116,11 +112,11 @@ void Application::CreateScenes() {
         scenes.push_back(std::make_shared<Scene>());
 
         scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_tree.vert", "Shaders/light_tree.frag"));
-        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/plain.vert", "Shaders/plain.frag"));
+        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/texture_test.vert", "Shaders/texture_test.frag"));
 
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
-        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain));
+        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
        
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
@@ -151,7 +147,7 @@ void Application::CreateScenes() {
         float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
         int from, to;
         from = (int)scenes[1]->objects.size();
-        to = (int)scenes[1]->objects.size() + 150;
+        to = (int)scenes[1]->objects.size() + 100;
         for (int i = from; i < to; i++) {
             scaleX = randomFloat(0.4, 0.8);
             scaleY = randomFloat(0.6, 1.3);
@@ -172,11 +168,11 @@ void Application::CreateScenes() {
 
         // Bushes
         from = (int)scenes[1]->objects.size();
-        to = (int)scenes[1]->objects.size() + 100;
+        to = (int)scenes[1]->objects.size() + 150;
         for (int i = from; i < to; i++) {
-            scaleX = randomFloat(0.4, 0.8);
-            scaleY = randomFloat(0.6, 1.5);
-            scaleZ = randomFloat(0.4, 0.8);
+            scaleX = randomFloat(1.0, 2.5);
+            scaleY = randomFloat(1.0, 2.5);
+            scaleZ = randomFloat(1.0, 2.5);
             transX = randomFloat(-30.0, 30.0);
             transZ = randomFloat(-30.0, 30.0);
             angle = randomFloat(-20.0, 20.0);
@@ -184,9 +180,9 @@ void Application::CreateScenes() {
             rotY = randomFloat(0.0, 1.0);
             rotZ = randomFloat(0.0, 1.0);
             scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[1], scenes[1]->shaders[0]));
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
             scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
             scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
+            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
         }
     }
 
@@ -294,6 +290,21 @@ void Application::CreateScenes() {
         scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 4.0f));
     }
 
+    // Scene 6
+    {
+        scenes.push_back(std::make_shared<Scene>());
+
+        scenes[6]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/texture_test.vert", "Shaders/texture_test.frag"));
+
+        scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
+
+        //scenes[6]->shaders[0]->textureID = SOIL_load_OGL_texture("test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+
+        scenes[6]->CreateObject(std::make_shared<DrawableObject>(scenes[6]->models[0], scenes[6]->shaders[0]));
+
+        scenes[6]->AddLightSource(std::make_shared<LightSource>());
+    }
+
     // TRANSFORMATIONS
     //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
     //setRotation(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -311,6 +322,19 @@ void Application::Run() {
     const float minScale = 0.5f;
     const float maxScale = 1.5f;
     const float scaleSpeed = 0.01f;
+
+    //Bind the first texture to the first texture unit.
+    glActiveTexture(GL_TEXTURE0);
+    GLuint textureID = SOIL_load_OGL_texture("Textures/forest_plain.jpg", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    if (textureID == NULL) {
+        std::cout << "An error occurred while loading image." << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    //Cube Map (SkyBox)
+    //GLuint textureID = SOIL_load_OGL_cubemap("xpos.jpg","xneg.jpg","ypos.jpg","yneg.jpg","zpos.jpg","zneg.jpg",SOIL_LOAD_RGB,SOIL_CREATE_NEW_ID,SOIL_FLAG_MIPMAPS    );
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
 
     glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
 

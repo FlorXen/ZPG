@@ -8,15 +8,18 @@ LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), 
 void LightSource::rotate(float angle, const glm::vec3& axis) {
     transformation.addTransformation(std::make_shared<Rotate>(angle, axis));
     notifyLightSourceObservers();
+
 }
 
 void LightSource::translate(const glm::vec3& translation) {
     transformation.addTransformation(std::make_shared<Translate>(translation));
     notifyLightSourceObservers();
+
 }
 
 void LightSource::randomDynamicTranslate(glm::vec3 startPosition, float speed, float interval, float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
     transformation.addTransformation(std::make_shared<RandomDynamicTranslate>(startPosition, speed, interval, minX, maxX, minY, maxY, minZ, maxZ));
+
 }
 
 glm::vec4 LightSource::getPosition() {
@@ -31,6 +34,8 @@ Transformation& LightSource::getTransformation() {
 void LightSource::setDiffuseColor(glm::vec4 diffuseColor) {
     this->diffuseColor = diffuseColor;
     notifyLightSourceObservers();
+    transformation.wasChanged = true;
+
 }
 
 glm::vec4 LightSource::getDiffuseColor() {
@@ -40,6 +45,8 @@ glm::vec4 LightSource::getDiffuseColor() {
 void LightSource::setSpecularStrength(glm::vec4 specularStrength) {
     this->specularStrength = specularStrength;
     notifyLightSourceObservers();
+    transformation.wasChanged = true;
+
 }
 
 glm::vec4 LightSource::getSpecularStrength() {
@@ -49,6 +56,8 @@ glm::vec4 LightSource::getSpecularStrength() {
 void LightSource::setAttenuation(glm::vec3 attenuation) {
     this->attenuation = attenuation;
     notifyLightSourceObservers();
+    transformation.wasChanged = true;
+
 }
 
 glm::vec3 LightSource::getAttenuation() {
@@ -58,6 +67,8 @@ glm::vec3 LightSource::getAttenuation() {
 void LightSource::setLightType(int lightType) {
     this->lightType = lightType;
     notifyLightSourceObservers();
+    transformation.wasChanged = true;
+
 }
 
 int LightSource::getLightType() {
@@ -66,7 +77,8 @@ int LightSource::getLightType() {
 
 void LightSource::setDirection(glm::vec3 direction) {
     this->direction = direction;
-    //notifyLightSourceObservers();
+    notifyLightSourceObservers();
+    transformation.wasChanged = true;
 }
 
 glm::vec3 LightSource::getDirection() {
@@ -76,6 +88,8 @@ glm::vec3 LightSource::getDirection() {
 void LightSource::setSpotEffect(float angleInDegrees) {
     this->spotEffect = cos(glm::radians(angleInDegrees));
     notifyLightSourceObservers();
+    transformation.wasChanged = true;
+
 }
 
 float LightSource::getSpotEffect() {
