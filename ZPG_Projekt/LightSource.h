@@ -6,7 +6,7 @@
 #define LIGHT_OFF 0
 #define LIGHT_POINT 1
 #define LIGHT_DIRECTION 2
-#define LIGHT_REFLECTOR 3
+#define LIGHT_SPOT 3
 
 class LightSource : public Subject {
 
@@ -17,11 +17,14 @@ public:
     void translate(const glm::vec3& translation);
     void randomDynamicTranslate(glm::vec3 startPosition, float speed, float interval, float minX, float maxX, float minY, float maxY, float minZ, float maxZ);
 
-    void setDiffuseColor(glm::vec4 diffuseColor);
-    glm::vec4 getDiffuseColor();
+    void setAmbient(glm::vec4 ambient);
+    glm::vec4 getAmbient();
 
-    void setSpecularStrength(glm::vec4 specularStrength);
-    glm::vec4 getSpecularStrength();
+    void setDiffuse(glm::vec4 diffuse);
+    glm::vec4 getDiffuse();
+
+    void setSpecular(glm::vec4 specular);
+    glm::vec4 getSpecular();
 
     void setAttenuation(glm::vec3 attenuation);
     glm::vec3 getAttenuation();
@@ -43,8 +46,9 @@ private:
     int lightType;
 
     Transformation transformation;
-    glm::vec4 diffuseColor;
-    glm::vec4 specularStrength;
+    glm::vec4 ambient;
+    glm::vec4 diffuse;
+    glm::vec4 specular;
     glm::vec3 attenuation;
     glm::vec3 direction;
     float spotEffect;

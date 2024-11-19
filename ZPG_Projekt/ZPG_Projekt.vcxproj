@@ -141,6 +141,7 @@
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="RandomDynamicTranslate.cpp" />
     <ClCompile Include="Rotate.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="DynamicRotate.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="LightSource.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="RandomDynamicTranslate.h" />
     <ClInclude Include="square.h" />
     <ClInclude Include="triangle.h" />

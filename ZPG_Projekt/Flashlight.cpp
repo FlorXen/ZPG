@@ -1,7 +1,7 @@
 #include "Flashlight.h"
 
 Flashlight::Flashlight(std::shared_ptr<Camera> camera) : camera(camera), LightSource() {
-	this->setLightType(LIGHT_REFLECTOR);
+	this->setLightType(LIGHT_SPOT);
 }
 
 void Flashlight::initializeObserver() {

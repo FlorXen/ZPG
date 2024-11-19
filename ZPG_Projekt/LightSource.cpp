@@ -1,6 +1,6 @@
 #include "LightSource.h"
 
-LightSource::LightSource() : diffuseColor(glm::vec4(0.385, 0.647, 0.812, 1.0)), specularStrength(glm::vec4(1.0, 1.0, 1.0, 1.0)), attenuation(glm::vec3(1.0, 0.01, 0.01)),
+LightSource::LightSource() : ambient(glm::vec4(0.01, 0.01, 0.01, 1.0)), diffuse(glm::vec4(0.385, 0.647, 0.812, 1.0)), specular(glm::vec4(0.5, 0.5, 0.5, 1.0)), attenuation(glm::vec3(1.0, 0.01, 0.01)),
     direction(glm::vec3(0.0, 0.0, -1.0)), spotEffect(cos(glm::radians(16.0))) {
     this->transformation = Transformation();
 }
@@ -31,26 +31,35 @@ Transformation& LightSource::getTransformation() {
     return transformation;
 }
 
-void LightSource::setDiffuseColor(glm::vec4 diffuseColor) {
-    this->diffuseColor = diffuseColor;
+void LightSource::setDiffuse(glm::vec4 diffuse) {
+    this->diffuse = diffuse;
+    notifyLightSourceObservers();
+    transformation.wasChanged = true;
+}
+
+glm::vec4 LightSource::getAmbient() {
+    return ambient;
+}
+
+void LightSource::setAmbient(glm::vec4 ambient) {
+    this->ambient = ambient;
+    notifyLightSourceObservers();
+    transformation.wasChanged = true;
+}
+
+glm::vec4 LightSource::getDiffuse() {
+    return diffuse;
+}
+
+void LightSource::setSpecular(glm::vec4 specular) {
+    this->specular = specular;
     notifyLightSourceObservers();
     transformation.wasChanged = true;
 
 }
 
-glm::vec4 LightSource::getDiffuseColor() {
-    return diffuseColor;
-}
-
-void LightSource::setSpecularStrength(glm::vec4 specularStrength) {
-    this->specularStrength = specularStrength;
-    notifyLightSourceObservers();
-    transformation.wasChanged = true;
-
-}
-
-glm::vec4 LightSource::getSpecularStrength() {
-    return specularStrength;
+glm::vec4 LightSource::getSpecular() {
+    return specular;
 }
 
 void LightSource::setAttenuation(glm::vec3 attenuation) {

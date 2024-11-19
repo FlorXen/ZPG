@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "LightSource.h"
 #include "ShaderLoader.h"
+#include "Material.h"
 
 class Shader;
 
@@ -42,6 +43,7 @@ public:
     void setLights();
     void setCamera();
     void setTextures();
+    void setMaterial(const Material& material);
 
     std::vector<std::shared_ptr<LightSource>> lightSources;
 };

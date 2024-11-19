@@ -110,17 +110,23 @@ void ShaderProgram::setLights() {
         if (position != -1) {
             glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getPosition()));
         }
-        // Diffuse colour
-        uniformName = "lights[" + std::to_string(i) + "].diffuse_colour";
+        // Ambient
+        uniformName = "lights[" + std::to_string(i) + "].ambient";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
         if (position != -1) {
-            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getDiffuseColor()));
+            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getAmbient()));
         }
-        // Specular strength
+        // Diffuse
+        uniformName = "lights[" + std::to_string(i) + "].diffuse";
+        position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+        if (position != -1) {
+            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getDiffuse()));
+        }
+        // Specular
         uniformName = "lights[" + std::to_string(i) + "].specular";
         position = glGetUniformLocation(shaderProgram, uniformName.c_str());
         if (position != -1) {
-            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getSpecularStrength()));
+            glUniform4fv(position, 1, glm::value_ptr(lightSources[i]->getSpecular()));
         }
         // Attenuation strength
         uniformName = "lights[" + std::to_string(i) + "].attenuation";
@@ -161,4 +167,34 @@ void ShaderProgram::setTextures() {
 
     if(uniformID != -1)
         glUniform1i(uniformID, 0);
+}
+
+void ShaderProgram::setMaterial(const Material& material) {
+    std::string uniformName;
+    GLint position;
+
+    // Ambient
+    uniformName = "material.ambient";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform4fv(position, 1, glm::value_ptr(material.getAmbient()));
+    }
+    // Diffuse
+    uniformName = "material.diffuse";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform4fv(position, 1, glm::value_ptr(material.getDiffuse()));
+    }
+    // Specular
+    uniformName = "material.specular";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform4fv(position, 1, glm::value_ptr(material.getSpecular()));
+    }
+    // Shininess
+    uniformName = "material.shininess";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform1f(position, material.getShininess());
+    }
 }

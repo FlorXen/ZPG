@@ -111,8 +111,8 @@ void Application::CreateScenes() {
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_tree.vert", "Shaders/light_tree.frag"));
-        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/texture_test.vert", "Shaders/texture_test.frag"));
+        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_tree.frag"));
+        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
 
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
@@ -214,7 +214,7 @@ void Application::CreateScenes() {
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[3]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Phong.vert", "Shaders/light_Phong.frag"));
+        scenes[3]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Phong.frag"));
 
         scenes[3]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
@@ -240,7 +240,7 @@ void Application::CreateScenes() {
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[4]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_sphere.vert", "Shaders/light_sphere.frag"));
+        scenes[4]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_sphere.frag"));
 
         scenes[4]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
@@ -259,10 +259,10 @@ void Application::CreateScenes() {
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_constant.vert", "Shaders/light_constant.frag"));
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Lambert.vert", "Shaders/light_Lambert.frag"));
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Phong.vert", "Shaders/light_Phong.frag"));
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/light_Blinn.vert", "Shaders/light_Blinn.frag"));
+        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_constant.frag"));
+        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Lambert.frag"));
+        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Phong.frag"));
+        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Blinn.frag"));
 
         scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
         scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_tree));
@@ -287,22 +287,23 @@ void Application::CreateScenes() {
 
         scenes[5]->AddLightSource(std::make_shared<LightSource>());
         scenes[5]->lightSources[0]->setLightType(LIGHT_POINT);
-        scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 4.0f));
+        scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 8.0f));
+
     }
 
     // Scene 6
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[6]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/texture_test.vert", "Shaders/texture_test.frag"));
+        scenes[6]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
 
         scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
-
-        //scenes[6]->shaders[0]->textureID = SOIL_load_OGL_texture("test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
         scenes[6]->CreateObject(std::make_shared<DrawableObject>(scenes[6]->models[0], scenes[6]->shaders[0]));
 
         scenes[6]->AddLightSource(std::make_shared<LightSource>());
+        scenes[6]->lightSources[0]->setLightType(LIGHT_DIRECTION);
+        scenes[6]->lightSources[0]->setDirection(glm::vec3(0.0, -1.0, 0.0));
     }
 
     // TRANSFORMATIONS
