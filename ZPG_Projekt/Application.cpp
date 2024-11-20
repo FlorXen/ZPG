@@ -82,7 +82,19 @@ void Application::CreateScenes() {
     MyApp::Model model_bush = MyApp::Model(bushes, 8730, true, false);
     MyApp::Model model_plain = MyApp::Model(plain, 6, true, false);
     MyApp::Model model_plain2 = MyApp::Model(plain2, 6, true, true);
+    MyApp::Model model_skycube = MyApp::Model(skycube, 36, true, false);
 
+    Texture forest_plain = Texture("Textures/forest_plain.jpg", GL_TEXTURE_2D, GL_TEXTURE1, 1);
+    Texture skybox(
+        "Textures/posx.jpg",
+        "Textures/negx.jpg",
+        "Textures/posy.jpg",
+        "Textures/negy.jpg",
+        "Textures/posz.jpg",
+        "Textures/negz.jpg",
+        GL_TEXTURE_2D,
+        GL_TEXTURE2, 2
+    );
 
     // SCENES
 
@@ -113,11 +125,16 @@ void Application::CreateScenes() {
 
         scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_tree.frag"));
         scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
+        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/skybox.frag"));
 
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
-       
+        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_skycube));
+
+        scenes[1]->AddTexture(std::make_shared<Texture>(forest_plain));
+        scenes[1]->AddTexture(std::make_shared<Texture>(skybox));
+        
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
@@ -142,6 +159,13 @@ void Application::CreateScenes() {
 
         scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
         scenes[1]->objects[0]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(30.0)));
+        scenes[1]->objects[0]->addTexture(scenes[1]->textures[0]);
+
+        // Skybox
+
+        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[3], scenes[1]->shaders[2]));
+        scenes[1]->objects[1]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(30.0)));
+        scenes[1]->objects[1]->addTexture(scenes[1]->textures[1]);
 
         // Trees
         float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
@@ -324,20 +348,8 @@ void Application::Run() {
     const float maxScale = 1.5f;
     const float scaleSpeed = 0.01f;
 
-    //Bind the first texture to the first texture unit.
-    glActiveTexture(GL_TEXTURE0);
-    GLuint textureID = SOIL_load_OGL_texture("Textures/forest_plain.jpg", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    if (textureID == NULL) {
-        std::cout << "An error occurred while loading image." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    //Cube Map (SkyBox)
-    //GLuint textureID = SOIL_load_OGL_cubemap("xpos.jpg","xneg.jpg","ypos.jpg","yneg.jpg","zpos.jpg","zneg.jpg",SOIL_LOAD_RGB,SOIL_CREATE_NEW_ID,SOIL_FLAG_MIPMAPS    );
-
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
     glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
     while (!glfwWindowShouldClose(window)) {
         // clear color and depth buffer

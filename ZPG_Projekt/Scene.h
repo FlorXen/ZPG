@@ -11,12 +11,14 @@
 #include <vector>
 #include "Drawable.h"
 #include "Model.h"
+#include "Texture.h"
 
 class Scene : public std::enable_shared_from_this<Scene> {
 public:
 
     std::vector<std::shared_ptr<ShaderProgram>> shaders;
     std::vector<std::shared_ptr<MyApp::Model>> models;
+    std::vector<std::shared_ptr<Texture>> textures;
 
     std::vector<std::shared_ptr<Drawable>> objects;
     std::shared_ptr<Camera> camera;
@@ -28,5 +30,6 @@ public:
     void CreateObject(std::shared_ptr<Drawable> obj);
     void AddShaderProgram(std::shared_ptr<ShaderProgram> shaderProgram);
     void AddModel(std::shared_ptr<MyApp::Model> model);
+    void AddTexture(std::shared_ptr<Texture> texture);
     void Render();
 };

@@ -17,6 +17,7 @@
 #include "tree.h"
 #include "bushes.h"
 #include "plain.h"
+#include "skycube.h"
 
 #include <random>
 #include <iostream>

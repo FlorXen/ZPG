@@ -27,6 +27,10 @@ void Scene::AddModel(std::shared_ptr<MyApp::Model> model) {
     this->models.push_back(model);
 }
 
+void Scene::AddTexture(std::shared_ptr<Texture> texture) {
+    this->textures.push_back(texture);
+}
+
 void Scene::Render() {
     
     for (std::shared_ptr<LightSource> light : lightSources) {

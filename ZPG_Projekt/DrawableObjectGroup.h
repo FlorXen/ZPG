@@ -3,10 +3,13 @@
 #include "Drawable.h"
 #include <vector>
 #include <memory>
+#include <set>
 
 class DrawableObjectGroup : public Drawable {
 public:
-    void draw() const override;
+    DrawableObjectGroup();
+
+    void draw() override;
 
     Transformation& getTransformation() override;
 
@@ -17,7 +20,14 @@ public:
 
     std::vector<std::shared_ptr<Drawable>> getDrawables() override;
 
+    void setMaterial(const Material& material) override;
+
+    void addTexture(std::shared_ptr<Texture> texture) override;
+
+    Material material;
+    std::vector<std::shared_ptr<Texture>> textures;
+    std::set<int> sendTexturesAt;
+
 private:
     std::vector<std::shared_ptr<Drawable>> drawables;
-    
 };

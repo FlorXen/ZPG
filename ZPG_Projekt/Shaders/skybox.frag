@@ -34,7 +34,7 @@ uniform vec3 cameraPosition;
 uniform light lights[MAX_LIGHTS];
 uniform int numberOfLights;
 
-uniform sampler2D textures[MAX_TEXTURES];
+uniform samplerCube textures[MAX_TEXTURES];
 uniform int numberOfTextures;
 
 
@@ -63,7 +63,7 @@ void main() {
             case 1: {
                 // Point light
                 attenuation = 1.0 / (lights[index].attenuation.x + lights[index].attenuation.y * distance + lights[index].attenuation.z * distance * distance);
-                dot_product = max(dot(lightVector, worldNormal), 0.0);
+                dot_product = max(dot(lightVector, -worldNormal), 0.0);
                 diffuse = dot_product * lights[index].diffuse * material.diffuse * attenuation;
 
                 frag_colour += diffuse;
@@ -73,7 +73,7 @@ void main() {
                 // Directional light
 
                 lightVector = -normalize(lights[index].direction);
-                dot_product = max(dot(worldNormal, lightVector), 0.0);
+                dot_product = max(dot(-worldNormal, lightVector), 0.0);
                 diffuse = dot_product * lights[index].diffuse * material.diffuse;
 
                 frag_colour += diffuse;
@@ -86,7 +86,7 @@ void main() {
                 attenuation = 1.0 / (lights[index].attenuation.x + lights[index].attenuation.y * distance + lights[index].attenuation.z * distance * distance);
                 attenuation *= pow(spot, lights[index].spotEffect);
 
-                dot_product = max(dot(lightVector, worldNormal), 0.0);
+                dot_product = max(dot(lightVector, -worldNormal), 0.0);
                 diffuse = dot_product * lights[index].diffuse * material.diffuse * attenuation;
 
                 if (spot < lights[index].spotEffect) {
@@ -107,8 +107,6 @@ void main() {
         }
     }
     for (int index = 0; index < numberOfTextures; index++) {
-        frag_colour = texture(textures[index], uvc);
+        frag_colour *= texture(textures[index], vertexPosition);
     }
-
-    frag_colour *= vec4(0.385, 0.647, 0.812, 1.0);
 }

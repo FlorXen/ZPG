@@ -161,12 +161,22 @@ void ShaderProgram::setLights() {
     }
 }
 
-void ShaderProgram::setTextures() {
-    //Set texture unit to fragment shader
-    GLint uniformID = glGetUniformLocation(shaderProgram, "textureUnitID");
+void ShaderProgram::setTextures(int size, int index, int gl_textureID) {
+    std::string uniformName;
+    GLint position;
 
-    if(uniformID != -1)
-        glUniform1i(uniformID, 0);
+    //Set texture unit to fragment shader
+    uniformName = "textures[" + std::to_string(index) + "]";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if(position != -1)
+        glUniform1i(position, gl_textureID);
+
+    // Set array size
+    uniformName = "numberOfTextures";
+    position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform1i(position, (GLint)size);
+    }
 }
 
 void ShaderProgram::setMaterial(const Material& material) {

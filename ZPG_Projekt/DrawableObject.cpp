@@ -29,18 +29,39 @@ void DrawableObject::setAsLightSourceObserver(std::shared_ptr<LightSource> light
     
 }
 
-void DrawableObject::draw() const {
+void DrawableObject::draw() {
 
     shaderProgram->use();
+
+    shaderProgram->setMaterial(material);
     
     // Send transformation matrix to shader
     shaderProgram->setTransformation(std::make_shared<Transformation>(transformation));
+    // Send lights to shader
     shaderProgram->setLights();
-    shaderProgram->setTextures();
-    shaderProgram->setMaterial(material);
+    // Send textures to shader
+    if(!textures.empty()) {
+        for (int i = 0; i < textures.size(); i++) {
+            textures[i]->bind();
+            if (!sendTexturesAt.empty()) {
+                int j = *sendTexturesAt.begin();
 
-    glBindVertexArray(model->getVAO());
-    glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
+                if (i == j) {
+                    shaderProgram->setTextures(textures.size(), i, textures[i]->getGl_textureID());
+                    sendTexturesAt.erase(sendTexturesAt.begin());
+                }
+            }
+
+            glBindVertexArray(model->getVAO());
+            glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
+
+            textures[i]->unbind();
+        }
+    }
+    else {
+        glBindVertexArray(model->getVAO());
+        glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
+    }
     
     // Unbind VAO
     glBindVertexArray(0);
@@ -62,4 +83,9 @@ Material DrawableObject::getMaterial() {
 
 void DrawableObject::setMaterial(const Material& material) {
     this->material = material;
+}
+
+void DrawableObject::addTexture(std::shared_ptr<Texture> texture) {
+    textures.push_back(texture);
+    sendTexturesAt.insert(textures.size()-1);
 }

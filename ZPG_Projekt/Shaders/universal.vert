@@ -8,6 +8,7 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
 
+out vec3 vertexPosition;
 out vec3 worldNormal;
 out vec4 worldPosition;
 out vec2 uvc;
@@ -17,4 +18,5 @@ void main () {
     worldNormal= normalize(transpose(inverse(mat3(modelMatrix))) * vn);
     gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4(vp, 1.0);
     uvc=uv;
+    vertexPosition = vp;
 };

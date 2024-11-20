@@ -42,7 +42,7 @@ public:
     void setTransformation(std::shared_ptr<Transformation> transformation);
     void setLights();
     void setCamera();
-    void setTextures();
+    void setTextures(int size, int index, int gl_textureID);
     void setMaterial(const Material& material);
 
     std::vector<std::shared_ptr<LightSource>> lightSources;

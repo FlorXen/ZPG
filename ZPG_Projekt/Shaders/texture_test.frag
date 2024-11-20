@@ -1,6 +1,7 @@
 #version 330
 
 #define MAX_LIGHTS 5
+#define MAX_TEXTURES 5
 struct light
 {
     vec4 position;
@@ -29,7 +30,8 @@ uniform Material material;
 uniform light lights[MAX_LIGHTS];
 uniform int numberOfLights;
 uniform vec3 cameraPosition;
-uniform sampler2D textureUnitID;
+uniform sampler2D textures[MAX_TEXTURES];
+uniform int numberOfTextures;
 
 out vec4 frag_colour;
 
@@ -117,5 +119,8 @@ void main() {
         }
     }
 
-    frag_colour *= texture(textureUnitID, uvc);
+    for (int index = 0; index < numberOfTextures; index++) {
+        frag_colour *= texture(textures[index], uvc);
+    }
+    
 }
