@@ -9,7 +9,7 @@ void Transformation::reset() {
 
 void Transformation::addTransformation(std::shared_ptr<TransformOperation> transformation) {
     transformations.push_back(transformation);
-    transformation->apply(modelMatrix);
+    modelMatrix *= transformation->get();
 }
 
 void Transformation::setTransformations(std::vector<std::shared_ptr<TransformOperation>> transformations) {
@@ -37,12 +37,24 @@ void Transformation::updateTransformations() {
     modelMatrix[3].z = position.z;
 
     for (const auto& transformation : transformations) {
-        transformation->apply(modelMatrix);
+        modelMatrix *= transformation->get();
     }
 
     if (oldMatrix != modelMatrix)
         wasChanged = true;
 
+}
+
+void Transformation::swapTransformations(int index1, int index2) {
+    if (index1 < transformations.size() && index2 < transformations.size()) {
+        std::shared_ptr<TransformOperation> temp;
+
+        temp = transformations[index1];
+        transformations[index1] = transformations[index2];
+        transformations[index2] = temp;
+    }
+    else
+        printf("Transformation swap error: Index out of range.\n");
 }
 
 const glm::mat4& Transformation::getMatrix() const {

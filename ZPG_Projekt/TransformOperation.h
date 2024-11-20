@@ -15,5 +15,5 @@
 
 class TransformOperation {
 public:
-    virtual void apply(glm::mat4& modelMatrix) const = 0;
+    virtual glm::mat4 get() const = 0;
 };

@@ -56,7 +56,9 @@ public:
 
     }
 
-    void apply(glm::mat4& modelMatrix) const override {
+    glm::mat4 get() const override {
+        glm::mat4 modelMatrix = glm::mat4(1.0f);
+
         float currentTime = (float)glfwGetTime();
         float deltaTime = currentTime - lastChangeTime;
 
@@ -72,7 +74,8 @@ public:
         if (translation.x + X <= maxX && translation.x + X >= minX) {
             translation.x += X;
             X = translation.x;
-        } else {
+        }
+        else {
             translation.x = X;
             currentDirection.x *= -1.0;
         }
@@ -94,16 +97,21 @@ public:
             translation.z = Z;
             currentDirection.z *= -1.0;
         }
-        
+
         // On first call the matrix isnt formated so original translation would apply two times
         if (firstTime) {
             firstTime = false;
             modelMatrix[3].x = X;
             modelMatrix[3].y = Y;
             modelMatrix[3].z = Z;
-        } else
+        }
+        else
             modelMatrix = glm::translate(modelMatrix, translation);
+
+        return modelMatrix;
     }
 };
+
+
 
 

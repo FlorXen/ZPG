@@ -8,8 +8,12 @@ class Rotate : public TransformOperation {
 public:
     Rotate(float angle, const glm::vec3& axis) : angle(angle), axis(axis) {}
 
-    void apply(glm::mat4& modelMatrix) const override {
+    glm::mat4 get() const override {
+        glm::mat4 modelMatrix = glm::mat4(1.0f);
+
         modelMatrix = glm::rotate(modelMatrix, glm::radians(angle), axis);
+
+        return modelMatrix;
     }
 };
 

@@ -33,6 +33,7 @@ public:
     void setPosition(glm::vec3 position);
     std::shared_ptr<TransformOperation> getTransformation(int transforamtionIndex);
     void updateTransformations();
+    void swapTransformations(int index1, int index2);
 
     const glm::mat4& getMatrix() const;
     void setMatrix(glm::mat4 matrix);
