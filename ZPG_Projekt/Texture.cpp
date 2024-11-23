@@ -10,6 +10,15 @@ Texture::Texture(const std::string filePath, GLenum texture_type, GLenum gl_text
         exit(EXIT_FAILURE);
     }
 
+    glBindTexture(GL_TEXTURE_2D, ID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // unbind the texture
+    glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 Texture::Texture(const std::string& right, const std::string& left, const std::string& top,

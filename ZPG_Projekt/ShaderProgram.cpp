@@ -13,8 +13,6 @@ ShaderProgram::ShaderProgram(const char* vertexFile, const char* fragmentFile){
         std::cerr << "ERROR: Shader Program loading failed for files: "
             << vertexFile << " and " << fragmentFile << std::endl;
     }
-
-    
 }
 
 void ShaderProgram::bindCamera(std::shared_ptr<Camera> camera) {
@@ -207,4 +205,16 @@ void ShaderProgram::setMaterial(const Material& material) {
     if (position != -1) {
         glUniform1f(position, material.getShininess());
     }
+}
+
+void ShaderProgram::setGlobalAmbient(glm::vec4 globalAmbient) {
+    use();
+    
+    std::string uniformName = "globalAmbient";
+    GLint position = glGetUniformLocation(shaderProgram, uniformName.c_str());
+    if (position != -1) {
+        glUniform4fv(position, 1, glm::value_ptr(globalAmbient));
+    }
+
+    glUseProgram(0);
 }

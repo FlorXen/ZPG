@@ -141,13 +141,21 @@ void Application::CreateScenes() {
         scenes[1]->lightSources[1]->translate(glm::vec3(10.0f, 3.0f, 10.0f));
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[2]->translate(glm::vec3(-10.0f, 3.0f, -10.0f));
-        scenes[1]->AddLightSource(std::make_shared<LightSource>());
-        scenes[1]->lightSources[3]->translate(glm::vec3(10.0f, 3.0f, -10.0f));
 
         for (std::shared_ptr<LightSource> light : scenes[1]->lightSources) {
             light->randomDynamicTranslate(light->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
             light->setAttenuation(glm::vec3(1.0, 0.1, 0.1));
             light->setLightType(LIGHT_POINT);
+        }
+
+        // Day - Night setting
+        bool isDay = false;
+        if (isDay) {
+            scenes[1]->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
+
+            scenes[1]->AddLightSource(std::make_shared<LightSource>());
+            scenes[1]->lightSources[3]->setLightType(LIGHT_DIRECTION);
+            scenes[1]->lightSources[3]->setDirection(glm::vec3(0.0, -1.0, 0.0));
         }
         
         auto flashlight = std::make_shared<Flashlight>(scenes[1]->camera);
@@ -163,9 +171,7 @@ void Application::CreateScenes() {
 
         // Skybox
 
-        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[3], scenes[1]->shaders[2]));
-        scenes[1]->objects[1]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(30.0)));
-        scenes[1]->objects[1]->addTexture(scenes[1]->textures[1]);
+        scenes[1]->setSkybox(std::make_shared<Skybox>(scenes[1]->models[3], scenes[1]->shaders[2], scenes[1]->textures[1]));
 
         // Trees
         float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
@@ -186,8 +192,10 @@ void Application::CreateScenes() {
             scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
             scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
 
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<DynamicRotate>(angle, glm::vec3(0.0f, 1.0f, 0.0f)));
-            //scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
+            if(i < 10)
+                scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<DynamicRotate>(angle, glm::vec3(0.0f, 3.0f, 0.0f)));
+            else
+                scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
         }
 
         // Bushes
@@ -323,7 +331,10 @@ void Application::CreateScenes() {
 
         scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
 
+        scenes[6]->AddTexture(std::make_shared<Texture>(forest_plain));
+
         scenes[6]->CreateObject(std::make_shared<DrawableObject>(scenes[6]->models[0], scenes[6]->shaders[0]));
+        scenes[6]->objects[0]->addTexture(scenes[6]->textures[0]);
 
         scenes[6]->AddLightSource(std::make_shared<LightSource>());
         scenes[6]->lightSources[0]->setLightType(LIGHT_DIRECTION);

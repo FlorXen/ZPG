@@ -31,9 +31,9 @@ public:
     std::vector<std::shared_ptr<Texture>> textures;
     std::set<int> sendTexturesAt;
 
-private:
-    std::shared_ptr<MyApp::Model> model;
-    std::shared_ptr<ShaderProgram> shaderProgram;
+protected:
     Transformation transformation;
+    std::shared_ptr<ShaderProgram> shaderProgram;
+    std::shared_ptr<MyApp::Model> model;
     
 };

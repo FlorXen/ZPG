@@ -150,6 +150,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transformation.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="RandomDynamicTranslate.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="skycube.h" />
     <ClInclude Include="square.h" />
     <ClInclude Include="Texture.h" />

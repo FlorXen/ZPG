@@ -44,6 +44,7 @@ public:
     void setCamera();
     void setTextures(int size, int index, int gl_textureID);
     void setMaterial(const Material& material);
+    void setGlobalAmbient(glm::vec4 globalAmbient);
 
     std::vector<std::shared_ptr<LightSource>> lightSources;
 };

@@ -37,12 +37,25 @@ uniform int numberOfLights;
 uniform samplerCube textures[MAX_TEXTURES];
 uniform int numberOfTextures;
 
+uniform vec4 globalAmbient;
+
 
 out vec4 frag_colour;
 
 void main() {
+
+    frag_colour = globalAmbient;
     
-   frag_colour = vec4(0.1, 0.1, 0.1, 1.0); // global ambient
+    for (int index = 0; index < numberOfTextures; index++) {
+        frag_colour *= texture(textures[index], vertexPosition);
+    }
+}
+
+
+/*
+void main() {
+    
+    frag_colour = globalAmbient;
 
     for (int index = 0; index < numberOfLights; index++) 
     {
@@ -110,3 +123,4 @@ void main() {
         frag_colour *= texture(textures[index], vertexPosition);
     }
 }
+*/

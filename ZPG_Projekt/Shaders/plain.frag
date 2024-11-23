@@ -31,11 +31,14 @@ uniform int numberOfLights;
 uniform vec3 cameraPosition;
 uniform sampler2D textureUnitID;
 
+uniform vec4 globalAmbient;
+
+
 out vec4 frag_colour;
 
 void main() {
-    
-    frag_colour = vec4(0.1, 0.1, 0.1, 1.0); // global ambient
+
+    frag_colour = globalAmbient;
 
     for (int index = 0; index < numberOfLights; index++) 
     {
