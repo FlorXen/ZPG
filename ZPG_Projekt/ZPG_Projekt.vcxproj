@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\libs\soil\include;..\..\libs\glew-2.1.0\include;..\..\libs\glfw-3.4.bin.WIN64\include;..\..\libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\filip\Documents\1Skola\Tretak\ZPG\libs\assimp\include;..\..\libs\soil\include;..\..\libs\glew-2.1.0\include;..\..\libs\glfw-3.4.bin.WIN64\include;..\..\libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\libs\soil\lib\Platform_x64;..\..\libs\glew-2.1.0\lib\Release\x64;..\..\libs\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\filip\Documents\1Skola\Tretak\ZPG\libs\assimp\lib\x64\v141\Release;..\..\libs\soil\lib\Platform_x64;..\..\libs\glew-2.1.0\lib\Release\x64;..\..\libs\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -133,6 +133,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AssimpDrawableObject.cpp" />
+    <ClCompile Include="AssimpModel.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
@@ -158,6 +160,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AssimpDrawableObject.h" />
+    <ClInclude Include="AssimpModel.h" />
     <ClInclude Include="bushes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Controller.h" />

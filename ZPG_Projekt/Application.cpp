@@ -82,19 +82,20 @@ void Application::CreateScenes() {
     MyApp::Model model_bush = MyApp::Model(bushes, 8730, true, false);
     MyApp::Model model_plain = MyApp::Model(plain, 6, true, false);
     MyApp::Model model_plain2 = MyApp::Model(plain2, 6, true, true);
-    MyApp::Model model_skycube = MyApp::Model(skycube, 36, true, false);
+    MyApp::Model model_skycube = MyApp::Model(skycube, 36, false, false);
+    AssimpModel model_login = AssimpModel("Models/login.obj");
 
-    Texture forest_plain = Texture("Textures/forest_plain.jpg", GL_TEXTURE_2D, GL_TEXTURE1, 1);
-    Texture skybox(
+    Texture texture_plain = Texture("Textures/forest_plain.jpg", GL_TEXTURE_2D, 1);
+    Texture texture_skybox(
         "Textures/posx.jpg",
         "Textures/negx.jpg",
         "Textures/posy.jpg",
         "Textures/negy.jpg",
         "Textures/posz.jpg",
         "Textures/negz.jpg",
-        GL_TEXTURE_2D,
-        GL_TEXTURE2, 2
+        GL_TEXTURE_2D, 2
     );
+    Texture texture_wood = Texture("Textures/test.png", GL_TEXTURE_2D, 3);
 
     // SCENES
 
@@ -132,8 +133,8 @@ void Application::CreateScenes() {
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
         scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_skycube));
 
-        scenes[1]->AddTexture(std::make_shared<Texture>(forest_plain));
-        scenes[1]->AddTexture(std::make_shared<Texture>(skybox));
+        scenes[1]->AddTexture(std::make_shared<Texture>(texture_plain));
+        scenes[1]->AddTexture(std::make_shared<Texture>(texture_skybox));
         
         scenes[1]->AddLightSource(std::make_shared<LightSource>());
         scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
@@ -149,7 +150,7 @@ void Application::CreateScenes() {
         }
 
         // Day - Night setting
-        bool isDay = false;
+        bool isDay = true;
         if (isDay) {
             scenes[1]->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
 
@@ -326,19 +327,20 @@ void Application::CreateScenes() {
     // Scene 6
     {
         scenes.push_back(std::make_shared<Scene>());
+        scenes[6]->setGlobalAmbient(glm::vec4(1.0, 1.0, 1.0, 1.0));
 
         scenes[6]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
 
         scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
+        scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_login));
 
-        scenes[6]->AddTexture(std::make_shared<Texture>(forest_plain));
+        scenes[6]->AddTexture(std::make_shared<Texture>(texture_plain));
+        scenes[6]->AddTexture(std::make_shared<Texture>(texture_wood));
 
         scenes[6]->CreateObject(std::make_shared<DrawableObject>(scenes[6]->models[0], scenes[6]->shaders[0]));
         scenes[6]->objects[0]->addTexture(scenes[6]->textures[0]);
-
-        scenes[6]->AddLightSource(std::make_shared<LightSource>());
-        scenes[6]->lightSources[0]->setLightType(LIGHT_DIRECTION);
-        scenes[6]->lightSources[0]->setDirection(glm::vec3(0.0, -1.0, 0.0));
+        scenes[6]->CreateObject(std::make_shared<AssimpDrawableObject>(scenes[6]->models[1], scenes[6]->shaders[0]));
+        scenes[6]->objects[1]->addTexture(scenes[6]->textures[1]);
     }
 
     // TRANSFORMATIONS

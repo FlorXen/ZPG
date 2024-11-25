@@ -17,28 +17,29 @@ void DrawableObjectGroup::draw() {
             combinedTransformation.setMatrix(combinedMatrix);
             combinedTransformation.setTransformations(combinedVectors);
 
+            obj->getShaderProgram()->setMaterial(material);
+
             // Send transformation matrix to shader
             obj->getShaderProgram()->setTransformation(std::make_shared<Transformation>(combinedTransformation));
             // Send lights to shader
             obj->getShaderProgram()->setLights();
             // Send textures to shader
-            for (int i = 0; i < textures.size(); i++) {
-                textures[i]->bind();
-                if (!sendTexturesAt.empty()) {
-                    int j = *sendTexturesAt.begin();
+            if (!textures.empty()) {
+                for (int i = 0; i < textures.size(); i++) {
+                    textures[i]->activate();
 
-                    if (i == j) {
-                        obj->getShaderProgram()->setTextures(textures.size(), i, textures[i]->getGl_textureID());
-                        sendTexturesAt.erase(sendTexturesAt.begin());
-                    }
+                    obj->getShaderProgram()->setTextures(textures.size(), i, textures[i]->getTextureUnit());
+
+                    glBindVertexArray(obj->getModel()->getVAO());
+                    glDrawArrays(GL_TRIANGLES, 0, obj->getModel()->getVertexCount());
+
+                    textures[i]->deactivate();
                 }
-                textures[i]->unbind();
             }
-
-            obj->getShaderProgram()->setMaterial(material);
-
-            glBindVertexArray(obj->getModel()->getVAO());
-            glDrawArrays(GL_TRIANGLES, 0, obj->getModel()->getVertexCount());
+            else {
+                glBindVertexArray(obj->getModel()->getVAO());
+                glDrawArrays(GL_TRIANGLES, 0, obj->getModel()->getVertexCount());
+            }
 
             // Unbind VAO
             glBindVertexArray(0);

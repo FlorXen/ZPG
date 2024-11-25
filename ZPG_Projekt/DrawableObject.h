@@ -7,7 +7,7 @@
 #include "Drawable.h"
 #include "Material.h"
 #include "Texture.h"
-#include <set>
+
 class DrawableObject : public Drawable{
 public:
     DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram);
@@ -29,7 +29,6 @@ public:
     
     Material material;
     std::vector<std::shared_ptr<Texture>> textures;
-    std::set<int> sendTexturesAt;
 
 protected:
     Transformation transformation;

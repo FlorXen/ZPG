@@ -3,8 +3,10 @@
 
 using namespace MyApp;
 
-Model::Model(const float* vertices, int vertexCount, bool hasNormals, bool hasUV)
-    : vertexCount(vertexCount)
+Model::Model() : vertexCount(0), VBO(0), VAO(0), indicesCount(0)
+{}
+
+Model::Model(const float* vertices, int vertexCount, bool hasNormals, bool hasUV) : vertexCount(vertexCount), indicesCount(0)
 {
 
     // Generate and bind VAO
@@ -75,6 +77,10 @@ GLuint Model::getVAO() {
 
 int Model::getVertexCount() {
     return this->vertexCount;
+}
+
+int Model::getIndicesCount() {
+    return indicesCount;
 }
 
 Model::~Model() {

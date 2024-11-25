@@ -10,14 +10,16 @@
 #include "DrawableObjectGroup.h"
 #include "Controller.h"
 #include "Flashlight.h"
+#include "AssimpDrawableObject.h"
+#include "AssimpModel.h"
 
-#include "triangle.h"
-#include "square.h"
-#include "sphere.h"
-#include "tree.h"
-#include "bushes.h"
-#include "plain.h"
-#include "skycube.h"
+#include "Models/triangle.h"
+#include "Models/square.h"
+#include "Models/sphere.h"
+#include "Models/tree.h"
+#include "Models/bushes.h"
+#include "Models/plain.h"
+#include "Models/skycube.h"
 
 #include <random>
 #include <iostream>

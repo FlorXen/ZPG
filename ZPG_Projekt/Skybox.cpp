@@ -1,7 +1,6 @@
 #include "Skybox.h"
 
 Skybox::Skybox(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram) : DrawableObject(model, shaderProgram){
-    this->transformation.addTransformation(std::make_shared<Scale>(glm::vec3(2.0, 2.0, 2.0)));
 }
 
 Skybox::Skybox(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, std::shared_ptr<Texture> texture) : DrawableObject(model, shaderProgram) {
@@ -22,20 +21,14 @@ void Skybox::draw() {
     // Send textures to shader
     if (!textures.empty()) {
         for (int i = 0; i < textures.size(); i++) {
-            textures[i]->bind();
-            if (!sendTexturesAt.empty()) {
-                int j = *sendTexturesAt.begin();
+            textures[i]->activate();
 
-                if (i == j) {
-                    shaderProgram->setTextures(textures.size(), i, textures[i]->getGl_textureID());
-                    sendTexturesAt.erase(sendTexturesAt.begin());
-                }
-            }
+            shaderProgram->setTextures(textures.size(), i, textures[i]->getTextureUnit());
 
             glBindVertexArray(model->getVAO());
             glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
 
-            textures[i]->unbind();
+            textures[i]->deactivate();
         }
     }
     else {

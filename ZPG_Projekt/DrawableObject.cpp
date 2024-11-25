@@ -40,22 +40,16 @@ void DrawableObject::draw() {
     // Send lights to shader
     shaderProgram->setLights();
     // Send textures to shader
-    if(!textures.empty()) {
+    if (!textures.empty()) {
         for (int i = 0; i < textures.size(); i++) {
-            textures[i]->bind();
-            if (!sendTexturesAt.empty()) {
-                int j = *sendTexturesAt.begin();
+            textures[i]->activate();
 
-                if (i == j) {
-                    shaderProgram->setTextures(textures.size(), i, textures[i]->getGl_textureID());
-                    sendTexturesAt.erase(sendTexturesAt.begin());
-                }
-            }
+            shaderProgram->setTextures(textures.size(), i, textures[i]->getTextureUnit());
 
             glBindVertexArray(model->getVAO());
             glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
 
-            textures[i]->unbind();
+            textures[i]->deactivate();
         }
     }
     else {
@@ -87,5 +81,4 @@ void DrawableObject::setMaterial(const Material& material) {
 
 void DrawableObject::addTexture(std::shared_ptr<Texture> texture) {
     textures.push_back(texture);
-    sendTexturesAt.insert(textures.size()-1);
 }
