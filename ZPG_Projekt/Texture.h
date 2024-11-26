@@ -26,7 +26,5 @@ private:
 	GLuint ID;
 	int textureUnit;
 	GLenum texture_type;
-
-
 };
 

@@ -4,26 +4,26 @@
 DrawableObjectGroup::DrawableObjectGroup() : material(glm::vec4(0.1, 0.1, 0.1, 1.0), glm::vec4(0.8, 0.8, 0.8, 1.0), glm::vec4(0.5, 0.5, 0.5, 1.0), 32.0) {}
 
 void DrawableObjectGroup::draw() {
-    for (const auto& drawable : drawables) {
+    // Aktualizace transformaèní matice skupiny
+    transformation.updateTransformations();
 
+    for (const auto& drawable : drawables) {
         if (auto* obj = dynamic_cast<DrawableObject*>(drawable.get())) {
             obj->getShaderProgram()->use();
 
+            obj->getTransformation().updateTransformations();
+
             glm::mat4 combinedMatrix = transformation.getMatrix() * obj->getTransformation().getMatrix();
-            std::vector<std::shared_ptr<TransformOperation>> combinedVectors = transformation.transformations;
-            combinedVectors.insert(combinedVectors.end(), obj->getTransformation().transformations.begin(), obj->getTransformation().transformations.end());
 
             Transformation combinedTransformation;
             combinedTransformation.setMatrix(combinedMatrix);
-            combinedTransformation.setTransformations(combinedVectors);
 
             obj->getShaderProgram()->setMaterial(material);
 
-            // Send transformation matrix to shader
             obj->getShaderProgram()->setTransformation(std::make_shared<Transformation>(combinedTransformation));
-            // Send lights to shader
+
             obj->getShaderProgram()->setLights();
-            // Send textures to shader
+
             if (!textures.empty()) {
                 for (int i = 0; i < textures.size(); i++) {
                     textures[i]->activate();
@@ -84,7 +84,6 @@ void DrawableObjectGroup::setMaterial(const Material& material) {
 
 void DrawableObjectGroup::addTexture(std::shared_ptr<Texture> texture) {
     textures.push_back(texture);
-    this->sendTexturesAt.insert(textures.size());
 
     for (const auto& drawable : drawables) {
         drawable->addTexture(texture);

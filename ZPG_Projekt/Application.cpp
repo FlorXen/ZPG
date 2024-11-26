@@ -75,6 +75,7 @@ void Application::Initialize() {
 
 void Application::CreateScenes() {
 
+    // Models
     MyApp::Model model_triangle = MyApp::Model(triangle, 3, false, false);
     MyApp::Model model_square = MyApp::Model(square, 6, false, false);
     MyApp::Model model_sphere = MyApp::Model(sphere, 2880, true, false);
@@ -84,7 +85,10 @@ void Application::CreateScenes() {
     MyApp::Model model_plain2 = MyApp::Model(plain2, 6, true, true);
     MyApp::Model model_skycube = MyApp::Model(skycube, 36, false, false);
     AssimpModel model_login = AssimpModel("Models/login.obj");
+    AssimpModel model_house = AssimpModel("Models/house.obj");
+    AssimpModel model_grass = AssimpModel("Models/grass.obj");
 
+    // Textures
     Texture texture_plain = Texture("Textures/forest_plain.jpg", GL_TEXTURE_2D, 1);
     Texture texture_skybox(
         "Textures/posx.jpg",
@@ -96,6 +100,8 @@ void Application::CreateScenes() {
         GL_TEXTURE_2D, 2
     );
     Texture texture_wood = Texture("Textures/test.png", GL_TEXTURE_2D, 3);
+    Texture texture_house = Texture("Textures/house.png", GL_TEXTURE_2D, 4);
+    Texture texture_grass = Texture("Textures/grass.jpg", GL_TEXTURE_2D, 5);
 
     // SCENES
 
@@ -103,106 +109,123 @@ void Application::CreateScenes() {
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[0]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
-        scenes[0]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
-        scenes[0]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
 
-        scenes[0]->AddModel(std::make_shared<MyApp::Model>(model_triangle));
-        scenes[0]->AddModel(std::make_shared<MyApp::Model>(model_square));
-        scenes[0]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_triangle));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_square));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
-        scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[0], scenes[0]->shaders[0]));
-        scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[1], scenes[0]->shaders[1]));
-        scenes[0]->CreateObject(std::make_shared<DrawableObject>(scenes[0]->models[2], scenes[0]->shaders[2]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[1]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[2], scenes.back()->shaders[2]));
 
-        scenes[0]->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
 
-        scenes[0]->objects[2]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.3f, 0.3f, 0.3f)));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.3f, 0.3f, 0.3f)));
     }
-    
+
     // Scene 1 - Forest
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_tree.frag"));
-        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
-        scenes[1]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/skybox.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_tree.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/skybox.frag"));
 
-        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_tree));
-        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_bush));
-        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
-        scenes[1]->AddModel(std::make_shared<MyApp::Model>(model_skycube));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_tree));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_bush));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_plain2));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_skycube));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_house));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_grass));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_login));
 
-        scenes[1]->AddTexture(std::make_shared<Texture>(texture_plain));
-        scenes[1]->AddTexture(std::make_shared<Texture>(texture_skybox));
-        
-        scenes[1]->AddLightSource(std::make_shared<LightSource>());
-        scenes[1]->lightSources[0]->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
-        scenes[1]->AddLightSource(std::make_shared<LightSource>());
-        scenes[1]->lightSources[1]->translate(glm::vec3(10.0f, 3.0f, 10.0f));
-        scenes[1]->AddLightSource(std::make_shared<LightSource>());
-        scenes[1]->lightSources[2]->translate(glm::vec3(-10.0f, 3.0f, -10.0f));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_plain));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_skybox));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_house));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_grass));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_wood));
 
-        for (std::shared_ptr<LightSource> light : scenes[1]->lightSources) {
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->translate(glm::vec3(10.0f, 3.0f, 10.0f));
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->translate(glm::vec3(-10.0f, 3.0f, -10.0f));
+
+        for (std::shared_ptr<LightSource> light : scenes.back()->lightSources) {
             light->randomDynamicTranslate(light->getPosition(), 0.5f, 2.0f, -10.0f, 10.0f, 1.0f, 6.0f, -10.0f, 10.0f);
             light->setAttenuation(glm::vec3(1.0, 0.1, 0.1));
             light->setLightType(LIGHT_POINT);
         }
 
         // Day - Night setting
-        bool isDay = true;
+        bool isDay = false;
         if (isDay) {
-            scenes[1]->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
+            scenes.back()->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
 
-            scenes[1]->AddLightSource(std::make_shared<LightSource>());
-            scenes[1]->lightSources[3]->setLightType(LIGHT_DIRECTION);
-            scenes[1]->lightSources[3]->setDirection(glm::vec3(0.0, -1.0, 0.0));
+            scenes.back()->AddLightSource(std::make_shared<LightSource>());
+            scenes.back()->lightSources.back()->setLightType(LIGHT_DIRECTION);
+            scenes.back()->lightSources.back()->setDirection(glm::vec3(0.0, -1.0, 0.0));
         }
-        
-        auto flashlight = std::make_shared<Flashlight>(scenes[1]->camera);
+
+        auto flashlight = std::make_shared<Flashlight>(scenes.back()->camera);
         flashlight->initializeObserver();
-        scenes[1]->AddLightSource(flashlight);
-        
+        flashlight->setDiffuse(glm::vec4(1.0, 1.0, 1.0, 1.0));
+        flashlight->setAttenuation(glm::vec3(0.5, 0.05, 0.05));
+        scenes.back()->AddLightSource(flashlight);
 
         // Plain
-
-        scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
+        /*scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
         scenes[1]->objects[0]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(30.0)));
-        scenes[1]->objects[0]->addTexture(scenes[1]->textures[0]);
+        scenes[1]->objects[0]->addTexture(scenes[1]->textures[0]);*/
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[4], scenes.back()->shaders[1]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[2]);
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.6, 0.6, 0.6)));
+
+        // House
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[5], scenes.back()->shaders[1]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[3]);
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Rotate>(90.0, glm::vec3(-1.0, 0.0, 0.0)));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.2, 0.2, 0.4)));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0, 0.0, -7.6)));
+
+        // Login
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[6], scenes.back()->shaders[1]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[4]);
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.2, 2.0, 6.6)));
 
         // Skybox
-
-        scenes[1]->setSkybox(std::make_shared<Skybox>(scenes[1]->models[3], scenes[1]->shaders[2], scenes[1]->textures[1]));
+        scenes.back()->setSkybox(std::make_shared<Skybox>(scenes.back()->models[3], scenes.back()->shaders[2], scenes.back()->textures[1]));
 
         // Trees
         float scaleX, scaleY, scaleZ, transX, transZ, angle, rotX, rotY, rotZ;
-        int from, to;
-        from = (int)scenes[1]->objects.size();
-        to = (int)scenes[1]->objects.size() + 100;
-        for (int i = from; i < to; i++) {
+        for (int i = 0; i < 200; i++) {
             scaleX = randomFloat(0.4, 0.8);
             scaleY = randomFloat(0.6, 1.3);
             scaleZ = randomFloat(0.4, 0.8);
-            transX = randomFloat(-30.0, 30.0);
-            transZ = randomFloat(-30.0, 30.0);
+            do {
+                transX = randomFloat(-30.0, 30.0);
+                transZ = randomFloat(-30.0, 30.0);
+            } while (transX > -7.0 && transX < 7.0 && transZ > -14.0 && transZ < 14.0);
             angle = randomFloat(-20.0, 20.0);
             rotX = randomFloat(0.0, 1.0);
             rotY = randomFloat(0.0, 1.0);
             rotZ = randomFloat(0.0, 1.0);
-            scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[0], scenes[1]->shaders[0]));
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
+            scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
+            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
 
-            if(i < 10)
-                scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<DynamicRotate>(angle, glm::vec3(0.0f, 3.0f, 0.0f)));
+            if (i < 10)
+                scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<DynamicRotate>(angle, glm::vec3(0.0f, 3.0f, 0.0f)));
             else
-                scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
+                scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
         }
 
         // Bushes
-        from = (int)scenes[1]->objects.size();
-        to = (int)scenes[1]->objects.size() + 150;
-        for (int i = from; i < to; i++) {
+        for (int i = 0; i < 150; i++) {
             scaleX = randomFloat(1.0, 2.5);
             scaleY = randomFloat(1.0, 2.5);
             scaleZ = randomFloat(1.0, 2.5);
@@ -212,10 +235,10 @@ void Application::CreateScenes() {
             rotX = randomFloat(0.0, 1.0);
             rotY = randomFloat(0.0, 1.0);
             rotZ = randomFloat(0.0, 1.0);
-            scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[1], scenes[1]->shaders[0]));
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
-            scenes[1]->objects[i]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
+            scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[0]));
+            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
+            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Rotate>(angle, glm::vec3(rotX, rotY, rotZ)));
+            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
         }
     }
 
@@ -223,130 +246,142 @@ void Application::CreateScenes() {
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[2]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
-        scenes[2]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
-        scenes[2]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_triangle.vert", "Shaders/basic_triangle.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_square.vert", "Shaders/basic_square.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/basic_sphere.vert", "Shaders/basic_sphere.frag"));
 
-        scenes[2]->AddModel(std::make_shared<MyApp::Model>(model_triangle));
-        scenes[2]->AddModel(std::make_shared<MyApp::Model>(model_square));
-        scenes[2]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_triangle));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_square));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
-        scenes[2]->CreateObject(std::make_shared<DrawableObjectGroup>());
+        scenes.back()->CreateObject(std::make_shared<DrawableObjectGroup>());
 
-        scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[0], scenes[2]->shaders[0]));
-        scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[1], scenes[2]->shaders[1]));
-        scenes[2]->objects[0]->addDrawable(std::make_shared<DrawableObject>(scenes[2]->models[2], scenes[2]->shaders[2]));
+		scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<DynamicRotate>(20.0 ,glm::vec3(1.0f, 0.0f, 0.0f)));
 
-        scenes[2]->AddLightSource(std::make_shared<LightSource>());
-        scenes[2]->lightSources[0]->setLightType(LIGHT_POINT);
+        scenes.back()->objects.back()->addDrawable(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->addDrawable(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[1]));
+        scenes.back()->objects.back()->addDrawable(std::make_shared<DrawableObject>(scenes.back()->models[2], scenes.back()->shaders[2]));
 
-        scenes[2]->objects[0]->getDrawables().at(2)->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.3f, 0.3f, 0.3f)));
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->setLightType(LIGHT_POINT);
+
+        scenes.back()->objects.back()->getDrawables().at(2)->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.3f, 0.3f, 0.3f)));
     }
-    
+
     // Scene 3
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[3]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Phong.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Phong.frag"));
 
-        scenes[3]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
-        scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
-        scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
-        scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
-        scenes[3]->CreateObject(std::make_shared<DrawableObject>(scenes[3]->models[0], scenes[3]->shaders[0]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
 
-        scenes[3]->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
-        scenes[3]->objects[1]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
-        scenes[3]->objects[2]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, 2.5f)));
-        scenes[3]->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, -2.5f)));
+        scenes.back()->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
+        scenes.back()->objects[1]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
+        scenes.back()->objects[2]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, 2.5f)));
+        scenes.back()->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, -2.5f)));
 
-        scenes[3]->AddLightSource(std::make_shared<LightSource>());
-        scenes[3]->lightSources[0]->setLightType(LIGHT_POINT);
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->setLightType(LIGHT_POINT);
 
-        auto flashlight = std::make_shared<Flashlight>(scenes[3]->camera);
+        auto flashlight = std::make_shared<Flashlight>(scenes.back()->camera);
         flashlight->initializeObserver();
-        scenes[3]->AddLightSource(flashlight);
+        scenes.back()->AddLightSource(flashlight);
     }
 
     // Scene 4
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[4]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_sphere.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_sphere.frag"));
 
-        scenes[4]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_sphere));
 
-        scenes[4]->CreateObject(std::make_shared<DrawableObject>(scenes[4]->models[0], scenes[4]->shaders[0]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
 
-        scenes[4]->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, 0.0f)));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0f, 0.0f, 0.0f)));
 
-        scenes[4]->AddLightSource(std::make_shared<LightSource>());
-        scenes[4]->lightSources[0]->setLightType(LIGHT_POINT);
-        scenes[4]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, -3.0f));
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->setLightType(LIGHT_POINT);
+        scenes.back()->lightSources.back()->translate(glm::vec3(0.0f, 0.0f, -3.0f));
 
-        scenes[4]->camera->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+        scenes.back()->camera->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
     }
 
     // Scene 5
     {
         scenes.push_back(std::make_shared<Scene>());
 
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_constant.frag"));
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Lambert.frag"));
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Phong.frag"));
-        scenes[5]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Blinn.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_constant.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Lambert.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Phong.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/light_Blinn.frag"));
 
-        scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_sphere));
-        scenes[5]->AddModel(std::make_shared<MyApp::Model>(model_tree));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_sphere));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_tree));
 
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[0]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[1]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[2]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[0], scenes[5]->shaders[3]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[0]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[1]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[2]));
-        scenes[5]->CreateObject(std::make_shared<DrawableObject>(scenes[5]->models[1], scenes[5]->shaders[3]));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-6.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[1]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[2]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[3]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-6.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[1]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[2]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[1], scenes.back()->shaders[3]));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
 
-        scenes[5]->objects[0]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-6.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[1]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[2]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[3]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[4]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-6.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[5]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[6]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(2.5f, 0.0f, 0.0f)));
-        scenes[5]->objects[7]->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(6.5f, 0.0f, 0.0f)));
 
-        scenes[5]->AddLightSource(std::make_shared<LightSource>());
-        scenes[5]->lightSources[0]->setLightType(LIGHT_POINT);
-        scenes[5]->lightSources[0]->translate(glm::vec3(0.0f, 0.0f, 8.0f));
+        scenes.back()->AddLightSource(std::make_shared<LightSource>());
+        scenes.back()->lightSources.back()->setLightType(LIGHT_POINT);
+        scenes.back()->lightSources.back()->translate(glm::vec3(0.0f, 0.0f, 8.0f));
 
     }
 
     // Scene 6
     {
         scenes.push_back(std::make_shared<Scene>());
-        scenes[6]->setGlobalAmbient(glm::vec4(1.0, 1.0, 1.0, 1.0));
+        scenes.back()->setGlobalAmbient(glm::vec4(1.0, 1.0, 1.0, 1.0));
 
-        scenes[6]->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
+        scenes.back()->AddShaderProgram(std::make_shared<ShaderProgram>("Shaders/universal.vert", "Shaders/texture_test.frag"));
 
-        scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_plain2));
-        scenes[6]->AddModel(std::make_shared<MyApp::Model>(model_login));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_plain2));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_login));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_house));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_grass));
 
-        scenes[6]->AddTexture(std::make_shared<Texture>(texture_plain));
-        scenes[6]->AddTexture(std::make_shared<Texture>(texture_wood));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_plain));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_wood));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_house));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_grass));
 
-        scenes[6]->CreateObject(std::make_shared<DrawableObject>(scenes[6]->models[0], scenes[6]->shaders[0]));
-        scenes[6]->objects[0]->addTexture(scenes[6]->textures[0]);
-        scenes[6]->CreateObject(std::make_shared<AssimpDrawableObject>(scenes[6]->models[1], scenes[6]->shaders[0]));
-        scenes[6]->objects[1]->addTexture(scenes[6]->textures[1]);
+        scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[0]);
+
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[1], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[1]);
+
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[2], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[2]);
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.6, 0.6, 0.6)));
+
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[3], scenes.back()->shaders[0]));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[3]);
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Rotate>(90.0, glm::vec3(-1.0, 0.0, 0.0)));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.5, 0.5, 0.4)));
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0, 0.0, -7.6)));
     }
-
-    // TRANSFORMATIONS
-    //setTranslation(glm::vec3(0.0f, 1.0f, 0.0f));
-    //setRotation(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-    //setScale(glm::vec3(1.0f, 2.0f, 1.0f));
 
     for (std::shared_ptr<Scene> sc : scenes) {
         sc->camera->setWindowSize(width, height);
@@ -355,11 +390,6 @@ void Application::CreateScenes() {
 }
 
 void Application::Run() {
-    bool shrinking = true;
-    float currentScale = 1.0f;
-    const float minScale = 0.5f;
-    const float maxScale = 1.5f;
-    const float scaleSpeed = 0.01f;
 
     glEnable(GL_DEPTH_TEST);//Do depth comparisons and update the depth buffer.
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -376,28 +406,6 @@ void Application::Run() {
 
         scenes[currentSceneNumber]->Render();
         
-        scenes[2]->objects[0]->getTransformation().addTransformation(std::make_shared<Rotate>(1.0f, glm::vec3(1.0f, 0.0f, 0.0f)));
-
-        if (shrinking) {
-            if (currentScale > minScale) {
-                currentScale -= scaleSpeed;
-                scenes[2]->objects[0]->getDrawables().at(0)->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(1.0f - scaleSpeed, 1.0f - scaleSpeed, 1.0f - scaleSpeed)));
-            }
-            else {
-                shrinking = false;
-            }
-        }
-        else {
-            if (currentScale < maxScale) {
-                currentScale += scaleSpeed;
-                scenes[2]->objects[0]->getDrawables().at(0)->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(1.0f + scaleSpeed, 1.0f + scaleSpeed, 1.0f + scaleSpeed)));
-            }
-            else {
-                shrinking = true;
-            }
-        }
-        
-
         // update other events like input handling
         glfwPollEvents();
         // put the stuff we�ve been drawing onto the display

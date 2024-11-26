@@ -3,7 +3,6 @@
 #include "Drawable.h"
 #include <vector>
 #include <memory>
-#include <set>
 
 class DrawableObjectGroup : public Drawable {
 public:
@@ -26,7 +25,6 @@ public:
 
     Material material;
     std::vector<std::shared_ptr<Texture>> textures;
-    std::set<int> sendTexturesAt;
 
 private:
     std::vector<std::shared_ptr<Drawable>> drawables;
