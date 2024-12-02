@@ -162,7 +162,7 @@ void Application::CreateScenes() {
         }
 
         // Day - Night setting
-        bool isDay = false;
+        bool isDay = true;
         if (isDay) {
             scenes.back()->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
 
@@ -181,19 +181,19 @@ void Application::CreateScenes() {
         /*scenes[1]->CreateObject(std::make_shared<DrawableObject>(scenes[1]->models[2], scenes[1]->shaders[1]));
         scenes[1]->objects[0]->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(30.0)));
         scenes[1]->objects[0]->addTexture(scenes[1]->textures[0]);*/
-        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[4], scenes.back()->shaders[1]));
-        scenes.back()->objects.back()->addTexture(scenes.back()->textures[2]);
-        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.6, 0.6, 0.6)));
-
-        // House
         scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[5], scenes.back()->shaders[1]));
         scenes.back()->objects.back()->addTexture(scenes.back()->textures[3]);
         scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Rotate>(90.0, glm::vec3(-1.0, 0.0, 0.0)));
         scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.2, 0.2, 0.4)));
         scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(0.0, 0.0, -7.6)));
 
+        // House
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[4], scenes.back()->shaders[1], scenes.back()->getNextObjectID()));
+        scenes.back()->objects.back()->addTexture(scenes.back()->textures[2]);
+        scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(0.6, 0.6, 0.6)));
+
         // Login
-        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[6], scenes.back()->shaders[1]));
+        scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[6], scenes.back()->shaders[1], scenes.back()->getNextObjectID()));
         scenes.back()->objects.back()->addTexture(scenes.back()->textures[4]);
         scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(-2.2, 2.0, 6.6)));
 
@@ -214,7 +214,7 @@ void Application::CreateScenes() {
             rotX = randomFloat(0.0, 1.0);
             rotY = randomFloat(0.0, 1.0);
             rotZ = randomFloat(0.0, 1.0);
-            scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0]));
+            scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0], scenes.back()->getNextObjectID()));
             scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
             scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
 
@@ -529,6 +529,10 @@ void Application::lockCursor(bool lock) {
     else {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Unlock cursor
     }
+}
+
+std::shared_ptr<Scene> Application::getCurrentScene() {
+	return scenes[currentSceneNumber];
 }
 
 

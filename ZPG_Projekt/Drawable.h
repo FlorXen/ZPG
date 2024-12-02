@@ -30,9 +30,20 @@ public:
 
     virtual void addTexture(std::shared_ptr<Texture> texture) {}
 
+	virtual int getID() {
+		return ID;
+    }
+
+	virtual void setID(int ID) {
+		this->ID = ID;
+	}
+
+	virtual std::shared_ptr<Drawable> clone() = 0;
+
 protected:
     Transformation transformation;
     std::shared_ptr<Camera> camera;
     std::vector<std::shared_ptr<LightSource>> lightSources;
+	int ID;
     
 };

@@ -1,8 +1,16 @@
 #include "AssimpDrawableObject.h"
 
-AssimpDrawableObject::AssimpDrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram) : DrawableObject(model, shaderProgram) {}
+AssimpDrawableObject::AssimpDrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram) : DrawableObject(model, shaderProgram) {
+}
 
-AssimpDrawableObject::AssimpDrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, Material material) : DrawableObject(model, shaderProgram, material) {}
+AssimpDrawableObject::AssimpDrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, int ID) : DrawableObject(model, shaderProgram, ID) {
+}
+
+AssimpDrawableObject::AssimpDrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, Material material) : DrawableObject(model, shaderProgram, material) {
+}
+
+AssimpDrawableObject::AssimpDrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, int ID, Material material) : DrawableObject(model, shaderProgram, ID, material) {
+}
 
 void AssimpDrawableObject::draw() {
 
@@ -36,4 +44,18 @@ void AssimpDrawableObject::draw() {
     glBindVertexArray(0);
 
     glUseProgram(0);
+}
+
+std::shared_ptr<Drawable> AssimpDrawableObject::clone() {
+    std::shared_ptr<AssimpDrawableObject> clone = std::make_shared<AssimpDrawableObject>(model, shaderProgram, material);
+
+    // Copy transformations without tralsation
+    for (const auto& transformation : this->transformation.transformations) {
+        if (dynamic_cast<Translate*>(transformation.get()) == nullptr) {
+            clone->transformation.addTransformation(transformation);
+        }
+    }
+
+    clone->textures = textures;
+    return clone;
 }

@@ -29,7 +29,6 @@ class Shader;
 
 class Application {
 private:
-    GLFWwindow* window;
     std::vector<std::shared_ptr<Scene>> scenes;
 
     int width, height, currentSceneNumber = 0;
@@ -37,7 +36,7 @@ private:
     static float randomFloat(double min, double max);
 
 public:
-
+    GLFWwindow* window;
     Controller controller = nullptr;
 
     Application(int w = 1600, int h = 800);
@@ -64,4 +63,6 @@ public:
     void updateWindowSizeInScenes(int width, int height);
 
     void moveLightSource(char direction, float distance);
+
+    std::shared_ptr<Scene> getCurrentScene();
 };

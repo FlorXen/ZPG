@@ -26,7 +26,9 @@ public:
     std::shared_ptr<Camera> camera;
     std::vector<std::shared_ptr<LightSource>> lightSources;
     std::shared_ptr<Skybox> skybox;
-    
+
+    int nextObjectID = 1;
+    std::shared_ptr<Drawable> select = nullptr;
 
     Scene();
     Scene(glm::vec4 globalAmbient);
@@ -38,4 +40,8 @@ public:
     void Render();
     void setSkybox(std::shared_ptr<Skybox> skybox);
     void setGlobalAmbient(glm::vec4 globalAmbient);
+	int getNextObjectID();
+	void setSelect(int ID);
+	void deleteSelected();
+	void pasteSelected(glm::vec3 position);
 };

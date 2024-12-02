@@ -30,6 +30,8 @@ public:
     float getFi();
     glm::vec3 getTarget();
 
+	glm::vec2 getResolution();
+
 private:
     glm::vec3 eye;
     glm::vec3 target;
@@ -40,4 +42,5 @@ private:
 
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
+    glm::vec2 resolution;
 };

@@ -38,6 +38,9 @@ void Scene::AddTexture(std::shared_ptr<Texture> texture) {
 
 void Scene::Render() {
 
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
     if (skybox != nullptr) {
         skybox->getTransformation().updateTransformations();
         skybox->draw();
@@ -48,6 +51,8 @@ void Scene::Render() {
     }
 
     for (auto& obj : this->objects) {
+        glStencilFunc(GL_ALWAYS, obj->getID(), 0xFF);
+
         obj->getTransformation().updateTransformations();
         obj->draw();
     }
@@ -68,4 +73,39 @@ void Scene::setGlobalAmbient(glm::vec4 globalAmbient) {
     for (auto& shader : this->shaders) {
         shader->setGlobalAmbient(this->globalAmbient);
     }
+}
+
+int Scene::getNextObjectID() {
+	return nextObjectID++;
+}
+
+void Scene::setSelect(int ID) {
+	for (auto& obj : this->objects) {
+		if (obj->getID() == ID) {
+			select = obj;
+			break;
+		}
+	}
+}
+
+void Scene::deleteSelected() {
+	if (select != nullptr) {
+		for (auto it = objects.begin(); it != objects.end(); it++) {
+			if ((*it)->getID() == select->getID()) {
+				objects.erase(it);
+				break;
+			}
+		}
+		select = nullptr;
+	}
+}
+
+void Scene::pasteSelected(glm::vec3 position) {
+	if (select != nullptr) {
+		std::shared_ptr<Drawable> obj = select->clone();
+		obj->setID(getNextObjectID());
+
+		obj->getTransformation().addTransformation(std::make_shared<Translate>(position));
+		CreateObject(obj);
+	}
 }

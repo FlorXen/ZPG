@@ -5,6 +5,29 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZPG_Projekt", "ZPG_Projekt\ZPG_Projekt.vcxproj", "{C6609681-8272-4C0F-9873-628815DAFDDE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{10DDC214-1154-4F2B-9470-A596860800D3}"
+	ProjectSection(SolutionItems) = preProject
+		ZPG_Projekt\Shaders\basic_sphere.frag = ZPG_Projekt\Shaders\basic_sphere.frag
+		ZPG_Projekt\Shaders\basic_sphere.vert = ZPG_Projekt\Shaders\basic_sphere.vert
+		ZPG_Projekt\Shaders\basic_square.frag = ZPG_Projekt\Shaders\basic_square.frag
+		ZPG_Projekt\Shaders\basic_square.vert = ZPG_Projekt\Shaders\basic_square.vert
+		ZPG_Projekt\Shaders\basic_triangle.frag = ZPG_Projekt\Shaders\basic_triangle.frag
+		ZPG_Projekt\Shaders\basic_triangle.vert = ZPG_Projekt\Shaders\basic_triangle.vert
+		ZPG_Projekt\Shaders\bush.frag = ZPG_Projekt\Shaders\bush.frag
+		ZPG_Projekt\Shaders\light_Blinn.frag = ZPG_Projekt\Shaders\light_Blinn.frag
+		ZPG_Projekt\Shaders\light_constant.frag = ZPG_Projekt\Shaders\light_constant.frag
+		ZPG_Projekt\Shaders\light_Lambert.frag = ZPG_Projekt\Shaders\light_Lambert.frag
+		ZPG_Projekt\Shaders\light_Phong.frag = ZPG_Projekt\Shaders\light_Phong.frag
+		ZPG_Projekt\Shaders\light_sphere.frag = ZPG_Projekt\Shaders\light_sphere.frag
+		ZPG_Projekt\Shaders\light_tree.frag = ZPG_Projekt\Shaders\light_tree.frag
+		ZPG_Projekt\Shaders\plain.frag = ZPG_Projekt\Shaders\plain.frag
+		ZPG_Projekt\Shaders\skybox.frag = ZPG_Projekt\Shaders\skybox.frag
+		ZPG_Projekt\Shaders\skybox.vert = ZPG_Projekt\Shaders\skybox.vert
+		ZPG_Projekt\Shaders\texture_test.frag = ZPG_Projekt\Shaders\texture_test.frag
+		ZPG_Projekt\Shaders\tree.frag = ZPG_Projekt\Shaders\tree.frag
+		ZPG_Projekt\Shaders\universal.vert = ZPG_Projekt\Shaders\universal.vert
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

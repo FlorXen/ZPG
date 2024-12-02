@@ -5,7 +5,10 @@ Camera::Camera() : eye(glm::vec3(0.0f, 1.5f, 5.0f)),
     alpha(1.6f), fi(-1.6f)
 {
     viewMatrix = glm::lookAt(eye, eye + target, up);
-    projectionMatrix = glm::perspective(glm::radians(60.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+    resolution.x = 4.0f;
+	resolution.y = 3.0f;
+    projectionMatrix = glm::perspective(glm::radians(60.0f), resolution.x / resolution.y, 0.1f, 100.0f);
+    
 }
 
 void Camera::setPosition(const glm::vec3& position) {
@@ -21,6 +24,8 @@ glm::vec3 Camera::getPosition() {
 
 void Camera::setWindowSize(int width, int height) {
     projectionMatrix = glm::perspective(glm::radians(60.0f), float(width) / float(height), 0.1f, 100.0f);
+    resolution.x = float(width);
+    resolution.y = float(height);
     notifyCameraObservers();
 }
 
@@ -100,4 +105,8 @@ float Camera::getFi() {
 
 glm::vec3 Camera::getTarget() {
     return this->target;
+}
+
+glm::vec2 Camera::getResolution() {
+	return resolution;
 }

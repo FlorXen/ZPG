@@ -1,7 +1,12 @@
 #include "DrawableObjectGroup.h"
 #include "DrawableObject.h"
 
-DrawableObjectGroup::DrawableObjectGroup() : material(glm::vec4(0.1, 0.1, 0.1, 1.0), glm::vec4(0.8, 0.8, 0.8, 1.0), glm::vec4(0.5, 0.5, 0.5, 1.0), 32.0) {}
+DrawableObjectGroup::DrawableObjectGroup() : material(glm::vec4(0.1, 0.1, 0.1, 1.0), glm::vec4(0.8, 0.8, 0.8, 1.0), glm::vec4(0.5, 0.5, 0.5, 1.0), 32.0) {
+	this->ID = -1;
+}
+DrawableObjectGroup::DrawableObjectGroup(int ID) : material(glm::vec4(0.1, 0.1, 0.1, 1.0), glm::vec4(0.8, 0.8, 0.8, 1.0), glm::vec4(0.5, 0.5, 0.5, 1.0), 32.0) {
+	this->ID = ID;
+}
 
 void DrawableObjectGroup::draw() {
     // Aktualizace transformaèní matice skupiny
@@ -88,4 +93,20 @@ void DrawableObjectGroup::addTexture(std::shared_ptr<Texture> texture) {
     for (const auto& drawable : drawables) {
         drawable->addTexture(texture);
     }
+}
+
+std::shared_ptr<Drawable> DrawableObjectGroup::clone() {
+	auto group = std::make_shared<DrawableObjectGroup>();
+	group->setAsCameraObserver(camera);
+	for (std::shared_ptr<LightSource> light : lightSources) {
+		group->setAsLightSourceObserver(light);
+	}
+	group->setMaterial(material);
+	for (const auto& texture : textures) {
+		group->addTexture(texture);
+	}
+	for (const auto& drawable : drawables) {
+		group->addDrawable(drawable->clone());
+	}
+	return group;
 }

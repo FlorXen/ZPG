@@ -7,6 +7,7 @@
 class DrawableObjectGroup : public Drawable {
 public:
     DrawableObjectGroup();
+    DrawableObjectGroup(int ID);
 
     void draw() override;
 
@@ -23,8 +24,11 @@ public:
 
     void addTexture(std::shared_ptr<Texture> texture) override;
 
+    std::shared_ptr<Drawable> clone() override;
+
     Material material;
     std::vector<std::shared_ptr<Texture>> textures;
+
 
 private:
     std::vector<std::shared_ptr<Drawable>> drawables;

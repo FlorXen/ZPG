@@ -11,7 +11,9 @@
 class DrawableObject : public Drawable{
 public:
     DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram);
+    DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, int ID);
     DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, Material material);
+    DrawableObject(std::shared_ptr<MyApp::Model> model, std::shared_ptr<ShaderProgram> shaderProgram, int ID, Material material);
 
     Transformation& getTransformation() override;
 
@@ -26,6 +28,8 @@ public:
     void setMaterial(const Material& material) override;
     
     void addTexture(std::shared_ptr<Texture> texture) override;
+
+    std::shared_ptr<Drawable> clone() override;
     
     Material material;
     std::vector<std::shared_ptr<Texture>> textures;

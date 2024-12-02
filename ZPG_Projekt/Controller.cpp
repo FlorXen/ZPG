@@ -79,6 +79,37 @@ void Controller::handleKeyInput(int key, int scancode, int action, int mods) {
             app->changeScene('-');
         break;
 
+    case GLFW_KEY_DELETE:
+        if (action == GLFW_PRESS) {
+            app->getCurrentScene()->deleteSelected();
+        }
+        break;
+
+    case GLFW_KEY_V:
+        if (action == GLFW_PRESS && (mods & GLFW_MOD_CONTROL)) {
+            int windowWidth, windowHeight;
+            glfwGetWindowSize(app->window, &windowWidth, &windowHeight);
+
+            double xpos, ypos;
+            glfwGetCursorPos(app->window, &xpos, &ypos);
+
+            // Get depth from z-buffer
+            GLfloat depth;
+            glReadPixels(xpos, windowHeight - ypos, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+
+            glm::vec3 screenX = glm::vec3(xpos, windowHeight - ypos, depth);
+            glm::mat4 view = app->getCurrentScene()->camera->getViewMatrix();
+            glm::mat4 projection = app->getCurrentScene()->camera->getProjectionMatrix();
+            glm::vec4 viewPort = glm::vec4(0, 0, windowWidth, windowHeight);
+            glm::vec3 pos = glm::unProject(screenX, view, projection, viewPort);
+
+            printf("unProject [%f,%f,%f]\n", pos.x, pos.y, pos.z);
+
+            app->getCurrentScene()->pasteSelected(pos);
+
+        }
+        break;
+
     default:
         break;
     }
@@ -93,29 +124,27 @@ void Controller::handleWindowResize(int width, int height) {
 }
 
 void Controller::handleMouseInput(double xpos, double ypos) {
-    static bool firstMouse = false;
-    static float lastX = (float)xpos;
-    static float lastY = (float)ypos;
+    static bool firstMouse = true;
 
-        if (firstMouse) {
-            lastX = (float)xpos;
-            lastY = (float)ypos;
-            firstMouse = false;
-        }
+    if (firstMouse) {
+        cursor.x = (float)xpos;
+        cursor.y = (float)ypos;
+        firstMouse = false;
+    }
 
-        // Count position difference
-        xOffset = (float)xpos - lastX;
-        yOffset = lastY - (float)ypos;
+    // Count position difference
+    xOffset = (float)xpos - cursor.x;
+    yOffset = cursor.y - (float)ypos;
 
-        lastX = (float)xpos;
-        lastY = (float)ypos;
+    cursor.x = (float)xpos;
+    cursor.y = (float)ypos;
 
-        // Mouse sensitivity
-        const float sensitivity = 0.005f;
-        xOffset *= sensitivity;
-        yOffset *= sensitivity;
+    // Mouse sensitivity
+    const float sensitivity = 0.005f;
+    xOffset *= sensitivity;
+    yOffset *= sensitivity;
 
-        mouseChanged = true;
+    mouseChanged = true;
 }
 
 void Controller::handleMouseClickInput(int button, int action, int mode) {
@@ -126,6 +155,38 @@ void Controller::handleMouseClickInput(int button, int action, int mode) {
     else if (button == 2 && action == 0) {
         app->lockCursor(false);
         cursorLocked = false;
+
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(app->window, &windowWidth, &windowHeight);
+
+        double xpos = windowWidth / 2.0;
+        double ypos = windowHeight / 2.0;
+        glfwSetCursorPos(app->window, xpos, ypos);
+
+        cursor.x = xpos;
+        cursor.y = ypos;
+        xOffset = 0;
+        yOffset = 0;
+        
+    }
+
+    if (button == 0 && action == 0) {
+        GLbyte color[4];
+        GLfloat depth;
+        GLuint index;
+
+        GLint x = (GLint)cursor.x;
+        GLint y = (GLint)cursor.y;
+
+
+        int newy = app->getCurrentScene()->camera->getResolution().y - y;
+
+        glReadPixels(x, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+        glReadPixels(x, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+        glReadPixels(x, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+
+        printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index % u\n", x, y, color[0], color[1], color[2], color[3], depth, index);
+        app->getCurrentScene()->setSelect(index);
     }
 }
 

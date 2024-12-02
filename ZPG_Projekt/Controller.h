@@ -2,6 +2,11 @@
 
 class Application;
 
+struct cursor {
+	double x;
+	double y;
+};
+
 class Controller {
 public:
     Controller(Application* app);
@@ -19,4 +24,5 @@ private:
     bool moveCameraForward, moveCameraBackward, moveCameraRight, moveCameraLeft, moveCameraUp, moveCameraDown, mouseChanged,
         windowSizeChanged, cursorLocked;
     float xOffset, yOffset;
+	cursor cursor;
 };
