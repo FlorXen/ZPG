@@ -87,6 +87,7 @@ void Application::CreateScenes() {
     AssimpModel model_login = AssimpModel("Models/login.obj");
     AssimpModel model_house = AssimpModel("Models/house.obj");
     AssimpModel model_grass = AssimpModel("Models/grass.obj");
+    AssimpModel model_tree2 = AssimpModel("Models/tree.obj");
 
     // Textures
     Texture texture_plain = Texture("Textures/forest_plain.jpg", GL_TEXTURE_2D, 1);
@@ -102,6 +103,7 @@ void Application::CreateScenes() {
     Texture texture_wood = Texture("Textures/test.png", GL_TEXTURE_2D, 3);
     Texture texture_house = Texture("Textures/house.png", GL_TEXTURE_2D, 4);
     Texture texture_grass = Texture("Textures/grass.jpg", GL_TEXTURE_2D, 5);
+    Texture texture_tree = Texture("Textures/tree.png", GL_TEXTURE_2D, 6);
 
     // SCENES
 
@@ -141,12 +143,14 @@ void Application::CreateScenes() {
         scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_house));
         scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_grass));
         scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_login));
+        scenes.back()->AddModel(std::make_shared<MyApp::Model>(model_tree2));
 
         scenes.back()->AddTexture(std::make_shared<Texture>(texture_plain));
         scenes.back()->AddTexture(std::make_shared<Texture>(texture_skybox));
         scenes.back()->AddTexture(std::make_shared<Texture>(texture_house));
         scenes.back()->AddTexture(std::make_shared<Texture>(texture_grass));
         scenes.back()->AddTexture(std::make_shared<Texture>(texture_wood));
+        scenes.back()->AddTexture(std::make_shared<Texture>(texture_tree));
 
         scenes.back()->AddLightSource(std::make_shared<LightSource>());
         scenes.back()->lightSources.back()->translate(glm::vec3(-10.0f, 3.0f, 10.0f));
@@ -207,16 +211,22 @@ void Application::CreateScenes() {
             scaleY = randomFloat(0.6, 1.3);
             scaleZ = randomFloat(0.4, 0.8);
             do {
-                transX = randomFloat(-30.0, 30.0);
-                transZ = randomFloat(-30.0, 30.0);
-            } while (transX > -7.0 && transX < 7.0 && transZ > -14.0 && transZ < 14.0);
+                transX = randomFloat(-200, 200);
+                transZ = randomFloat(-200, 200);
+            } while (transX > -30.0 && transX < 30.0 && transZ > -60.0 && transZ < 60.0);
             angle = randomFloat(-20.0, 20.0);
             rotX = randomFloat(0.0, 1.0);
             rotY = randomFloat(0.0, 1.0);
             rotZ = randomFloat(0.0, 1.0);
-            scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0], scenes.back()->getNextObjectID()));
-            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
+
+            scenes.back()->CreateObject(std::make_shared<AssimpDrawableObject>(scenes.back()->models[7], scenes.back()->shaders[1], scenes.back()->getNextObjectID()));
+            scenes.back()->objects.back()->addTexture(scenes.back()->textures[5]);
+            scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX / 5, scaleY / 5, scaleZ / 5)));
             scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
+
+            //scenes.back()->CreateObject(std::make_shared<DrawableObject>(scenes.back()->models[0], scenes.back()->shaders[0], scenes.back()->getNextObjectID()));
+            //scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Scale>(glm::vec3(scaleX, scaleY, scaleZ)));
+            //scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<Translate>(glm::vec3(transX, 0.0f, transZ)));
 
             if (i < 10)
                 scenes.back()->objects.back()->getTransformation().addTransformation(std::make_shared<DynamicRotate>(angle, glm::vec3(0.0f, 3.0f, 0.0f)));
