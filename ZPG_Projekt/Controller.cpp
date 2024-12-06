@@ -85,6 +85,53 @@ void Controller::handleKeyInput(int key, int scancode, int action, int mods) {
         }
         break;
 
+    case GLFW_KEY_ENTER:
+        if (action == GLFW_PRESS) {
+            if (bezierControlPoints.size() < 4) {
+				printf("Not enough control points\n");
+				break;
+            }
+            app->getCurrentScene()->moveSelected(bezierControlPoints);
+        }
+        break;
+
+    case GLFW_KEY_KP_ADD:
+        if (action == GLFW_PRESS) {
+            int windowWidth, windowHeight;
+            glfwGetWindowSize(app->window, &windowWidth, &windowHeight);
+
+            double xpos, ypos;
+            glfwGetCursorPos(app->window, &xpos, &ypos);
+
+            // Get depth from z-buffer
+            GLfloat depth;
+            glReadPixels(xpos, windowHeight - ypos, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+
+            glm::vec3 screenX = glm::vec3(xpos, windowHeight - ypos, depth);
+            glm::mat4 view = app->getCurrentScene()->camera->getViewMatrix();
+            glm::mat4 projection = app->getCurrentScene()->camera->getProjectionMatrix();
+            glm::vec4 viewPort = glm::vec4(0, 0, windowWidth, windowHeight);
+            glm::vec3 pos = glm::unProject(screenX, view, projection, viewPort);
+
+            printf("Added [%f,%f,%f] to bezier control points.\n", pos.x, pos.y, pos.z);
+
+			bezierControlPoints.push_back(pos);
+        }
+        break;
+
+    case GLFW_KEY_KP_SUBTRACT:
+        if (action == GLFW_PRESS) {
+            if (bezierControlPoints.size() > 0) {
+				printf("Removed [%f,%f,%f] from bezier control points.\n", bezierControlPoints.back().x, bezierControlPoints.back().y, bezierControlPoints.back().z);
+                
+                bezierControlPoints.pop_back();
+            }
+            else {
+				printf("No control points to remove.\n");
+            }
+        }
+        break;
+
     case GLFW_KEY_V:
         if (action == GLFW_PRESS && (mods & GLFW_MOD_CONTROL)) {
             int windowWidth, windowHeight;

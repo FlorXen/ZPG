@@ -1,5 +1,5 @@
 #pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 //Include GLM  
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
@@ -13,6 +13,7 @@
 #include "Translate.h"
 #include "RandomDynamicTranslate.h"
 #include "Scale.h"
+#include "DynamicBezierTranslate.h"
 
 #include <vector>
 #include <memory>

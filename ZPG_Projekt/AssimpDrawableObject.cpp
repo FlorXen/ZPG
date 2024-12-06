@@ -49,12 +49,11 @@ void AssimpDrawableObject::draw() {
 std::shared_ptr<Drawable> AssimpDrawableObject::clone() {
     std::shared_ptr<AssimpDrawableObject> clone = std::make_shared<AssimpDrawableObject>(model, shaderProgram, material);
 
-    // Copy transformations without tralsation
-    for (const auto& transformation : this->transformation.transformations) {
-        if (dynamic_cast<Translate*>(transformation.get()) == nullptr) {
-            clone->transformation.addTransformation(transformation);
+        for (const auto& transformation : this->transformation.transformations) {
+            if (dynamic_cast<Rotate*>(transformation.get()) != nullptr || dynamic_cast<Scale*>(transformation.get()) != nullptr) {
+                clone->transformation.addTransformation(transformation);
+            }
         }
-    }
 
     clone->textures = textures;
     return clone;

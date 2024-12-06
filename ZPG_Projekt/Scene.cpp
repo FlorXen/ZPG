@@ -109,3 +109,9 @@ void Scene::pasteSelected(glm::vec3 position) {
 		CreateObject(obj);
 	}
 }
+
+void Scene::moveSelected(std::vector<glm::vec3> controlPoints) {
+	if (select != nullptr) {
+		select->getTransformation().addTransformation(std::make_shared<DynamicBezierTranslate>(controlPoints));
+	}
+}

@@ -1,5 +1,15 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+//Include GLEW
+#include <GL/glew.h>
+//Include GLFW  
+#include <GLFW/glfw3.h>
+
+#include <glm/vec3.hpp>
+
+#include <vector>
+
 class Application;
 
 struct cursor {
@@ -25,4 +35,5 @@ private:
         windowSizeChanged, cursorLocked;
     float xOffset, yOffset;
 	cursor cursor;
+    std::vector<glm::vec3> bezierControlPoints;
 };

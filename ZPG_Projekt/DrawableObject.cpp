@@ -100,9 +100,8 @@ void DrawableObject::addTexture(std::shared_ptr<Texture> texture) {
 std::shared_ptr<Drawable> DrawableObject::clone() {
 	std::shared_ptr<DrawableObject> clone = std::make_shared<DrawableObject>(model, shaderProgram, material);
 	
-	// Copy transformations without tralsation
     for (const auto& transformation : this->transformation.transformations) {
-        if (dynamic_cast<Translate*>(transformation.get()) == nullptr) {
+        if (dynamic_cast<Rotate*>(transformation.get()) != nullptr || dynamic_cast<Scale*>(transformation.get()) != nullptr) {
             clone->transformation.addTransformation(transformation);
         }
     }

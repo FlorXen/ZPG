@@ -139,6 +139,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
+    <ClCompile Include="DynamicBezierTranslate.cpp" />
     <ClCompile Include="DynamicRotate.cpp" />
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="LightSource.cpp" />
@@ -149,7 +150,6 @@
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
@@ -168,6 +168,7 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectGroup.h" />
+    <ClInclude Include="DynamicBezierTranslate.h" />
     <ClInclude Include="DynamicRotate.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="LightSource.h" />
@@ -184,7 +185,6 @@
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="Scale.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="sphere.h" />
@@ -193,6 +193,9 @@
     <ClInclude Include="TransformOperation.h" />
     <ClInclude Include="Translate.h" />
     <ClInclude Include="tree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

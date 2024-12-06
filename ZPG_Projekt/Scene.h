@@ -1,5 +1,5 @@
 #pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 //Include GLM  
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
@@ -44,4 +44,5 @@ public:
 	void setSelect(int ID);
 	void deleteSelected();
 	void pasteSelected(glm::vec3 position);
+    void moveSelected(std::vector<glm::vec3> controlPoints);
 };
