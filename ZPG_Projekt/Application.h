@@ -32,6 +32,7 @@ private:
     std::vector<std::shared_ptr<Scene>> scenes;
 
     int width, height, currentSceneNumber = 0;
+    bool isDay = true;
 
     static float randomFloat(double min, double max);
 
@@ -62,7 +63,7 @@ public:
 
     void updateWindowSizeInScenes(int width, int height);
 
-    void moveLightSource(char direction, float distance);
+    void changeDateTimeInForest();
 
     std::shared_ptr<Scene> getCurrentScene();
 };

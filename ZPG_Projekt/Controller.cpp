@@ -157,6 +157,11 @@ void Controller::handleKeyInput(int key, int scancode, int action, int mods) {
         }
         break;
 
+    case GLFW_KEY_N:
+        if (action == GLFW_PRESS)
+			app->changeDateTimeInForest();
+        break;
+
     default:
         break;
     }

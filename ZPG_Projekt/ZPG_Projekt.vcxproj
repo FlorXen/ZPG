@@ -139,16 +139,11 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="DrawableObjectGroup.cpp" />
-    <ClCompile Include="DynamicBezierTranslate.cpp" />
-    <ClCompile Include="DynamicRotate.cpp" />
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="RandomDynamicTranslate.cpp" />
-    <ClCompile Include="Rotate.cpp" />
-    <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -156,7 +151,6 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transformation.cpp" />
-    <ClCompile Include="Translate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />

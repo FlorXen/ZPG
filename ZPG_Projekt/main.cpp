@@ -1,4 +1,11 @@
-﻿#include "Application.h"
+﻿/*
+* Projekt do předmětu ZPG
+* 
+* Autor: Filip Hort
+* Login: Hor0552
+*/
+
+#include "Application.h"
 
 int main(void)
 {

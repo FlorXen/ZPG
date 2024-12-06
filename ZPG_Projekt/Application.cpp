@@ -165,15 +165,12 @@ void Application::CreateScenes() {
             light->setLightType(LIGHT_POINT);
         }
 
-        // Day - Night setting
-        bool isDay = true;
-        if (isDay) {
+        // Day settings
             scenes.back()->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
 
             scenes.back()->AddLightSource(std::make_shared<LightSource>());
             scenes.back()->lightSources.back()->setLightType(LIGHT_DIRECTION);
             scenes.back()->lightSources.back()->setDirection(glm::vec3(0.0, -1.0, 0.0));
-        }
 
         auto flashlight = std::make_shared<Flashlight>(scenes.back()->camera);
         flashlight->initializeObserver();
@@ -545,4 +542,15 @@ std::shared_ptr<Scene> Application::getCurrentScene() {
 	return scenes[currentSceneNumber];
 }
 
+void Application::changeDateTimeInForest() {
+	isDay = !isDay;
+	if (isDay) {
+		scenes[1]->setGlobalAmbient(glm::vec4(0.5, 0.5, 0.5, 1));
+		scenes[1]->lightSources[3]->setLightType(LIGHT_DIRECTION);
+	}
+	else {
+		scenes[1]->setGlobalAmbient(glm::vec4(0.1, 0.1, 0.1, 1));
+		scenes[1]->lightSources[3]->setLightType(LIGHT_OFF);
+	}
+}
 
