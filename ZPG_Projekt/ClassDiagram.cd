@@ -1,196 +1,203 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Application" Collapsed="true">
-    <Position X="39.5" Y="0.5" Width="1.5" />
+    <Position X="33" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAgAAAAABDACAQVAQBQCAIAQBAACgAgIAAACAAAgACI=</HashCode>
+      <HashCode>EAAAAAAABDACAQVAQBQCAYAQBAACgAgIAACCAAAgACI=</HashCode>
       <FileName>Application.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AssimpDrawableObject">
-    <Position X="28.25" Y="10.75" Width="2.75" />
+    <Position X="18.75" Y="10.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
       <FileName>AssimpDrawableObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AssimpModel">
-    <Position X="15.5" Y="17.25" Width="1.5" />
+    <Position X="3" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AssimpModel.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Camera">
-    <Position X="36.75" Y="3.5" Width="1.75" />
+    <Position X="30.25" Y="3.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIACICAxAKAAAAAAIAAQAyACAAAQAAAoBAARCkAAAAA=</HashCode>
       <FileName>Camera.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Controller" Collapsed="true">
-    <Position X="41.25" Y="0.5" Width="1.5" />
+    <Position X="34.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAQIAAAGAAjQAAACIAAAgAABAACQyQAAgIIA=</HashCode>
+      <HashCode>AAAQAAAAAQIAAAGAAjQAAACICAAgAABAACQyQAAgIIA=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Drawable">
-    <Position X="28.5" Y="0.75" Width="2" />
+    <Position X="19" Y="0.75" Width="2" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAgAAgACBAEoABAAAAIQAAAAAAAAgFAAECAA=</HashCode>
       <FileName>Drawable.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DrawableObject">
-    <Position X="28.25" Y="5.75" Width="2.5" />
+    <Position X="18.75" Y="5.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>QAAAAIAAAEAAAAABAAIAAAAAAIQQAAAAAAAAFABMAQA=</HashCode>
       <FileName>DrawableObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DrawableObjectGroup">
-    <Position X="32.5" Y="5.75" Width="2.75" />
+    <Position X="26" Y="5.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAGAAAAABAEIAAAAAAIQAAAAAAAAgEIBEAAA=</HashCode>
       <FileName>DrawableObjectGroup.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DynamicRotate">
-    <Position X="21.5" Y="3.5" Width="1.5" />
+    <Position X="15.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAEAQAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>DynamicRotate.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Flashlight">
-    <Position X="11.5" Y="10.75" Width="2.25" />
+    <Position X="6" Y="10.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAAAgAACAAAAAAAAAAAAAgIAAAAAE=</HashCode>
       <FileName>Flashlight.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LightSource">
-    <Position X="24.5" Y="3.5" Width="2" />
+    <Position X="23" Y="3.5" Width="2" />
     <TypeIdentifier>
       <HashCode>QCAAIAkAAAJIIAAAAAAQABIYAAEAAIQFAYAABADABAI=</HashCode>
       <FileName>LightSource.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Material" Collapsed="true">
-    <Position X="43" Y="0.5" Width="1.5" />
+    <Position X="36.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEABAAAIEABIAAAAAAAAAAAAAAAAAQQMAIAAAAAAABA=</HashCode>
       <FileName>Material.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RandomDynamicTranslate">
-    <Position X="16.5" Y="3.5" Width="2" />
+    <Position X="10.75" Y="3.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AHAAABAAAEAAAAAAAAAEQgAQAAAAAQAAAIAAAPAAYAE=</HashCode>
       <FileName>RandomDynamicTranslate.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Skybox">
-    <Position X="14.5" Y="10.75" Width="2.25" />
+    <Position X="3" Y="10.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAABgAIAACAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Skybox.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Texture" Collapsed="true">
-    <Position X="43" Y="1.5" Width="1.5" />
+    <Position X="36.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAEAAAAAAgACAAAAAQAAAACAAAAAAAAIAACAAAAA=</HashCode>
       <FileName>Texture.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Observer">
-    <Position X="14.75" Y="8.5" Width="1.75" />
+    <Position X="6.25" Y="8.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABACAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Observer.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Rotate">
-    <Position X="12" Y="3.5" Width="1.5" />
+    <Position X="6.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAQAAAEAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Rotate.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Scale">
-    <Position X="14.25" Y="3.5" Width="1.5" />
+    <Position X="8.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAQAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Scale.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Scene" Collapsed="true">
-    <Position X="39.5" Y="1.5" Width="1.5" />
+    <Position X="33" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAQEAAkCQAAEIgAkACAAAwQAAAgBIABQAAAAIABA=</HashCode>
+      <HashCode>BAAAAQEAAkCQAAEIgAkACABAwQAAAgBIABQAAAAIABA=</HashCode>
       <FileName>Scene.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ShaderLoader" Collapsed="true">
-    <Position X="41.25" Y="1.5" Width="1.5" />
+    <Position X="34.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAMEACAAAAAAAAAAAAAAAAAAAAAAAEAAAAIAAAQAAA=</HashCode>
       <FileName>ShaderLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ShaderProgram">
-    <Position X="20.75" Y="10.75" Width="1.75" />
+    <Position X="12.25" Y="10.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AACAAQAAAgAAAAIAAAgABSAAAAQAAAAABAABJIIAASA=</HashCode>
       <FileName>ShaderProgram.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Subject">
-    <Position X="24.5" Y="0.5" Width="2.25" />
+    <Position X="23" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAICAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Subject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Transformation" Collapsed="true">
-    <Position X="39.5" Y="2.5" Width="1.5" />
+    <Position X="33" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QACAAAAEAAAAQAAIAIAAJgBCAAAIAAAAAAAABAAAAAQ=</HashCode>
       <FileName>Transformation.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TransformOperation">
-    <Position X="16.5" Y="1.5" Width="1.75" />
+    <Position X="9.5" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>TransformOperation.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Translate">
-    <Position X="19.25" Y="3.5" Width="1.5" />
+    <Position X="13.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIAAAAAAAAAQAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Translate.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyApp::Model">
-    <Position X="15.5" Y="13.5" Width="1.75" />
+    <Position X="3" Y="13.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AQAAAgAAAAIAAAAAAQAAAAAAAAAQAAAAAAgAAAAUABA=</HashCode>
       <FileName>Model.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="DynamicBezierTranslate" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAEAAQAABAQAAEAAAAA=</HashCode>
+      <FileName>DynamicBezierTranslate.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="Vertex" Collapsed="true">
-    <Position X="41.25" Y="3.75" Width="1.5" />
+    <Position X="34.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAIAAACAAIAAAAAAAA=</HashCode>
       <FileName>AssimpModel.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="cursor" Collapsed="true">
-    <Position X="39.5" Y="3.75" Width="1.5" />
+    <Position X="33" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>Controller.h</FileName>
